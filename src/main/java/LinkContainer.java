@@ -34,7 +34,4 @@ public class LinkContainer
 	{
 		return linkMap.get(listType).size();
 	}
-	
-	
-	
 }

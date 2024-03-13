@@ -1,17 +1,43 @@
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public abstract class Structure
 {
-	final int UID;
+	/**
+		 * 
+		 */
+	public abstract class Entity
+	{
+
+	}
+
+
+	final String UID;
 	final LocalDateTime creationDateTime;
-	LinkContainer links;
+	LinkContainer linkContainer;
 	
 
 	public Structure()
 	{
-		this.UID = 3;
+		this.UID = UUID.randomUUID().toString();
 		this.creationDateTime = LocalDateTime.now();
-		this.links = new LinkContainer();
+		this.linkContainer = new LinkContainer();
+	}
+	
+	public LinkContainer getLinkContainer()
+	{
+		return this.linkContainer;
 	}
 
+
+	public String getUID()
+	{
+		return this.UID;
+	}
+
+
+	public LocalDateTime getCreationDateTime()
+	{
+		return this.creationDateTime;
+	}	
 }
