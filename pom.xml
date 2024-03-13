@@ -1,7 +1,98 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>Nexus</groupId>
-  <artifactId>Nexus</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Nexus</name>
+<modelVersion>4.0.0</modelVersion>
+<parent>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-parent</artifactId>
+<version>3.2.2</version>
+<relativePath/>
+<!--  lookup parent from repository  -->
+</parent>
+<groupId>rest</groupId>
+<artifactId>reestAPI</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+<name>REST</name>
+<description>testing rest</description>
+<properties>
+<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<maven.compiler.source>17</maven.compiler.source>
+<maven.compiler.target>17</maven.compiler.target>
+</properties>
+<dependencies>
+<dependency>
+<groupId>org.openjfx</groupId>
+<artifactId>javafx-controls</artifactId>
+<version>17</version>
+</dependency>
+<dependency>
+<groupId>org.openjfx</groupId>
+<artifactId>javafx-fxml</artifactId>
+<version>17</version>
+</dependency>
+<dependency>
+<groupId>org.testfx</groupId>
+<artifactId>testfx-core</artifactId>
+<version>4.0.16-alpha</version>
+<scope>test</scope>
+</dependency>
+<dependency>
+<groupId>org.junit.jupiter</groupId>
+<artifactId>junit-jupiter-api</artifactId>
+<scope>test</scope>
+</dependency>
+<dependency>
+<groupId>org.testfx</groupId>
+<artifactId>testfx-junit5</artifactId>
+<version>4.0.16-alpha</version>
+<scope>test</scope>
+</dependency>
+<dependency>
+<groupId>org.assertj</groupId>
+<artifactId>assertj-core</artifactId>
+<scope>test</scope>
+</dependency>
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-devtools</artifactId>
+<scope>runtime</scope>
+</dependency>
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-test</artifactId>
+<scope>test</scope>
+</dependency>
+</dependencies>
+<build>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-compiler-plugin</artifactId>
+<configuration>
+<release>17</release>
+</configuration>
+</plugin>
+<plugin>
+<groupId>org.openjfx</groupId>
+<artifactId>javafx-maven-plugin</artifactId>
+<version>0.0.6</version>
+<executions>
+<execution>
+<!--    Default configuration for running    -->
+<!--    Usage: mvn clean javafx:run    -->
+<id>default-cli</id>
+<configuration>
+<mainClass>testingfx.testingfx.App</mainClass>
+</configuration>
+</execution>
+</executions>
+</plugin>
+<plugin>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-maven-plugin</artifactId>
+</plugin>
+</plugins>
+</build>
 </project>
