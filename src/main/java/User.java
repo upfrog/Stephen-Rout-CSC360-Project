@@ -18,14 +18,45 @@ public class User extends Entity
 		privacy = !privacy;
 	}
 	
-	private void createComment(String commentBody)
+	/*
+	 * @param commentBody: the text of the comment
+	 * @param parentPost: the Post this comment is replying to
+	 */
+	private void createComment(String commentBody, Post parentPost)
 	{
 		//make post
 	}
 	
+	/*
+	 * @param post: the Post to be liked
+	 */
 	private void likePost(Post post)
 	{
 		//like post
+	}
+
+	
+	
+	@Override
+	public void followerChange(User user)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1
+	@Override
+	public void push(Post post)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }
