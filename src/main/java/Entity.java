@@ -1,5 +1,5 @@
 
-public abstract class Entity extends Structure
+public abstract class Entity extends Structure implements Followable, Follower
 {
 	String entityDescription;
 	
