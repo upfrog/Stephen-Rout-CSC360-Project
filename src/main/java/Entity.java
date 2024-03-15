@@ -30,3 +30,12 @@ public abstract class Entity extends Structure implements Followable, Follower
 		
 	}
 }
+
+
+/*
+ * TODO:
+ * 1) Figure out how to properly use JUnit, and do that. Test before you keep building.
+ * 2) See note on getCreator in Post
+ * 
+ * 
+ */

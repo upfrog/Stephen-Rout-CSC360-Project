@@ -24,6 +24,11 @@ public abstract class Post extends Structure
 		}
 	}
 	
+	/*
+	 * TODO:
+	 * test if the structure returns passes an equality comparison with the User
+	 * Also figure out equality. You may need to implement Comparable
+	 */
 	public Structure getCreator()
 	{
 		return this.linkContainer.getList("Creator").get(0);

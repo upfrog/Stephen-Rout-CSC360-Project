@@ -3,9 +3,7 @@ import java.util.UUID;
 
 public abstract class Structure
 {
-	/**
-		 * 
-		 */
+
 	public abstract class Entity
 	{
 
