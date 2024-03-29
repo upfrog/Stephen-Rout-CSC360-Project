@@ -3,14 +3,8 @@ import java.util.UUID;
 
 public abstract class Structure
 {
-
-	public abstract class Entity
-	{
-
-	}
-
-
 	final String UID;
+	String[] linkTypes;
 	final LocalDateTime creationDateTime;
 	LinkContainer linkContainer;
 	
@@ -20,13 +14,22 @@ public abstract class Structure
 		this.UID = UUID.randomUUID().toString();
 		this.creationDateTime = LocalDateTime.now();
 		this.linkContainer = new LinkContainer();
+		
+		
 	}
 	
 	public LinkContainer getLinkContainer()
 	{
 		return this.linkContainer;
 	}
-
+	
+	public void populateLinkContainer()
+	{
+		for (String key : getLinkTypes())
+		{
+			linkContainer.addLinkList(key);
+		}
+	}
 
 	public String getUID()
 	{
@@ -38,4 +41,6 @@ public abstract class Structure
 	{
 		return this.creationDateTime;
 	}	
+	
+	abstract public String[] getLinkTypes();
 }

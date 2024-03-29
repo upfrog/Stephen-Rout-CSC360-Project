@@ -20,15 +20,19 @@ public abstract class Entity extends Structure implements Followable, Follower
 		}
 	}
 	
-	public UserPost createPost(String)
+	public void createPost(String content, boolean isPublic)
 	{
 		
 	}
 	
-	public JobPost createJobPost(String)
+	/*public JobPost createJobPost(String)
 	{
 		
-	}
+	}*/
+	
+	public void populateLinkContainer(LinkContainer linkContainer)
+	{}
+	
 }
 
 

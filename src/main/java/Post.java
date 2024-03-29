@@ -1,4 +1,8 @@
-
+/*
+ * This is an abstract class because it should never be directly
+ * instantiated
+ * 
+ */
 public abstract class Post extends Structure
 {
 	String content;
@@ -24,13 +28,27 @@ public abstract class Post extends Structure
 		}
 	}
 	
+	public int getLikes()
+	{
+		return this.likes;
+	}
+	
+	public String getContent()
+	{
+		return this.content;
+	}
+	
+	
 	/*
 	 * TODO:
 	 * test if the structure returns passes an equality comparison with the User
 	 * Also figure out equality. You may need to implement Comparable
 	 */
+	
+	
 	public Structure getCreator()
 	{
 		return this.linkContainer.getList("Creator").get(0);
 	}
+
 }

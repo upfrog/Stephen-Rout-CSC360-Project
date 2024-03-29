@@ -2,20 +2,26 @@ import java.util.ArrayList;
 
 public class User extends Entity
 {
-
+	String[] linkTypes = {"Posts", "Followers", "Following", "Blocked"};
 	Name displayName;
 	String worksAt;
 	ArrayList<WorkExperience> workHistory;
-	private boolean privacy;
+	private boolean isPublic;
 	
 	public User() 
 	{
-		// TODO Auto-generated constructor stub
+		isPublic = true;
+		populateLinkContainer();
 	}
 	
-	private void changePrivacy()
+	public void toggleIsPublic()
 	{
-		privacy = !privacy;
+		isPublic = !isPublic;
+	}
+	
+	public boolean getIsPublic()
+	{
+		return isPublic;
 	}
 	
 	/*
@@ -34,14 +40,24 @@ public class User extends Entity
 	{
 		//like post
 	}
-
 	
+	@Override
+	public String[] getLinkTypes()
+	{
+		return this.linkTypes;
+	}
 	
 	@Override
 	public void followerChange(User user)
 	{
-		// TODO Auto-generated method stub
-		
+		if (getLinkContainer().contains("Following", user))
+		{
+			getLinkContainer().removeLink("Following", user);
+		}
+		else
+		{
+			getLinkContainer().addLink("Following", user);
+		}
 	}
 
 	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1
