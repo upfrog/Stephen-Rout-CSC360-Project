@@ -1,21 +1,23 @@
+import java.util.ArrayList;
 
 public class UserPost extends Post
 {
 	boolean isPublic;
-	final String[] linkTypes = {"Creator", "Comments", "Other"};
+	final String[] linkTypes = {"Creator", "Comments"};
 
 	public UserPost(String content, boolean isPublic, User creatorUser)
 	{
-		this.content = content;
-		this.isPublic = isPublic;
 		populateLinkContainer();
 		linkContainer.addLink("Creator", creatorUser);
-		//this.linkContainer = new LinkContainer();
+		comments = new ArrayList<Comment>();
+		this.content = content;
+		this.isPublic = isPublic;
+
 	}
 
+	
 	public String[] getLinkTypes()
 	{
 		return linkTypes;
 	}
-	
 }

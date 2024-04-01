@@ -3,22 +3,21 @@
  * instantiated
  * 
  */
+
+import java.util.ArrayList;
+
 public abstract class Post extends Structure
 {
 	String content;
 	int likes;
+	ArrayList<Comment> comments;
 	
-	public Post()
-	{
-		// TODO Auto-generated constructor stub
-	}
-
 	/*
 	 * @param increment: true for adding a like, false for taking one away
 	 */
-	public void updateLikes(boolean increment)
+	public void updateLikes(boolean increase)
 	{
-		if (increment)
+		if (increase)
 		{
 			likes++;
 		}
@@ -39,11 +38,23 @@ public abstract class Post extends Structure
 	}
 	
 	
+	public Comment addComment(User creatorUser, String content)
+	{
+		Comment comment = new Comment(this, creatorUser, content);
+		//USE THIS FOR SPRINT 2
+		//linkContainer.getList("Comments").add(comment);
+		comments.add(comment);
+		return comment;
+	}
+	
 	/*
-	 * TODO:
-	 * test if the structure returns passes an equality comparison with the User
-	 * Also figure out equality. You may need to implement Comparable
+	 * 
+	 * MUST BE UPDATED FOR SPRINT 2
 	 */
+	public ArrayList<Comment> getComments()
+	{
+		return comments;
+	}
 	
 	
 	public Structure getCreator()

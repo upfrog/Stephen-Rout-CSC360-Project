@@ -1,8 +1,14 @@
 import java.util.HashMap;
 import java.util.ArrayList;
-
+/*
+ * Note that this solution has some problems which are felt in Sprint 1,
+ * but will not be relevant in future sprints.
+ * 
+ * 
+ */
 public class LinkContainer
 {
+	private String listNotFound = "List type not found.";
 	private HashMap<String, ArrayList<Structure>> linkMap;
 	
 	public LinkContainer()
@@ -48,14 +54,19 @@ public class LinkContainer
 	 */
 	public ArrayList<Structure> getList(String listType)
 	{
-		try
+
+		ArrayList<Structure> result = linkMap.get(listType);
+		
+		if (result != null)
 		{
-			return linkMap.get(listType);
+			return result;
 		}
-		catch(Exception e)
+		else
 		{
-			throw e;
+			throw new RuntimeException(this.listNotFound);
 		}
+		
+
 	}
 	
 	/*
@@ -71,7 +82,8 @@ public class LinkContainer
 		}
 		catch(Exception e)
 		{
-			return -1;
+			
+			throw new RuntimeException(listNotFound);
 		}
 	}
 }

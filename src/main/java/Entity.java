@@ -5,8 +5,9 @@ public abstract class Entity extends Structure implements Followable, Follower
 	
 	public Entity()
 	{
-		this.entityDescription = "";
+		this.entityDescription = "This user has not written a description yet";
 	}
+	
 	
 	public void editDescription(String description)
 	{
@@ -20,9 +21,12 @@ public abstract class Entity extends Structure implements Followable, Follower
 		}
 	}
 	
-	public void createPost(String content, boolean isPublic)
+
+	
+	
+	public String getDescription()
 	{
-		
+		return entityDescription;
 	}
 	
 	/*public JobPost createJobPost(String)
@@ -33,6 +37,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 	public void populateLinkContainer(LinkContainer linkContainer)
 	{}
 	
+	abstract public Post createPost(String content, boolean isPublic);
 }
 
 

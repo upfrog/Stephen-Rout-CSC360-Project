@@ -14,21 +14,20 @@ class LinkContainerTest
 {
 	LinkContainer testLC;
 	User testUser;
-	/**
-	 * @throws java.lang.Exception
-	 */
+
 	@BeforeEach
-	void setUp() throws Exception
+	void setUp()
 	{
 		testLC = new LinkContainer();
-		testUser = new User();
+		testUser = new User("Individual");
 	}
 	
 	@Test
 	void testAddLinkListAndGetList()
 	{
 		//assertThrows(testLC.getList("Followers"));
-		assertTrue(testLC.getList("Followers") == null);
+		Exception exception = assertThrows(RuntimeException.class, () -> testLC.getList("Followers"));
+		assertEquals("List type not found.", exception.getMessage());
 		testLC.addLinkList("Followers");
 		assertFalse(testLC.getList("Followers").equals(null));
 	}
@@ -45,7 +44,8 @@ class LinkContainerTest
 	@Test
 	void testGetListLength()
 	{
-		assertEquals(testLC.getListLength("Followers"), -1);
+		Exception exception = assertThrows(RuntimeException.class, () -> testLC.getListLength("Followers"));
+		assertEquals("List type not found.", exception.getMessage());
 		testLC.addLinkList("Followers");
 		assertEquals(testLC.getListLength("Followers"), 0);
 		testLC.addLink("Followers", testUser);
@@ -60,7 +60,4 @@ class LinkContainerTest
 		testLC.removeLink("Followers", testUser);
 		assertEquals(testLC.contains("Followers", testUser), false);
 	}
-
-
-
 }
