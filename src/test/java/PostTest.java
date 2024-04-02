@@ -10,7 +10,7 @@ class PostTest
 	String testPostContent = "This is my first comment! I can't wait to get "
 			+ "to know my Nexus-buddies!";
 	
-	User testUser;
+	User user1;
 	Post testComment;
 	Comment testComment2;
 	boolean testPostIsPublic = true;
@@ -18,10 +18,27 @@ class PostTest
 	@BeforeEach
 	void setUp() throws Exception
 	{
-		testUser = new User("Individual");
-		testPost = new UserPost(testPostContent, testPostIsPublic, testUser);
+		user1 = new User("Individual");
+		testPost = new UserPost(testPostContent, testPostIsPublic, user1);
 		//testComment = new UserPost("I agree!", true, testUser);
 		//testComment2 = new Comment()
+	}
+	
+	@Test
+	void testConstructorValidation()
+	{
+		//Too short
+		Exception e = assertThrows(IllegalArgumentException.class, 
+				() -> new UserPost("", true, user1));
+		assertEquals(e.getMessage(), "Post is too short");
+	
+		//Too long
+		int tooLong = 25001;
+		String longString = new String(new char[tooLong]).replace('\0', ' ');
+		
+		e = assertThrows(IllegalArgumentException.class, 
+				() -> new UserPost(longString, true, user1));
+		assertEquals(e.getMessage(), "Post is too long");
 	}
 	
 	@Test
@@ -49,7 +66,17 @@ class PostTest
 	@Test
 	void testGetCreator()
 	{
-		assertEquals(testPost.getCreator(), testUser);
+		assertEquals(testPost.getCreator(), user1);
+	}
+	
+	@Test
+	void testPublicity()
+	{
+		assertEquals(testPost.getIsPublic(), testPostIsPublic);
+		testPost.toggleIsPublic();
+		assertEquals(testPost.getIsPublic(), !testPostIsPublic);
+		testPost.toggleIsPublic();
+		assertEquals(testPost.getIsPublic(), testPostIsPublic);
 	}
 	
 	@Test
@@ -57,7 +84,7 @@ class PostTest
 	void testGetComments()
 	{
 		assertEquals(testPost.getComments().size(), 0);
-		testPost.addComment(testUser, "I agree!");
+		testPost.addComment(user1, "I agree!");
 
 		//Comment comment = Comment(testPost.getComments().get(0));
 		assertEquals(testPost.getComments().get(0).getContent(), "I agree!");

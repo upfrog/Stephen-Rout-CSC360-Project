@@ -61,14 +61,14 @@ class UserAndPostTest
 	@Test
 	void testCreatePost()
 	{
-		user1Post1 = user1.createPost("I'm on Nexus!", false);
+		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
 		assertEquals(user1.getLinkContainer().getList("Posts").get(0), user1Post1);
 	}
 	
 	@Test
 	void testCreateComment()
 	{
-		user1Post1 = user1.createPost("I'm on Nexus!", false);
+		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
 		user1Comment1 = user1.createComment("Me too! Wanna network?", user1Post1);
 		assertEquals(user1Post1.getComments().get(0), user1Comment1);
 	}
@@ -76,7 +76,7 @@ class UserAndPostTest
 	@Test
 	void testLikeMethods()
 	{
-		user1Post1 = user1.createPost("I'm on Nexus!", false);
+		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
 		/*
 		//Update the likes directly through the Post class
 		assertEquals(user1Post1.getLikes(), 0);

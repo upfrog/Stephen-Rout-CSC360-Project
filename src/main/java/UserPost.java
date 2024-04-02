@@ -5,6 +5,7 @@ public class UserPost extends Post
 	private boolean isPublic;
 	final String[] linkTypes = {"Creator", "Comments"};
 	final int maxPostLength = 25000;
+	final int minPostLength = 1;
 
 	public UserPost(String content, boolean isPublic, User creatorUser)
 	{
@@ -22,11 +23,19 @@ public class UserPost extends Post
 	{
 		if (content.length() > maxPostLength)
 		{
-			throw new SecurityException("Post is too long - description must be " 
-					+ maxPostLength + "characters or less");
+			throw new IllegalArgumentException("Post is too long");
+		}
+		else if (content.length() < 1)
+		{
+			throw new IllegalArgumentException("Post is too short");
 		}
 	}
 
+	public void toggleIsPublic()
+	{
+		isPublic = !isPublic;
+	}
+	
 	public boolean getIsPublic()
 	{
 		return this.isPublic;
