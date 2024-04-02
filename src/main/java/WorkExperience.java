@@ -7,11 +7,11 @@ class WorkExperience
 	private String description;
 	
 	/**
-	 * @param startDate: the date the user began working this job.
-	 * @param endDate: the date the user stopped working this job.
-	 * @param companyName: the name of the company.
-	 * @param jobTitle: the user's title at the job.
-	 * @param description: any additional information the user wishes to provide.
+	 * @param 	startDate: 		the date the user began working this job.
+	 * @param 	endDate: 		the date the user stopped working this job.
+	 * @param 	companyName: 	the name of the company.
+	 * @param 	jobTitle: 		the user's title at the job.
+	 * @param 	description: 	any additional information the user wishes to provide.
 	 */
 	protected WorkExperience(String startDate, String endDate, String companyName, String jobTitle,
 			String description)
@@ -23,7 +23,6 @@ class WorkExperience
 		this.description = description;
 	}
 
-	
 	//All of these are plain, maximally boring setters and getters. 
 	
 	protected String getStartDate()

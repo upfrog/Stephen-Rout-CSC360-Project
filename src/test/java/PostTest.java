@@ -88,4 +88,20 @@ class PostTest
 		testPost.removeComment(testComment);
 		assertEquals(testPost.getComments().size(), 0);
 	}
+	
+	@Test
+	void testCommentConstructorValidation()
+	{
+		Exception e = assertThrows(IllegalArgumentException.class, 
+				() -> new Comment(testPost, user1, ""));
+		assertEquals(e.getMessage(), "Comment is too short");
+	
+		//Too long
+		int tooLong = 15001;
+		String longString = new String(new char[tooLong]).replace('\0', ' ');
+		
+		e = assertThrows(IllegalArgumentException.class, 
+				() -> new Comment(testPost, user1, longString));
+		assertEquals(e.getMessage(), "Comment is too long");
+	}
 }

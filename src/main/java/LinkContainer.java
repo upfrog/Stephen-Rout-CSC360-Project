@@ -6,8 +6,7 @@
  *  called on objects fetched from this container.
  *  
  *  I believe this is still less of a pain, and more extensible, than every
- *  class having an explicitly defined set of ArrayLists. This is more
- *  flexible, since it can be modified at runtime.
+ *  class having a bunch of separately defined arrayLists.
  *  
  *  Most of this implementation's issues will become irrelevant in the next
  *  sprint, where it will be refactored to consist of URLs for making API
@@ -66,7 +65,6 @@ public class LinkContainer
 	 */
 	public ArrayList<Structure> getList(String listType)
 	{
-
 		ArrayList<Structure> result = linkMap.get(listType);
 		
 		if (result != null)
@@ -77,8 +75,6 @@ public class LinkContainer
 		{
 			throw new RuntimeException(this.listNotFound);
 		}
-		
-
 	}
 	
 	/*

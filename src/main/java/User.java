@@ -23,9 +23,8 @@ public class User extends Entity
 	private String[] linkTypes = {"UserPosts", "JobPosts", "Comments", "Followers", "Following",
 									"Blocked", "Liked", "JobsAppliedFor"};
 	private Name displayName;
-	// validUserType will be used for validation in the future.
-	private String[] validUserTypes = {"Individual", "Organization"};
-	private String userType; //options are "Individual" or "Organization"
+	private final String[] validUserTypes = {"Individual", "Organization"}; //for validation
+	private String userType;
 	private String worksAt;
 	private ArrayList<WorkExperience> workHistory;
 	private boolean isPublic;
