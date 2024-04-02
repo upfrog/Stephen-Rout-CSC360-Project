@@ -16,9 +16,6 @@ class UserAndPostTest
 		user1 = new User("Individual");
 		user2 = new User("Individual");
 	}
-	
-	
-
 
 	@Test
 	void testGetIsPublic()

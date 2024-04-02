@@ -23,21 +23,27 @@ public abstract class Entity extends Structure implements Followable, Follower
 	
 
 	
-	
 	public String getDescription()
 	{
 		return entityDescription;
 	}
 	
-	/*public JobPost createJobPost(String)
-	{
-		
-	}*/
 	
 	public void populateLinkContainer(LinkContainer linkContainer)
 	{}
 	
-	abstract public Post createPost(String content, boolean isPublic);
+	
+	public void followerChange(User user)
+	{
+		if (getLinkContainer().contains("Following", user))
+		{
+			getLinkContainer().removeLink("Following", user);
+		}
+		else
+		{
+			getLinkContainer().addLink("Following", user);
+		}
+	}
 }
 
 

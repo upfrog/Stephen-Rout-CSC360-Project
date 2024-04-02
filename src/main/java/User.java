@@ -1,9 +1,14 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class User extends Entity
 {
-	private String[] linkTypes = {"Posts", "Followers", "Following", "Blocked", "Liked"};
+	private String[] linkTypes = 	{"UserPosts", "JobPosts", "Followers", "Following",
+									"Blocked", "Liked", "JobsAppliedFor"};
 	private Name displayName;
+	private String[] validUserTypes = {"Individual", "Organization"};
 	private String userType; //options are "Individual" or "Organization"
 	private String worksAt;
 	private ArrayList<WorkExperience> workHistory;
@@ -12,8 +17,11 @@ public class User extends Entity
 	
 	public User(String userType) 
 	{
+		//This is hacky, but I don't feel like doing it better right now		
 		populateLinkContainer();
 		isPublic = true;
+		this.userType = userType;	
+		
 	}
 	
 	
@@ -29,12 +37,22 @@ public class User extends Entity
 	}
 	
 	
-	public Post createPost(String content, boolean isPublic)
+	public UserPost createUserPost(String content, boolean isPublic)
 	{
-		Post post = new UserPost(content, isPublic, this);
+		UserPost post = new UserPost(content, isPublic, this);
 		getLinkContainer().addLink("Posts", post);
 		return post;
 	}
+	
+	
+	public JobPost createJobPost(String postTitle, String content, User creatorUser)
+	{
+		JobPost jobPost = new JobPost(postTitle, content, creatorUser);
+		getLinkContainer().addLink("JobPosts", jobPost);
+		return jobPost;
+	}
+	
+	
 	
 	/*
 	 * @param commentBody: the text of the comment
@@ -69,18 +87,8 @@ public class User extends Entity
 		return this.linkTypes;
 	}
 	
-	@Override
-	public void followerChange(User user)
-	{
-		if (getLinkContainer().contains("Following", user))
-		{
-			getLinkContainer().removeLink("Following", user);
-		}
-		else
-		{
-			getLinkContainer().addLink("Following", user);
-		}
-	}
+	
+
 
 	public Name getDisplayName()
 	{
