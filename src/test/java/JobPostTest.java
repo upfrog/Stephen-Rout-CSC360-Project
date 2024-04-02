@@ -13,7 +13,7 @@ class JobPostTest
 	@BeforeEach
 	void setUp() throws Exception
 	{
-		User user1 = new User("Bob");
+		//User user1 = new User("Bob");
 	}
 
 	@Test
@@ -38,7 +38,6 @@ class JobPostTest
 				() -> new JobPost("Software Developer", longString, user1));
 		assertEquals(e.getMessage(), "Post is too long");
 		
-		//post2 = new JobPost("Software Developer", "We want you!", user1);
 		assertDoesNotThrow(() -> new JobPost("Software Developer", "We want you!", user1));
 	}
 	

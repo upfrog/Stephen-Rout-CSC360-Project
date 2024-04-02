@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,13 +17,12 @@ public class User extends Entity
 	
 	
 	public User(String userType) 
-	{
-		//This is hacky, but I don't feel like doing it better right now		
+	{		
 		populateLinkContainer();
-		//Sytem.out.println(linkContainer.getList("))
-		isPublic = true;
-		this.userType = userType;	
 		
+		isPublic = true;
+		workHistory = new ArrayList<WorkExperience>();
+		this.userType = userType;	
 	}
 	
 	
@@ -54,10 +54,9 @@ public class User extends Entity
 	}
 	
 	
-	
 	/*
-	 * @param commentBody: the text of the comment
-	 * @param parentPost: the Post this comment is replying to
+	 * @param 	commentBody: the text of the comment
+	 * @param 	parentPost: the Post this comment is replying to
 	 */
 	public Comment createComment(String commentBody, Post parentPost)
 	{
@@ -65,7 +64,7 @@ public class User extends Entity
 	}
 	
 	/*
-	 * @param post: the Post to be liked
+	 * @param 	post: the Post to be liked
 	 */
 	public void likeUnlikePost(Post post)
 	{
@@ -89,8 +88,6 @@ public class User extends Entity
 	}
 	
 	
-
-
 	public Name getDisplayName()
 	{
 		return displayName;
@@ -125,18 +122,31 @@ public class User extends Entity
 		return workHistory;
 	}
 
-
+	/*
+	 * @param workExperience: the WorkExperience object to be removed
+	 */
 	public void removeWorkExperience(WorkExperience workExperience)
 	{
 		workHistory.remove(workExperience);
 	}
 
-	public void addWorkExperience(WorkExperience workExperience)
+	/*
+	 * @param startDate: the date the user began working this job.
+	 * @param endDate: the date the user stopped working this job.
+	 * @param companyName: the name of the company.
+	 * @param jobTitle: the user's title at the job.
+	 * @param description: any additional information the user wishes to provide.
+	 */
+	public WorkExperience addWorkExperience(String startDate, String endDate, 
+			String companyName, String jobTitle, String description)
 	{
-		workHistory.add(workExperience);
+		WorkExperience job = new WorkExperience(startDate, endDate, companyName, jobTitle, description);
+		workHistory.add(job);
+		return job;
 	}
 	
 	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1
+	
 	@Override
 	public void push(Post post)
 	{
@@ -150,4 +160,5 @@ public class User extends Entity
 		// TODO Auto-generated method stub
 		
 	}
+	
 }

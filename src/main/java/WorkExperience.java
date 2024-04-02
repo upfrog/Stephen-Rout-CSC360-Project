@@ -1,12 +1,10 @@
-import java.time.LocalDateTime;
-
 class WorkExperience
 {
-	LocalDateTime startDate;
-	LocalDateTime endDate;
-	String companyName;
-	String jobTitle;
-	String description;
+	private String startDate;
+	private String endDate;
+	private String companyName;
+	private String jobTitle;
+	private String description;
 	
 	/**
 	 * @param startDate: the date the user began working this job.
@@ -15,7 +13,7 @@ class WorkExperience
 	 * @param jobTitle: the user's title at the job.
 	 * @param description: any additional information the user wishes to provide.
 	 */
-	protected WorkExperience(LocalDateTime startDate, LocalDateTime endDate, String companyName, String jobTitle,
+	protected WorkExperience(String startDate, String endDate, String companyName, String jobTitle,
 			String description)
 	{
 		this.startDate = startDate;
@@ -25,56 +23,65 @@ class WorkExperience
 		this.description = description;
 	}
 
-	protected LocalDateTime getStartDate()
+	
+	//All of these are plain, maximally boring setters and getters. 
+	
+	protected String getStartDate()
 	{
 		return startDate;
 	}
 
-	protected void setStartDate(LocalDateTime startDate)
+	
+	protected void setStartDate(String startDate)
 	{
 		this.startDate = startDate;
 	}
 
-	protected LocalDateTime getEndDate()
+	
+	protected String getEndDate()
 	{
 		return endDate;
 	}
 
-	protected void setEndDate(LocalDateTime endDate)
+	
+	protected void setEndDate(String endDate)
 	{
 		this.endDate = endDate;
 	}
 
+	
 	protected String getCompanyName()
 	{
 		return companyName;
 	}
 
+	
 	protected void setCompanyName(String companyName)
 	{
 		this.companyName = companyName;
 	}
 
+	
 	protected String getJobTitle()
 	{
 		return jobTitle;
 	}
 
+	
 	protected void setJobTitle(String jobTitle)
 	{
 		this.jobTitle = jobTitle;
 	}
 
+	
 	protected String getDescription()
 	{
 		return description;
 	}
 
+	
 	protected void setDescription(String description)
 	{
 		this.description = description;
 	}
-	
-	
-
 }

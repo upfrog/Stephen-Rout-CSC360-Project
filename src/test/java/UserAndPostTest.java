@@ -59,10 +59,17 @@ class UserAndPostTest
 	}
 	
 	@Test
-	void testCreatePost()
+	void testUserCreatePost()
 	{
 		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
 		assertEquals(user1.getLinkContainer().getList("UserPosts").get(0), user1Post1);
+	}
+	
+	@Test
+	void testCreateJobPost()
+	{
+		user1Post1 = user1.createJobPost("Software Developer", "We pay money!", user1);
+		assertEquals(user1.getLinkContainer().getList("JobPosts").contains(user1Post1), true);
 	}
 	
 	@Test
@@ -93,8 +100,16 @@ class UserAndPostTest
 		assertEquals(user1Post1.getLikes(), 0);
 		user1.likeUnlikePost(user1Post1);
 		assertEquals(user1Post1.getLikes(), 1);
-		
-		
+	}
+	
+	@Test
+	void testWorkExperience()
+	{
+		//WorkExperience job = new WorkExperience("1/15/2021", "3/03/2024", "Amazon", "SDE3", "Wrote some code and stuff");
+		WorkExperience job = user1.addWorkExperience("1/15/2021", "3/03/2024", "Amazon", "SDE3", "Wrote some code and stuff");
+		assertEquals(user1.getWorkHistory().contains(job), true);
+		user1.removeWorkExperience(job);
+		assertEquals(user1.getWorkHistory().contains(job), false);
 	}
 	
 
