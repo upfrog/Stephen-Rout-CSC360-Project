@@ -29,7 +29,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 	}
 	
 	
-	public abstract void populateLinkContainer(LinkContainer linkContainer);
+	public void populateLinkContainer(LinkContainer linkContainer) {}
 	
 	public void followerChange(User user)
 	{

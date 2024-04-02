@@ -5,7 +5,7 @@ import java.util.List;
 
 public class User extends Entity
 {
-	private String[] linkTypes = 	{"UserPosts", "JobPosts", "Followers", "Following",
+	private String[] linkTypes = {"UserPosts", "JobPosts", "Followers", "Following",
 									"Blocked", "Liked", "JobsAppliedFor"};
 	private Name displayName;
 	private String[] validUserTypes = {"Individual", "Organization"};
@@ -19,6 +19,7 @@ public class User extends Entity
 	{
 		//This is hacky, but I don't feel like doing it better right now		
 		populateLinkContainer();
+		//Sytem.out.println(linkContainer.getList("))
 		isPublic = true;
 		this.userType = userType;	
 		
@@ -40,7 +41,7 @@ public class User extends Entity
 	public UserPost createUserPost(String content, boolean isPublic)
 	{
 		UserPost post = new UserPost(content, isPublic, this);
-		getLinkContainer().addLink("Posts", post);
+		getLinkContainer().addLink("UserPosts", post);
 		return post;
 	}
 	

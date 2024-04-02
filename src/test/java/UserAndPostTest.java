@@ -62,7 +62,7 @@ class UserAndPostTest
 	void testCreatePost()
 	{
 		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
-		assertEquals(user1.getLinkContainer().getList("Posts").get(0), user1Post1);
+		assertEquals(user1.getLinkContainer().getList("UserPosts").get(0), user1Post1);
 	}
 	
 	@Test
