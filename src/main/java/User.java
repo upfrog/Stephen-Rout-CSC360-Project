@@ -6,7 +6,7 @@ import java.util.List;
 
 public class User extends Entity
 {
-	private String[] linkTypes = {"UserPosts", "JobPosts", "Followers", "Following",
+	private String[] linkTypes = {"UserPosts", "JobPosts", "Comments", "Followers", "Following",
 									"Blocked", "Liked", "JobsAppliedFor"};
 	private Name displayName;
 	private String[] validUserTypes = {"Individual", "Organization"};
@@ -15,28 +15,24 @@ public class User extends Entity
 	private ArrayList<WorkExperience> workHistory;
 	private boolean isPublic;
 	
-	
 	public User(String userType) 
 	{		
 		populateLinkContainer();
 		
 		isPublic = true;
 		workHistory = new ArrayList<WorkExperience>();
-		this.userType = userType;	
+		this.userType = userType; //Will determine how the profile page is formatted	
 	}
-	
 	
 	public void toggleIsPublic()
 	{
 		isPublic = !isPublic;
 	}
 	
-	
 	public boolean getIsPublic()
 	{
 		return isPublic;
 	}
-	
 	
 	public UserPost createUserPost(String content, boolean isPublic)
 	{
@@ -45,7 +41,6 @@ public class User extends Entity
 		return post;
 	}
 	
-	
 	public JobPost createJobPost(String postTitle, String content, User creatorUser)
 	{
 		JobPost jobPost = new JobPost(postTitle, content, creatorUser);
@@ -53,17 +48,24 @@ public class User extends Entity
 		return jobPost;
 	}
 	
-	
-	/*
-	 * @param 	commentBody: the text of the comment
-	 * @param 	parentPost: the Post this comment is replying to
+	/**
+	 * @param 	commentBody: 	the text of the comment
+	 * @param 	parentPost: 	the Post this comment is replying to
 	 */
 	public Comment createComment(String commentBody, Post parentPost)
 	{
-		return parentPost.addComment(this, commentBody);
+		Comment comment = parentPost.addComment(this, commentBody);
+		getLinkContainer().addLink("Comments", comment);
+		return comment;
 	}
 	
-	/*
+	public void removeComment(Comment comment, Post parentPost)
+	{
+		parentPost.removeComment(comment);
+		getLinkContainer().getList("Comments").remove(comment);
+	}
+	
+	/**
 	 * @param 	post: the Post to be liked
 	 */
 	public void likeUnlikePost(Post post)
@@ -71,15 +73,14 @@ public class User extends Entity
 		if (getLinkContainer().contains("Liked", post))
 		{
 			getLinkContainer().removeLink("Liked", post);
-			post.updateLikes(false);
+			post.increaseLikes(false);
 		}
 		else
 		{
 			getLinkContainer().addLink("Liked", post);
-			post.updateLikes(true);
+			post.increaseLikes(true);
 		}
 	}
-	
 	
 	@Override
 	public String[] getLinkTypes()
@@ -87,18 +88,15 @@ public class User extends Entity
 		return this.linkTypes;
 	}
 	
-	
 	public Name getDisplayName()
 	{
 		return displayName;
 	}
 
-
 	public void setDisplayName(Name displayName)
 	{
 		this.displayName = displayName;
 	}
-
 
 	public String getUserType()
 	{
@@ -110,12 +108,10 @@ public class User extends Entity
 		return worksAt;
 	}
 
-
 	public void setWorksAt(String worksAt)
 	{
 		this.worksAt = worksAt;
 	}
-
 
 	public ArrayList<WorkExperience> getWorkHistory()
 	{
@@ -123,19 +119,19 @@ public class User extends Entity
 	}
 
 	/*
-	 * @param workExperience: the WorkExperience object to be removed
+	 * @param 	workExperience: 	the WorkExperience object to be removed
 	 */
 	public void removeWorkExperience(WorkExperience workExperience)
 	{
 		workHistory.remove(workExperience);
 	}
 
-	/*
-	 * @param startDate: the date the user began working this job.
-	 * @param endDate: the date the user stopped working this job.
-	 * @param companyName: the name of the company.
-	 * @param jobTitle: the user's title at the job.
-	 * @param description: any additional information the user wishes to provide.
+	/**
+	 * @param 	startDate: 		the date the user began working this job.
+	 * @param 	endDate: 		the date the user stopped working this job.
+	 * @param  	companyName: 	the name of the company.
+	 * @param 	jobTitle: 		the user's title at the job.
+	 * @param 	description: 	any additional information the user wishes to provide.
 	 */
 	public WorkExperience addWorkExperience(String startDate, String endDate, 
 			String companyName, String jobTitle, String description)

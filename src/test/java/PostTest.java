@@ -11,7 +11,7 @@ class PostTest
 			+ "to know my Nexus-buddies!";
 	
 	User user1;
-	Post testComment;
+	Comment testComment;
 	Comment testComment2;
 	boolean testPostIsPublic = true;
 
@@ -57,9 +57,9 @@ class PostTest
 	void testUpdateLikes()
 	{
 		assertEquals(testPost.getLikes(), 0);
-		testPost.updateLikes(true);
+		testPost.increaseLikes(true);
 		assertEquals(testPost.getLikes(), 1);
-		testPost.updateLikes(false);
+		testPost.increaseLikes(false);
 		assertEquals(testPost.getLikes(), 0);
 	}
 
@@ -81,13 +81,15 @@ class PostTest
 	
 	@Test
 	
-	void testGetComments()
+	void testComments()
 	{
 		assertEquals(testPost.getComments().size(), 0);
-		testPost.addComment(user1, "I agree!");
+		testComment = testPost.addComment(user1, "I agree!");
 
 		//Comment comment = Comment(testPost.getComments().get(0));
 		assertEquals(testPost.getComments().get(0).getContent(), "I agree!");
+		testPost.removeComment(testComment);
+		assertEquals(testPost.getComments().size(), 0);
 	}
 }
 

@@ -73,11 +73,18 @@ class UserAndPostTest
 	}
 	
 	@Test
-	void testCreateComment()
+	void testComment()
 	{
 		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
 		user1Comment1 = user1.createComment("Me too! Wanna network?", user1Post1);
-		assertEquals(user1Post1.getComments().get(0), user1Comment1);
+		
+		//Test the post and user containers.
+		assertEquals(user1Post1.getComments().contains(user1Comment1), true);  
+		assertEquals(user1.getLinkContainer().getList("Comments").contains(user1Comment1), true);
+		
+		user1.removeComment(user1Comment1, user1Post1);
+		assertEquals(user1.getLinkContainer().getList("Comments").contains(user1Comment1), false);
+		assertEquals(user1Post1.getComments().contains(user1Comment1), false); 
 	}
 	
 	@Test

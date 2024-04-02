@@ -1,6 +1,14 @@
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * This is the top-level class which (almost) all other data classes inherit from.
+ * 
+ * It's key responsibilities are:
+ * 	1) Tracking object creation time and date
+ * 	2) Creating and tracking a unique ID for each object
+ *  3) Filling each object's LinkContainer
+ */
 public abstract class Structure
 {
 	final String UID;
@@ -18,11 +26,17 @@ public abstract class Structure
 		
 	}
 	
+	
 	public LinkContainer getLinkContainer()
 	{
 		return this.linkContainer;
 	}
 	
+	/**
+	 * All objects which inherit from Structure have a LinkContainer, and
+	 * an ArrayList called LinkTypes. This method adds each element of 
+	 * LinkTypes to the object's LinkContainer.
+	 */
 	public void populateLinkContainer()
 	{
 		for (String key : getLinkTypes())
@@ -31,6 +45,7 @@ public abstract class Structure
 		}
 	}
 
+	
 	public String getUID()
 	{
 		return this.UID;

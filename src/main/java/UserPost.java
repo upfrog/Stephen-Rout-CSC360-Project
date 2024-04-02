@@ -16,9 +16,14 @@ public class UserPost extends Post
 		comments = new ArrayList<Comment>();
 		this.content = content;
 		this.isPublic = isPublic;
-
 	}
 	
+	
+	/**
+	 * Checks that post is neither too long nor too short
+	 * 
+	 * @param 	content:	The content to be posted.
+	 */
 	private void validateUserPost(String content)
 	{
 		if (content.length() > maxPostLength)
@@ -31,15 +36,18 @@ public class UserPost extends Post
 		}
 	}
 
+	
 	public void toggleIsPublic()
 	{
 		isPublic = !isPublic;
 	}
 	
+	
 	public boolean getIsPublic()
 	{
 		return this.isPublic;
 	}
+	
 	
 	public String[] getLinkTypes()
 	{
