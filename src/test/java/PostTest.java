@@ -20,8 +20,6 @@ class PostTest
 	{
 		user1 = new User("Individual");
 		testPost = new UserPost(testPostContent, testPostIsPublic, user1);
-		//testComment = new UserPost("I agree!", true, testUser);
-		//testComment2 = new Comment()
 	}
 	
 	@Test
@@ -86,18 +84,8 @@ class PostTest
 		assertEquals(testPost.getComments().size(), 0);
 		testComment = testPost.addComment(user1, "I agree!");
 
-		//Comment comment = Comment(testPost.getComments().get(0));
 		assertEquals(testPost.getComments().get(0).getContent(), "I agree!");
 		testPost.removeComment(testComment);
 		assertEquals(testPost.getComments().size(), 0);
 	}
 }
-
-/*
- * 
- * TODO:
- * -Figure out how to get the content of a comment (and a post?) given that they are both
- * structures, which don't all have content.
- * -Keep testing!
- * 
- */

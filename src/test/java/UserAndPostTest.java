@@ -16,6 +16,17 @@ class UserAndPostTest
 		user1 = new User("Individual");
 		user2 = new User("Individual");
 	}
+	
+	@Test
+	void testConstructorValidation()
+	{
+		Exception e = assertThrows(IllegalArgumentException.class, 
+				() -> new User("foo"));
+		assertEquals(e.getMessage(), "Invalid user type");
+		
+		assertDoesNotThrow(() -> new User("Individual"));
+		assertDoesNotThrow(() -> new User("Organization"));
+	}
 
 	@Test
 	void testGetIsPublic()
@@ -91,16 +102,6 @@ class UserAndPostTest
 	void testLikeMethods()
 	{
 		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
-		/*
-		//Update the likes directly through the Post class
-		assertEquals(user1Post1.getLikes(), 0);
-		user1Post1.updateLikes(true);
-		assertEquals(user1Post1.getLikes(), 1);
-		user1Post1.updateLikes(false);
-		assertEquals(user1Post1.getLikes(), 0);
-		*/
-		
-		//Update the likes via the User class
 		user1.likeUnlikePost(user1Post1);
 		assertEquals(user1Post1.getLikes(), 1);
 		user1.likeUnlikePost(user1Post1);

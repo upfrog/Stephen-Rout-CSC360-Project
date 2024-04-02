@@ -1,7 +1,21 @@
-import java.time.LocalDateTime;
+/**
+ * User represents all entities the have profile pages, including companies.
+ * 
+ * In the original design, we planned to have separate classes for companies
+ * and individuals. However, as our design evolved the space between these
+ * two entities shrank until it seemed indefensible to maintain the split.
+ * 
+ * None the less, User still extends Entity, meaning that we can extend 
+ * to new types of entities in the future.
+ * 
+ * Some of the method and class division between User and Entity was
+ * chosen with the assumption that Users and Companies would be different
+ * objects, and that Companies would have non-trivially constrained
+ * behavior. These assumptions now seem less reasonable, so there are some
+ * methods and attributes which may be moved to Entity in the future.
+ */
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class User extends Entity
@@ -9,6 +23,7 @@ public class User extends Entity
 	private String[] linkTypes = {"UserPosts", "JobPosts", "Comments", "Followers", "Following",
 									"Blocked", "Liked", "JobsAppliedFor"};
 	private Name displayName;
+	// validUserType will be used for validation in the future.
 	private String[] validUserTypes = {"Individual", "Organization"};
 	private String userType; //options are "Individual" or "Organization"
 	private String worksAt;
@@ -17,11 +32,29 @@ public class User extends Entity
 	
 	public User(String userType) 
 	{		
-		populateLinkContainer();
+		validateUserType(userType);
 		
+		populateLinkContainer();
 		isPublic = true;
 		workHistory = new ArrayList<WorkExperience>();
 		this.userType = userType; //Will determine how the profile page is formatted	
+	}
+	
+	/**
+	 * Checks that the inputted userType is valid.
+	 *  
+	 * @return	Whether or not that type of user is on the validUserTypes array.
+	 */
+	private boolean validateUserType(String userType)
+	{
+		for (String validUserType : validUserTypes)
+		{
+			if (userType.equals(validUserType))
+			{
+				return true;
+			}
+		}
+		throw new IllegalArgumentException("Invalid user type");
 	}
 	
 	public void toggleIsPublic()

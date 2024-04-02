@@ -1,17 +1,18 @@
-/*
+/**
  * Our naming system is deliberately light on validation, as naming validation can lead
- * to very unpleasant user experiences
+ * to very unpleasant user experiences.
  * 
- * (See  https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/
- * for more information)
+ * We have adopted the philosophy that chaos is preferable to a new user's first 
+ * experience with the program being "You're name is _wrong_".
+ * 
+ * (for more information, See:
+ * https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/ )
  *	
  * Arguably I am simply gesturing in the direction of a problem, and not actually solving it.
  * But a good naming system is not a current requirement, so this is not my highest priority.
  * 
  * The hope is that users can set their preferred name to whatever they want. When possible,
  * the program will call users by their preferred name.
- * 
- * 
  */
 public class Name
 {
@@ -76,7 +77,7 @@ public class Name
 
 	protected void setPreferredName(String preferredName)
 	{
-		//Special length; a preferred name may consist of several other names stitched togethers.
+		//Special length; a preferred name may consist of several other names stitched together.
 		if (preferredName.length() > 300)
 		{
 			throw new IllegalArgumentException("Sorry, that name is too long for our system");
@@ -94,8 +95,5 @@ public class Name
 		{
 			throw new IllegalArgumentException("Sorry, that name is too short for our system");
 		}
-	}
-	
-	
-	
+	}	
 }
