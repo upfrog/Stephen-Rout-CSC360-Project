@@ -36,7 +36,8 @@ public class User extends Entity
 		populateLinkContainer();
 		isPublic = true;
 		workHistory = new ArrayList<WorkExperience>();
-		this.userType = userType; //Will determine how the profile page is formatted	
+		this.userType = userType; //Will determine how the profile page is formatted
+		this.editorList.add(this);
 	}
 	
 	/**
@@ -114,6 +115,8 @@ public class User extends Entity
 		}
 	}
 	
+	
+	
 	@Override
 	public String[] getLinkTypes()
 	{
@@ -168,7 +171,8 @@ public class User extends Entity
 	public WorkExperience addWorkExperience(String startDate, String endDate, 
 			String companyName, String jobTitle, String description)
 	{
-		WorkExperience job = new WorkExperience(startDate, endDate, companyName, jobTitle, description);
+		WorkExperience job = new WorkExperience(startDate, endDate, companyName,
+				jobTitle, description);
 		workHistory.add(job);
 		return job;
 	}

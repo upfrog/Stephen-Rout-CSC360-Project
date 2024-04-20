@@ -70,6 +70,20 @@ class UserAndPostTest
 	}
 	
 	@Test
+	void testEntityEditorValidation()
+	{
+		assertEquals(user1.isValidEditor(user1), true);
+		user1.toggleEditor(user2);
+		assertEquals(user1.isValidEditor(user2), true);
+		user1.toggleEditor(user2);
+		assertEquals(user1.isValidEditor(user2), false);
+		
+		assertThrows(IllegalArgumentException.class, 
+				() -> user1.toggleEditor(user1));
+		
+		
+	}
+	@Test
 	void testUserCreatePost()
 	{
 		user1Post1 = user1.createUserPost("I'm on Nexus!", false);

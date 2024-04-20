@@ -1,7 +1,9 @@
+import java.util.ArrayList;
 
 public abstract class Entity extends Structure implements Followable, Follower
 {
 	String entityDescription;
+	ArrayList<User> editorList = new ArrayList<User>();
 	
 	public Entity()
 	{
@@ -21,15 +23,10 @@ public abstract class Entity extends Structure implements Followable, Follower
 		}
 	}
 	
-
-	
 	public String getDescription()
 	{
 		return entityDescription;
 	}
-	
-	
-	public void populateLinkContainer(LinkContainer linkContainer) {}
 	
 	public void followerChange(User user)
 	{
@@ -42,13 +39,30 @@ public abstract class Entity extends Structure implements Followable, Follower
 			getLinkContainer().addLink("Following", user);
 		}
 	}
+	
+	public boolean isValidEditor(User editor)
+	{
+		return editorList.contains(editor);
+	}
+	
+	public void toggleEditor(User editor)
+	{
+		if (editorList.contains(editor))
+		{
+			if (editorList.size() <= 1)
+			{ 
+				throw new IllegalArgumentException("A user cannot have less than 1 editor");
+			}
+			else
+			{
+				editorList.remove(editor);
+			}
+		}
+		else
+		{
+			editorList.add(editor);
+		}
+	}
+	
+	public void populateLinkContainer(LinkContainer linkContainer) {}
 }
-
-
-/*
- * TODO:
- * 1) Figure out how to properly use JUnit, and do that. Test before you keep building.
- * 2) See note on getCreator in Post
- * 
- * 
- */
