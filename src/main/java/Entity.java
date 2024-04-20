@@ -40,7 +40,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 		}
 	}
 	
-	public boolean isValidEditor(User editor)
+	public boolean hasAsEditor(User editor)
 	{
 		return editorList.contains(editor);
 	}

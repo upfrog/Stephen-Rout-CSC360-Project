@@ -72,11 +72,11 @@ class UserAndPostTest
 	@Test
 	void testEntityEditorValidation()
 	{
-		assertEquals(user1.isValidEditor(user1), true);
+		assertEquals(user1.hasAsEditor(user1), true);
 		user1.toggleEditor(user2);
-		assertEquals(user1.isValidEditor(user2), true);
+		assertEquals(user1.hasAsEditor(user2), true);
 		user1.toggleEditor(user2);
-		assertEquals(user1.isValidEditor(user2), false);
+		assertEquals(user1.hasAsEditor(user2), false);
 		
 		assertThrows(IllegalArgumentException.class, 
 				() -> user1.toggleEditor(user1));
