@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public abstract class Entity extends Structure implements Followable, Follower
 {
+	
 	String entityDescription;
 	ArrayList<User> editorList = new ArrayList<User>();
 	
@@ -30,6 +31,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 	
 	public void followerChange(User user)
 	{
+		/*
 		if (getLinkContainer().contains("Following", user))
 		{
 			getLinkContainer().removeLink("Following", user);
@@ -38,6 +40,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 		{
 			getLinkContainer().addLink("Following", user);
 		}
+		*/
 	}
 	
 	public boolean hasAsEditor(User editor)

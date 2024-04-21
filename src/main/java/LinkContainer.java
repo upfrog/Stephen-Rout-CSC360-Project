@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class LinkContainer
 {
-	private String listNotFound = "List type not found.";
+	//private String listNotFound = "List type not found.";
 	private HashMap<String, ArrayList<Structure>> linkMap;
 	
 	public LinkContainer()
@@ -53,6 +53,10 @@ public class LinkContainer
 		linkMap.get(listType).remove(object);
 	}
 	
+	public void setLinkMap(HashMap<String, ArrayList<Structure>> linkMap)
+	{
+		this.linkMap = linkMap;
+	}
 	/**
 	 * Returns a list of links.
 	 * 
@@ -73,7 +77,7 @@ public class LinkContainer
 		}
 		else
 		{
-			throw new RuntimeException(this.listNotFound);
+			throw new RuntimeException("List type not found.");
 		}
 	}
 	
@@ -91,7 +95,7 @@ public class LinkContainer
 		catch(Exception e)
 		{
 			
-			throw new RuntimeException(listNotFound);
+			throw new RuntimeException("List type not found.");
 		}
 	}
 }

@@ -10,6 +10,7 @@ public abstract class Post extends Structure
 	int likes;
 	ArrayList<Comment> comments;
 	
+	
 	/*
 	 * @param 	increase: 	true for adding a like, false for taking one away
 	 */
@@ -58,7 +59,8 @@ public abstract class Post extends Structure
 	
 	public Structure getCreator()
 	{
-		return this.linkContainer.getList("Creator").get(0);
+		return null;
+		//return this.linkContainer.getList("Creator").get(0);
 	}
 
 }

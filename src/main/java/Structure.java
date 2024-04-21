@@ -12,31 +12,34 @@ import java.util.UUID;
 public abstract class Structure
 {
 	final String UID;
-	String[] linkTypes;
-	final LocalDateTime creationDateTime;
-	LinkContainer linkContainer;
+	//String[] linkTypes;
+	String creationDateTime;
+	//LinkContainer linkContainer;
 	
 
 	public Structure()
 	{
 		this.UID = UUID.randomUUID().toString();
-		this.creationDateTime = LocalDateTime.now();
-		this.linkContainer = new LinkContainer();
+		this.creationDateTime = LocalDateTime.now().toString();
+		//this.linkContainer = new LinkContainer();
 		
 		
 	}
 	
-	
+	/**
 	public LinkContainer getLinkContainer()
 	{
 		return this.linkContainer;
 	}
+	*/
 	
 	/**
 	 * All objects which inherit from Structure have a LinkContainer, and
 	 * an ArrayList called LinkTypes. This method adds each element of 
 	 * LinkTypes to the object's LinkContainer.
 	 */
+	
+	/*
 	public void populateLinkContainer()
 	{
 		for (String key : getLinkTypes())
@@ -44,6 +47,8 @@ public abstract class Structure
 			linkContainer.addLinkList(key);
 		}
 	}
+	*/
+	
 
 	
 	public String getUID()
@@ -52,7 +57,7 @@ public abstract class Structure
 	}
 
 
-	public LocalDateTime getCreationDateTime()
+	public String getCreationDateTime()
 	{
 		return this.creationDateTime;
 	}	

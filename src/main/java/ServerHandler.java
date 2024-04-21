@@ -1,40 +1,52 @@
 import java.util.ArrayList;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClient;
 
+
+/*
+ * Add a class to setup the server by adding the various classes
+ */
 
 public enum ServerHandler
 {
 	INSTANCE;
-	
-	private RestClient client = RestClient.builder()
-			.baseUrl("http://localhost:9000/v1/")
-			.build();
-	
-	
-	//private RestClient client = RestClient.create();
-			
-			
-			//.create();
-			
-			/**
 
-			**/
-	
+	private RestClient client = RestClient.create();
 	
 	public record Desc(String displayName, String description, String location) {};
-	
-	public record TestUserRecord(String name, 
-			String description, 
-			int pastJobs, 
-			ArrayList<String> posts,
-			TestUser firstFollower) {};
+
+	public record Response(String request,
+			boolean successful,
+			String message,
+			User data) {};
+
+	public record PostRecord(String content, int likes, ArrayList<Comment> comments, 
+			boolean isPublic, User creator) {};
 	
 	public RestClient getClient()
 	{
 		return this.client;
 	}
+	
+	
+	
+	
+	
+	public void pushUser(User user)
+	{
+		String location = "http://localhost:9000/v1/StephenRout/Users/" + user.getUID();
+		
+
+		Response response = INSTANCE.client.post()
+				.uri(location)
+				.body(user)
+				.retrieve()
+				.body(Response.class);
+		
+		System.out.println(response);
+	}
+	
+	
 	
 	public void testPost()
 	{
@@ -57,44 +69,50 @@ public enum ServerHandler
 				.body(String.class));
 	}
 	
-	
-	public void postTestUser(TestUser user)
-	{
-		System.out.println(
-				client.post()
-				.uri("http://localhost:9000/v1/StephenRout/User/user1")
-				.body(user)
-				.retrieve()
-				.body(String.class));
-	}
-	
 	public static void main(String[] args)
 	{
 		INSTANCE.testPost();
+		User user1 = new User("Individual");
 		
-		TestUser user1 = new TestUser("Inigo Montoya", "A number-peasant", 37);
-		TestUser user2 = new TestUser("John Smith", "A number-king", 430179586);
+		INSTANCE.pushUser(user1);
 		
-		System.out.println(user1.getDisplayName());
-		
-		user1.setFirstFollower(user2);
-		
-		INSTANCE.postTestUser(user1);
-		
-		System.out.println(
-				INSTANCE.client.get()
-				.uri("http://localhost:9000/v1/StephenRout/User/user1")
-				.retrieve()
-				.body(String.class));
-		
-		TestUser downloadedUser1 = 
-				(INSTANCE.client.get()
-				.uri("http://localhost:9000/v1/StephenRout/User/user1")
-				.retrieve()
-				.body(TestUser.class));
-		
-		System.out.println(downloadedUser1.getDisplayName());
+	
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	public ArrayList<UserPost> fetchPostList(String userUID)
+	{
+		String location = "http://localhost:9000/v1/StephenRout/Users/" + userUID + "/Posts";
+		Response response = INSTANCE.client.get()
+				.uri(location)
+				.retrieve()
+				.body(Response.class);
+		
+		return response.data;
+	}
+	
+	public void pushPost(String userUID, Post user1Post1)
+	{
+		String location = "http://localhost:9000/v1/StephenRout/Users/" + userUID + "/Posts";
+		
 
+		Response response = INSTANCE.client.post()
+				.uri(location)
+				.body(user1Post1)
+				.retrieve()
+				.body(Response.class);
+	}
+	*/
+	
 }
-

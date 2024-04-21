@@ -20,8 +20,6 @@ import java.util.ArrayList;
 
 public class User extends Entity
 {
-	private String[] linkTypes = {"UserPosts", "JobPosts", "Comments", "Followers", "Following",
-									"Blocked", "Liked", "JobsAppliedFor"};
 	private Name displayName;
 	private final String[] validUserTypes = {"Individual", "Organization"}; //for validation
 	private String userType;
@@ -33,12 +31,17 @@ public class User extends Entity
 	{		
 		validateUserType(userType);
 		
-		populateLinkContainer();
+		//populateLinkContainer();
 		isPublic = true;
 		workHistory = new ArrayList<WorkExperience>();
 		this.userType = userType; //Will determine how the profile page is formatted
 		this.editorList.add(this);
 	}
+	
+
+	
+
+
 	
 	/**
 	 * Checks that the inputted userType is valid.
@@ -70,14 +73,14 @@ public class User extends Entity
 	public UserPost createUserPost(String content, boolean isPublic)
 	{
 		UserPost post = new UserPost(content, isPublic, this);
-		getLinkContainer().addLink("UserPosts", post);
+		//getLinkContainer().addLink("UserPosts", post);
 		return post;
 	}
 	
 	public JobPost createJobPost(String postTitle, String content, User creatorUser)
 	{
 		JobPost jobPost = new JobPost(postTitle, content, creatorUser);
-		getLinkContainer().addLink("JobPosts", jobPost);
+		//getLinkContainer().addLink("JobPosts", jobPost);
 		return jobPost;
 	}
 	
@@ -88,14 +91,14 @@ public class User extends Entity
 	public Comment createComment(String commentBody, Post parentPost)
 	{
 		Comment comment = parentPost.addComment(this, commentBody);
-		getLinkContainer().addLink("Comments", comment);
+		//getLinkContainer().addLink("Comments", comment);
 		return comment;
 	}
 	
 	public void removeComment(Comment comment, Post parentPost)
 	{
 		parentPost.removeComment(comment);
-		getLinkContainer().getList("Comments").remove(comment);
+		//getLinkContainer().getList("Comments").remove(comment);
 	}
 	
 	/**
@@ -103,6 +106,7 @@ public class User extends Entity
 	 */
 	public void likeUnlikePost(Post post)
 	{
+		/*
 		if (getLinkContainer().contains("Liked", post))
 		{
 			getLinkContainer().removeLink("Liked", post);
@@ -113,6 +117,7 @@ public class User extends Entity
 			getLinkContainer().addLink("Liked", post);
 			post.increaseLikes(true);
 		}
+		*/
 	}
 	
 	
@@ -120,7 +125,7 @@ public class User extends Entity
 	@Override
 	public String[] getLinkTypes()
 	{
-		return this.linkTypes;
+		return null;
 	}
 	
 	public Name getDisplayName()
@@ -193,4 +198,97 @@ public class User extends Entity
 		
 	}
 	
+	
+	//Link Types
+	ArrayList<UserPost> userPosts = new ArrayList<UserPost>();
+	ArrayList<UserPost> liked = new ArrayList<UserPost>();
+	
+	ArrayList<JobPost> jobPosts = new ArrayList<JobPost>();
+	ArrayList<JobPost> jobsAppliedFor= new ArrayList<JobPost>();
+	
+	ArrayList<Comment> comments = new ArrayList<Comment>();
+	
+	ArrayList<User> followers = new ArrayList<User>();
+	ArrayList<User> followering = new ArrayList<User>();
+	ArrayList<User> blocked = new ArrayList<User>();
+
+	public ArrayList<UserPost> getUserPosts()
+	{
+		return userPosts;
+	}
+
+	public void setUserPosts(ArrayList<UserPost> userPosts)
+	{
+		this.userPosts = userPosts;
+	}
+
+	public ArrayList<UserPost> getLiked()
+	{
+		return liked;
+	}
+
+	public void setLiked(ArrayList<UserPost> liked)
+	{
+		this.liked = liked;
+	}
+
+	public ArrayList<JobPost> getJobPosts()
+	{
+		return jobPosts;
+	}
+
+	public void setJobPosts(ArrayList<JobPost> jobPosts)
+	{
+		this.jobPosts = jobPosts;
+	}
+
+	public ArrayList<JobPost> getJobsAppliedFor()
+	{
+		return jobsAppliedFor;
+	}
+
+	public void setJobsAppliedFor(ArrayList<JobPost> jobsAppliedFor)
+	{
+		this.jobsAppliedFor = jobsAppliedFor;
+	}
+
+	public ArrayList<Comment> getComments()
+	{
+		return comments;
+	}
+
+	public void setComments(ArrayList<Comment> comments)
+	{
+		this.comments = comments;
+	}
+
+	public ArrayList<User> getFollowers()
+	{
+		return followers;
+	}
+
+	public void setFollowers(ArrayList<User> followers)
+	{
+		this.followers = followers;
+	}
+
+	public ArrayList<User> getFollowering()
+	{
+		return followering;
+	}
+
+	public void setFollowering(ArrayList<User> followering)
+	{
+		this.followering = followering;
+	}
+
+	public ArrayList<User> getBlocked()
+	{
+		return blocked;
+	}
+
+	public void setBlocked(ArrayList<User> blocked)
+	{
+		this.blocked = blocked;
+	}	
 }

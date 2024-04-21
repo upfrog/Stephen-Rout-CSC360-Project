@@ -10,9 +10,9 @@ public class Comment extends Post
 	public Comment(Post parentPost, User creatorUser, String content) 
 	{
 		validateComment(content);
-		populateLinkContainer();
-		linkContainer.addLink("Creator", creatorUser);
-		linkContainer.addLink("Parent", parentPost);
+		//populateLinkContainer();
+		//linkContainer.addLink("Creator", creatorUser);
+		//linkContainer.addLink("Parent", parentPost);
 		this.content = content;
 	}
 	

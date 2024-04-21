@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+
+/*
+ * Consider adding a record of who liked a given post
+ */
 public class UserPost extends Post
 {
 	private boolean isPublic;
@@ -11,8 +15,8 @@ public class UserPost extends Post
 	{
 		validateUserPost(content);
 		
-		populateLinkContainer();
-		linkContainer.addLink("Creator", creatorUser);
+		//populateLinkContainer();
+		//linkContainer.addLink("Creator", creatorUser);
 		comments = new ArrayList<Comment>();
 		this.content = content;
 		this.isPublic = isPublic;

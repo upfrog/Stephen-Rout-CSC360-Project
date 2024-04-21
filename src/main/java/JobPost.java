@@ -13,8 +13,8 @@ public class JobPost extends Post
 	{
 		validateJobPost(postTitle, content);
 		
-		populateLinkContainer();
-		linkContainer.addLink("Creator", creatorUser);
+		//populateLinkContainer();
+		//linkContainer.addLink("Creator", creatorUser);
 		this.content = content;
 		this.postTitle = postTitle;
 	}
@@ -47,17 +47,18 @@ public class JobPost extends Post
 	
 	public void addApplicant(User applicant)
 	{
-		linkContainer.addLink("Applicants", applicant);
+		//linkContainer.addLink("Applicants", applicant);
 	}
 	
 	public void removeApplicant(User applicant)
 	{
 		
-		linkContainer.removeLink("Applicants", applicant);
+		//linkContainer.removeLink("Applicants", applicant);
 	}
 	
 	public ArrayList<Structure> getApplicants()
 	{
-		return linkContainer.getList("Applicants");
+		return null;
+		//return linkContainer.getList("Applicants");
 	}
 }
