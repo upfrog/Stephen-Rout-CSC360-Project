@@ -4,7 +4,8 @@ import org.springframework.web.client.RestClient;
 
 
 /*
- * Add a class to setup the server by adding the various classes
+ * This class feels very inefficient. I would like to condense the various post and get methods, as 
+ * they have a great deal of re-used code, but that will involve a fair bit of extra effort.
  */
 
 public enum ServerHandler
@@ -12,16 +13,15 @@ public enum ServerHandler
 	INSTANCE;
 
 	private RestClient client = RestClient.create();
+	private static String base = "http://localhost:9000/v1/StephenRout";
+	private static String[] classList = {"Users","UserPosts", "Comments", "JobPosts", "WorkExperiences"};
 	
-	public record Desc(String displayName, String description, String location) {};
 
-	public record Response(String request,
-			boolean successful,
-			String message,
-			User data) {};
 
+		
+		/*	
 	public record PostRecord(String content, int likes, ArrayList<Comment> comments, 
-			boolean isPublic, User creator) {};
+			boolean isPublic, User creator) {};*/
 	
 	public RestClient getClient()
 	{
@@ -29,52 +29,277 @@ public enum ServerHandler
 	}
 	
 	
+	public record CommentResponse(String request,
+			boolean successful,
+			String message,
+			Comment  data) {};	
 	
-	
-	
-	public void pushUser(User user)
+	/*
+	 * Consider expanding this to also take the posting user as a parameter (or just get 
+	 * it from the comment) and put it in the user's comment list. THis is waiting on
+	 * getting my question about REST update methods answered.
+	 */
+	public void postComment(Comment comment)
 	{
-		String location = "http://localhost:9000/v1/StephenRout/Users/" + user.getUID();
+		String location = base + "/Comment/" + comment.getUID();
 		
-
-		Response response = INSTANCE.client.post()
-				.uri(location)
-				.body(user)
-				.retrieve()
-				.body(Response.class);
-		
-		System.out.println(response);
+		try
+		{
+			CommentResponse response = INSTANCE.client.post()
+					.uri(location)
+					.body(comment)
+					.retrieve()
+					.body(CommentResponse.class);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public Comment getCommnent(String UID)
+	{
+		String location = base + "/Comment/" + UID;
+		CommentResponse response = null;
+		try
+		{
+			response = client.get()
+					.uri(location)
+					.retrieve()
+					.body(CommentResponse.class);
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response.data();
 	}
 	
 	
 	
-	public void testPost()
+	
+	public record UserPostResponse(String request,
+			boolean successful,
+			String message,
+			UserPost  data) {};	
+	
+	public void postUserPost(UserPost userPost)
 	{
+		String location = base + "/UserPosts/" + userPost.getUID();
 		
-		System.out.println("Made it into test post");
-		Desc team = new Desc("StephenRout", "Stephen Rout's project: Nexus", "");
-		System.out.println(
+		try
+		{
+			UserPostResponse response = INSTANCE.client.post()
+					.uri(location)
+					.body(userPost)
+					.retrieve()
+					.body(UserPostResponse.class);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public UserPost getUserPost(String UID)
+	{
+		String location = base + "/UserPosts/" + UID;
+		UserPostResponse response = null;
+		try
+		{
+			response = client.get()
+					.uri(location)
+					.retrieve()
+					.body(UserPostResponse.class);
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response.data();
+	}
+	
+	
+	
+	//JOB POST METHODS
+	public record JobPostResponse(String request,
+			boolean successful,
+			String message,
+			JobPost data) {};	
+	
+	public void postJobrPost(JobPost jobPost)
+	{
+		String location = base + "/JobPosts/" + jobPost.getUID();
+		
+		try
+		{
+			JobPostResponse response = INSTANCE.client.post()
+					.uri(location)
+					.body(jobPost)
+					.retrieve()
+					.body(JobPostResponse.class);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public JobPost getJobPost(String UID)
+	{
+		String location = base + "/JobPosts/" + UID;
+		JobPostResponse response = null;
+		try
+		{
+			response = client.get()
+					.uri(location)
+					.retrieve()
+					.body(JobPostResponse.class);
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response.data();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public record UserResponse(String request,
+			boolean successful,
+			String message,
+			User  data) {};	
+	
+	public void postUser(User user)
+	{
+		String location = base + "/Users/" + user.getUID();
+		try
+		{
+			UserResponse response = INSTANCE.client.post()
+					.uri(location)
+					.body(user)
+					.retrieve()
+					.body(UserResponse.class);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public User getUser(String UID)
+	{
+		String location = base + "/Users/" + UID;
+		UserResponse response = null;
+		try
+		{
+			response = client.get()
+					.uri(location)
+					.retrieve()
+					.body(UserResponse.class);
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response.data();
+	}
+	
+
+	public record Desc(String displayName, String description, String location) {};
+
+	public record DescResponse(String request,
+			boolean successful,
+			String message,
+			Desc  data) {};
+	
+	public void configureServer()
+	{
+		try
+		{
+			System.out.println("Made it into test post");
+			//I'm not currently using these Strings, but they'll make debugging easier
+			String teamResponse = 
 				client.post()
 				.uri("http://localhost:9000/v1/StephenRout")
-				.body(team)
+				.body(new Desc("StephenRout", "Stephen Rout's project: Nexus", ""))
 				.retrieve()
-				.body(String.class));
+				.body(String.class);
+		}
+		catch (Exception e) 
+		{
+			throw e;
+		}
 		
-		
-		System.out.println(
-				client.post()
-				.uri("http://localhost:9000/v1/StephenRout/User")
-				.body(new Desc("User", "User objects", ""))
+		for (String className : classList)
+		{
+			try
+			{
+				String response = 
+					client.post()
+					.uri(base + "/" + className)
+					.body(new Desc(className, className + " objects", ""))
+					.retrieve()
+					.body(String.class);
+			} catch (Exception e)
+			{
+				throw e;
+			}
+		}
+	}
+	
+	public void clearServer()
+	{
+		try
+		{
+			String response = 
+				client.delete()
+				.uri(base)
 				.retrieve()
-				.body(String.class));
+				.body(String.class);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
 	}
 	
 	public static void main(String[] args)
 	{
-		INSTANCE.testPost();
-		User user1 = new User("Individual");
 		
-		INSTANCE.pushUser(user1);
+		//INSTANCE.configureServer();
+		//INSTANCE.clearServer();
+		
+		User user1 = new User("Individual");
+		user1.setDisplayName(new Name("Carl Papodopolis"));
+		System.out.println("The local user's UID is: " + user1.getUID());
+		INSTANCE.postUser(user1);
+		
+		System.out.println(INSTANCE.getUser(user1.getUID()).getNameString());
+		
+		/*
+		UserResponse user = INSTANCE.client.delete()
+				.uri("http://localhost:9000/v1/StephenRout/Users/" + user1.getUID())
+				.retrieve()
+				.body(UserResponse.class);
+		
+		System.out.println(user.toString());
+		
+		User newUser = user.data;
+		User newUser2 = user.data;
+		System.out.println("The UID of the pulled (but not transferred) user is: " + user.data.getUID());
+		System.out.println("After pulling and transferring to a new user, the UID is: " + newUser.getUID());
+		System.out.println(newUser2.getUID());
+				
+		*/
+		
 		
 	
 	}

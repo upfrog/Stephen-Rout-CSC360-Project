@@ -14,6 +14,8 @@ class UserAndPostTest
 	@BeforeEach
 	void setUp() throws Exception
 	{
+		ServerHandler.INSTANCE.clearServer();
+		ServerHandler.INSTANCE.configureServer();
 		user1 = new User("Individual");
 		user2 = new User("Individual");
 	}
@@ -143,28 +145,13 @@ class UserAndPostTest
 	
 
 	@Test
-	void testPushUser()
-	{
-		RestClient client = RestClient.create();
-		record Desc(String displayName, String description, String location) {};
+	void testPushGetUser()
+	{	
+		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.getUser(user1.getUID()));
+		ServerHandler.INSTANCE.postUser(user1);
 		
-		Desc team = new Desc("StephenRout", "Stephen Rout's project: Nexus", "");
-		System.out.println(
-				client.post()
-				.uri("http://localhost:9000/v1/StephenRout")
-				.body(team)
-				.retrieve()
-				.body(String.class));
-		
-		System.out.println(
-				client.post()
-				.uri("http://localhost:9000/v1/StephenRout/Users")
-				.body(new Desc("Users", "User objects", ""))
-				.retrieve()
-				.body(String.class));
-		
-		
-		ServerHandler.INSTANCE.pushUser(user1);
+		assertEquals(ServerHandler.INSTANCE.getUser(user1.getUID()).getUID(), user1.getUID());
+		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.postUser(user1));
 	}
 
 

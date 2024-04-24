@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public abstract class Structure
 {
-	final String UID;
+	String UID;
 	//String[] linkTypes;
 	String creationDateTime;
 	//LinkContainer linkContainer;
@@ -55,6 +55,13 @@ public abstract class Structure
 	{
 		return this.UID;
 	}
+	
+	public void setUID(String UID)
+	{
+		this.UID = UID;
+	}
+	
+
 
 
 	public String getCreationDateTime()

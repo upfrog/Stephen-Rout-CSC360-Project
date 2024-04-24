@@ -4,12 +4,14 @@ public abstract class Entity extends Structure implements Followable, Follower
 {
 	
 	String entityDescription;
-	ArrayList<User> editorList = new ArrayList<User>();
+	ArrayList<String> editorList = new ArrayList<String>();
 	
 	public Entity()
 	{
 		this.entityDescription = "This user has not written a description yet";
 	}
+	
+
 	
 	
 	public void editDescription(String description)
@@ -29,6 +31,12 @@ public abstract class Entity extends Structure implements Followable, Follower
 		return entityDescription;
 	}
 	
+	public void setDescription(String description)
+	{
+		entityDescription = description;
+	}
+	
+	
 	public void followerChange(User user)
 	{
 		/*
@@ -43,14 +51,32 @@ public abstract class Entity extends Structure implements Followable, Follower
 		*/
 	}
 	
+	public ArrayList<String> getEditorList()
+	{
+		return editorList;
+	}
+	
+	public void setEditorList(ArrayList<String> editorList)
+	{
+		this.editorList = editorList;
+	}
+	
 	public boolean hasAsEditor(User editor)
 	{
 		return editorList.contains(editor);
 	}
 	
-	public void toggleEditor(User editor)
+	/*
+	 * NEED REFINING
+	 */
+	public boolean hasAsEditor(String editorUID)
 	{
-		if (editorList.contains(editor))
+		return editorList.contains(editorUID);
+	}
+	
+	public void toggleEditor(String editorUID)
+	{
+		if (editorList.contains(editorUID))
 		{
 			if (editorList.size() <= 1)
 			{ 
@@ -58,13 +84,18 @@ public abstract class Entity extends Structure implements Followable, Follower
 			}
 			else
 			{
-				editorList.remove(editor);
+				editorList.remove(editorUID);
 			}
 		}
 		else
 		{
-			editorList.add(editor);
+			editorList.add(editorUID);
 		}
+	}
+	
+	public void toggleEditor(User editor)
+	{
+		toggleEditor(editor.getUID());
 	}
 	
 	public void populateLinkContainer(LinkContainer linkContainer) {}

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class User extends Entity
 {
 	private Name displayName;
-	private final String[] validUserTypes = {"Individual", "Organization"}; //for validation
+	//
 	private String userType;
 	private String worksAt;
 	private ArrayList<WorkExperience> workHistory;
@@ -35,13 +35,12 @@ public class User extends Entity
 		isPublic = true;
 		workHistory = new ArrayList<WorkExperience>();
 		this.userType = userType; //Will determine how the profile page is formatted
-		this.editorList.add(this);
+		this.editorList.add(this.getUID());
+		displayName = new Name("");
 	}
 	
-
 	
-
-
+	public User() {}
 	
 	/**
 	 * Checks that the inputted userType is valid.
@@ -50,6 +49,8 @@ public class User extends Entity
 	 */
 	private boolean validateUserType(String userType)
 	{
+		final String[] validUserTypes = {"Individual", "Organization"}; //for validation
+		
 		for (String validUserType : validUserTypes)
 		{
 			if (userType.equals(validUserType))
@@ -68,6 +69,12 @@ public class User extends Entity
 	public boolean getIsPublic()
 	{
 		return isPublic;
+	}
+	
+	
+	public void setIsPublic(boolean publicity)
+	{
+		this.isPublic = publicity;
 	}
 	
 	public UserPost createUserPost(String content, boolean isPublic)
@@ -137,10 +144,20 @@ public class User extends Entity
 	{
 		this.displayName = displayName;
 	}
+	
+	public String getNameString()
+	{
+		return this.displayName.getName();
+	}
 
 	public String getUserType()
 	{
 		return userType;
+	}
+	
+	public void setUserType(String type)
+	{
+		this.userType = type;
 	}
 	
 	public String getWorksAt()
@@ -156,6 +173,11 @@ public class User extends Entity
 	public ArrayList<WorkExperience> getWorkHistory()
 	{
 		return workHistory;
+	}
+	
+	public void setWorkHistory(ArrayList<WorkExperience> workHistory)
+	{
+		this.workHistory= workHistory;
 	}
 
 	/*
