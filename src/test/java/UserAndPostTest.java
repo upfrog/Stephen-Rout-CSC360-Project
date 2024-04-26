@@ -102,7 +102,7 @@ class UserAndPostTest
 	@Test
 	void testCreateJobPost()
 	{
-		user1Post1 = user1.createJobPost("Software Developer", "We pay money!", user1);
+		user1Post1 = user1.createJobPost("Software Developer", "We pay money!");
 		//assertEquals(user1.getLinkContainer().getList("JobPosts").contains(user1Post1), true);
 	}
 	

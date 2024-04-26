@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /*
  * As stands, comments cannot reply to other comments
  * 
@@ -5,15 +7,20 @@
 public class Comment extends Post
 {
 	final String[] linkTypes = {"Creator", "Parent"};
+	
+	@JsonIgnore
 	int maxCommentLength = 15000;
+	String creatorUID;
+	String parentPostUID;
 	
 	public Comment(Post parentPost, User creatorUser, String content) 
 	{
 		validateComment(content);
-		//populateLinkContainer();
-		//linkContainer.addLink("Creator", creatorUser);
-		//linkContainer.addLink("Parent", parentPost);
+		creatorUID = creatorUser.getUID();
+		parentPostUID = parentPost.getUID();
 		this.content = content;
+		
+		ServerHandler.INSTANCE.postComment(this);
 	}
 	
 	/**
@@ -38,4 +45,39 @@ public class Comment extends Post
 	{
 		return linkTypes;
 	}
+
+	public String getCreatorUID()
+	{
+		return creatorUID;
+	}
+
+	public void setCreatorUID(String creatorUID)
+	{
+		this.creatorUID = creatorUID;
+	}
+
+	public String getParentPostUID()
+	{
+		return parentPostUID;
+	}
+
+	public void setParentPostUID(String parentPostUID)
+	{
+		this.parentPostUID = parentPostUID;
+	}
+	
+	@Override
+	public void increaseLikes(boolean increase)
+	{
+		if (increase)
+		{
+			likes++;
+		}
+		else
+		{
+			likes--;
+		}
+		ServerHandler.INSTANCE.putComment(this);
+	}
+	
 }

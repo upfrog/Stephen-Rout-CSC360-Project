@@ -29,6 +29,14 @@ public enum ServerHandler
 	}
 	
 	
+	public record PutResponse(String request,
+			boolean successful,
+			String message,
+			String data) {};
+	
+	
+	
+	
 	public record CommentResponse(String request,
 			boolean successful,
 			String message,
@@ -45,11 +53,33 @@ public enum ServerHandler
 		
 		try
 		{
+			//Post the comment the global comment list
 			CommentResponse response = INSTANCE.client.post()
 					.uri(location)
 					.body(comment)
 					.retrieve()
 					.body(CommentResponse.class);
+			
+			Post post = client.get()
+					.uri(null)
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public void putComment(Comment comment)
+	{
+		String location = base + "/JobPosts/" + comment.getUID();
+		
+		try
+		{
+			PutResponse response = INSTANCE.client.put()
+					.uri(location)
+					.body(comment)
+					.retrieve()
+					.body(PutResponse.class);
 		}
 		catch (Exception e)
 		{
@@ -89,11 +119,37 @@ public enum ServerHandler
 		
 		try
 		{
+			//push the post to the global UserPost list
 			UserPostResponse response = INSTANCE.client.post()
 					.uri(location)
 					.body(userPost)
 					.retrieve()
 					.body(UserPostResponse.class);
+			
+			//push the post to the creator's post list
+			User postingUser = client.get()
+					.uri(location)
+					.retrieve()
+					.body(User.class);
+			//postingUser.add
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public void putUserPost(UserPost userPost)
+	{
+		String location = base + "/JobPosts/" + userPost.getUID();
+		
+		try
+		{
+			PutResponse response = INSTANCE.client.put()
+					.uri(location)
+					.body(userPost)
+					.retrieve()
+					.body(PutResponse.class);
 		}
 		catch (Exception e)
 		{
@@ -127,7 +183,7 @@ public enum ServerHandler
 			String message,
 			JobPost data) {};	
 	
-	public void postJobrPost(JobPost jobPost)
+	public void postJobPost(JobPost jobPost)
 	{
 		String location = base + "/JobPosts/" + jobPost.getUID();
 		
@@ -138,6 +194,24 @@ public enum ServerHandler
 					.body(jobPost)
 					.retrieve()
 					.body(JobPostResponse.class);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public void putJobPost(JobPost jobPost)
+	{
+		String location = base + "/JobPosts/" + jobPost.getUID();
+		
+		try
+		{
+			PutResponse response = INSTANCE.client.put()
+					.uri(location)
+					.body(jobPost)
+					.retrieve()
+					.body(PutResponse.class);
 		}
 		catch (Exception e)
 		{
@@ -187,6 +261,32 @@ public enum ServerHandler
 					.body(user)
 					.retrieve()
 					.body(UserResponse.class);
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+	}
+	
+	public void putUser(User user)
+	{
+		String location = base + "/Users/" + user.getUID();
+		try
+		{
+			
+			PutResponse response = INSTANCE.client.put()
+					.uri(location)
+					.body(user)
+					.retrieve()
+					.body(PutResponse.class);
+					
+			/*
+			System.out.println(INSTANCE.client.put()
+					.uri(location)
+					.body(user)
+					.retrieve()
+					.body(String.class));
+					*/
 		}
 		catch (Exception e)
 		{
@@ -273,16 +373,21 @@ public enum ServerHandler
 	
 	public static void main(String[] args)
 	{
-		
-		//INSTANCE.configureServer();
+		/*
+		INSTANCE.configureServer();
 		//INSTANCE.clearServer();
-		
+		*/
 		User user1 = new User("Individual");
-		user1.setDisplayName(new Name("Carl Papodopolis"));
+		user1.setDisplayName(new Name("Zim Mer"));
 		System.out.println("The local user's UID is: " + user1.getUID());
 		INSTANCE.postUser(user1);
 		
-		System.out.println(INSTANCE.getUser(user1.getUID()).getNameString());
+		User user2 = INSTANCE.getUser(user1.getUID());
+		System.out.println(user2.getUID());
+		
+		user2.setDisplayName(new Name("Jeacowitz"));
+		INSTANCE.putUser(user2);
+		
 		
 		/*
 		UserResponse user = INSTANCE.client.delete()

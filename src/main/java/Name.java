@@ -29,6 +29,7 @@ public class Name
 	 * This is incomplete. Potential future improvements include:
 	 * 1) Set name dividers on a case-by-case basis.
 	 * 2) Refactor validateName so that it encapsulates most of this
+	 * 3) Allow multiple prefferedNameComponents, and let the user set different contexts for them.
 	 */
 	public Name(ArrayList<String> newNameComponents, ArrayList<Boolean> newPrefferedNameComponents)
 	{

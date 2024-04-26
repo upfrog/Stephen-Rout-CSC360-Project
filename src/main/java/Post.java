@@ -8,23 +8,15 @@ public abstract class Post extends Structure
 {
 	String content;
 	int likes;
-	ArrayList<Comment> comments;
+	ArrayList<String> commentUIDs;
+	ArrayList<String> likerUIDs;
 	
 	
 	/*
 	 * @param 	increase: 	true for adding a like, false for taking one away
 	 */
-	public void increaseLikes(boolean increase)
-	{
-		if (increase)
-		{
-			likes++;
-		}
-		else
-		{
-			likes--;
-		}
-	}
+	public abstract void increaseLikes(boolean increase);
+
 	
 	public int getLikes()
 	{
@@ -40,21 +32,21 @@ public abstract class Post extends Structure
 	public Comment addComment(User creatorUser, String content)
 	{
 		Comment comment = new Comment(this, creatorUser, content);
-		comments.add(comment);
+		commentUIDs.add(comment.getUID());
 		return comment;
 	}
 	
-	public void removeComment(Comment comment)
+	public void removeComment(String UID)
 	{
-		this.comments.remove(comment);
+		this.commentUIDs.remove(UID);
 	}
 	
 	/**
 	 * MUST BE UPDATED FOR SPRINT 2
 	 */
-	public ArrayList<Comment> getComments()
+	public ArrayList<String> getComments()
 	{
-		return comments;
+		return commentUIDs;
 	}
 	
 	public Structure getCreator()

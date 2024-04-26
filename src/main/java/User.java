@@ -1,5 +1,6 @@
 /**
  * User represents all entities the have profile pages, including companies.
+
  * 
  * In the original design, we planned to have separate classes for companies
  * and individuals. However, as our design evolved the space between these
@@ -13,13 +14,22 @@
  * objects, and that Companies would have non-trivially constrained
  * behavior. These assumptions now seem less reasonable, so there are some
  * methods and attributes which may be moved to Entity in the future.
+ * 
+ * Most of the user's attributes are modified from their profile page. Changes
+ * made will be pushed to the server when the user saves the changes and exits
+ * the settings menu, meaning that methods interacting with these attributes do
+ * not need to directly interact with the server. However, some methods may be
+ * called from a wider variety of circumstances, and so need to contain their
+ * own system for propagating their effect.
  */
 
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 public class User extends Entity
 {
+	@JsonIgnore
 	private Name displayName;
 	//
 	private String userType;
@@ -61,6 +71,9 @@ public class User extends Entity
 		throw new IllegalArgumentException("Invalid user type");
 	}
 	
+	/*
+	 * Modified in the Edit Profile Page
+	 */
 	public void toggleIsPublic()
 	{
 		isPublic = !isPublic;
@@ -71,40 +84,80 @@ public class User extends Entity
 		return isPublic;
 	}
 	
-	
+	/*
+	 * Only included for compatibility with Jackson
+	 * 
+	 * I could make do with only this method to edit publicity, but that would
+	 * involve putting more complexity into the edit profile controller.
+	 */
 	public void setIsPublic(boolean publicity)
 	{
 		this.isPublic = publicity;
 	}
 	
+	
+	/*
+	 * Remeber that you still need to integrate the feed for this. 
+	 */
 	public UserPost createUserPost(String content, boolean isPublic)
 	{
 		UserPost post = new UserPost(content, isPublic, this);
-		//getLinkContainer().addLink("UserPosts", post);
+		this.addUserPostUID(post.getUID());
+		ServerHandler.INSTANCE.postUserPost(post);
+		ServerHandler.INSTANCE.putUser(this);
 		return post;
 	}
 	
-	public JobPost createJobPost(String postTitle, String content, User creatorUser)
+	public JobPost createJobPost(String postTitle, String content)
 	{
-		JobPost jobPost = new JobPost(postTitle, content, creatorUser);
-		//getLinkContainer().addLink("JobPosts", jobPost);
+		JobPost jobPost = new JobPost(postTitle, content, this);
+		this.addJobPostUID(jobPost.getUID());
+		ServerHandler.INSTANCE.postJobPost(jobPost);
+		ServerHandler.INSTANCE.putUser(this);
 		return jobPost;
 	}
 	
 	/**
+	 * This class posts the new comment to the global comment list, 
+	 * while the parentPost's addComment() will add the new comment's UID
+	 * to the post's list of comments.
+	 * 
 	 * @param 	commentBody: 	the text of the comment
 	 * @param 	parentPost: 	the Post this comment is replying to
 	 */
 	public Comment createComment(String commentBody, Post parentPost)
 	{
 		Comment comment = parentPost.addComment(this, commentBody);
-		//getLinkContainer().addLink("Comments", comment);
+		ServerHandler.INSTANCE.postComment(comment);
 		return comment;
 	}
 	
-	public void removeComment(Comment comment, Post parentPost)
+	public void removeComment(Comment comment)
 	{
-		parentPost.removeComment(comment);
+		Post parentPost;
+		
+		//This is a hacky solution to the problem that comment's parentPost can be 
+		//a JobPost or a UserPost.
+		//Given the overhead of sendint a request, this hack makes me feel kind of 
+		//dirty
+		try
+		{
+			parentPost = ServerHandler.INSTANCE.getUserPost(comment.getParentPostUID());
+		}
+		catch (Exception e)
+		{
+			try
+			{
+				parentPost = ServerHandler.INSTANCE.getJobPost(comment.getParentPostUID());
+			}
+			catch (Exception c)
+			{
+				//If we make it here, then we have a comment with no parent post, which should never happen
+				throw c;
+			}
+		}
+		
+		parentPost.removeComment(comment.getUID());
 		//getLinkContainer().getList("Comments").remove(comment);
 	}
 	
@@ -145,7 +198,7 @@ public class User extends Entity
 		this.displayName = displayName;
 	}
 	
-	public String getNameString()
+	public String generateNameAsString()
 	{
 		return this.displayName.getName();
 	}
@@ -221,96 +274,170 @@ public class User extends Entity
 	}
 	
 	
-	//Link Types
-	ArrayList<UserPost> userPosts = new ArrayList<UserPost>();
-	ArrayList<UserPost> liked = new ArrayList<UserPost>();
+	/*
+	 * Mass declaration for the user's lists of links, and their associated 
+	 * methods.
+	 * 
+	 * The getters and setters are necessary for Jackson. I have also added
+	 * a set of add*UID() methods. These are technically unnecessary, but a
+	 * bit of tedium here will prevent me from having to constantly perform
+	 * a get-modify-set sequence in the rest of my code. 
+	 */
+	ArrayList<String> userPostUIDs = new ArrayList<String>();
+	ArrayList<String> likedUIDs = new ArrayList<String>();
 	
-	ArrayList<JobPost> jobPosts = new ArrayList<JobPost>();
-	ArrayList<JobPost> jobsAppliedFor= new ArrayList<JobPost>();
+	ArrayList<String> jobPostUIDs = new ArrayList<String>();
+	ArrayList<String> jobsAppliedForUIDs= new ArrayList<String>();
 	
-	ArrayList<Comment> comments = new ArrayList<Comment>();
+	ArrayList<String> commentUIDs = new ArrayList<String>();
 	
-	ArrayList<User> followers = new ArrayList<User>();
-	ArrayList<User> followering = new ArrayList<User>();
-	ArrayList<User> blocked = new ArrayList<User>();
+	ArrayList<String> followerUIDs = new ArrayList<String>();
+	ArrayList<String> followingUIDs = new ArrayList<String>();
+	ArrayList<String> blockedUIDs = new ArrayList<String>();
 
-	public ArrayList<UserPost> getUserPosts()
+	public ArrayList<String> getUserPostUIDs()
 	{
-		return userPosts;
+		return userPostUIDs;
 	}
 
-	public void setUserPosts(ArrayList<UserPost> userPosts)
+
+	public void setUserPostUIDs(ArrayList<String> userPostUIDs)
 	{
-		this.userPosts = userPosts;
+		this.userPostUIDs = userPostUIDs;
+	}
+	
+	
+	public void addUserPostUID(String UID)
+	{
+		this.userPostUIDs.add(UID);
 	}
 
-	public ArrayList<UserPost> getLiked()
+
+	/*
+	 * MAY REQUIRE SERVER INTEGRATION
+	 */
+	public ArrayList<String> getLikedUIDs()
 	{
-		return liked;
+		return likedUIDs;
 	}
 
-	public void setLiked(ArrayList<UserPost> liked)
+
+	public void setLikedUIDs(ArrayList<String> likedUIDs)
 	{
-		this.liked = liked;
+		this.likedUIDs = likedUIDs;
+	}
+	
+	public void addLikedUIDs(String UID)
+	{
+		this.likedUIDs.add(UID);
 	}
 
-	public ArrayList<JobPost> getJobPosts()
+
+	public ArrayList<String> getJobPostUIDs()
 	{
-		return jobPosts;
+		return jobPostUIDs;
 	}
 
-	public void setJobPosts(ArrayList<JobPost> jobPosts)
+
+	public void setJobPostUIDs(ArrayList<String> jobPostUIDs)
 	{
-		this.jobPosts = jobPosts;
+		this.jobPostUIDs = jobPostUIDs;
+	}
+	
+	
+	public void addJobPostUID(String UID)
+	{
+		this.jobPostUIDs.add(UID);
 	}
 
-	public ArrayList<JobPost> getJobsAppliedFor()
+
+	public ArrayList<String> getJobsAppliedForUIDs()
 	{
-		return jobsAppliedFor;
+		return jobsAppliedForUIDs;
 	}
 
-	public void setJobsAppliedFor(ArrayList<JobPost> jobsAppliedFor)
+
+	public void setJobsAppliedForUIDs(ArrayList<String> jobsAppliedForUIDs)
 	{
-		this.jobsAppliedFor = jobsAppliedFor;
+		this.jobsAppliedForUIDs = jobsAppliedForUIDs;
+	}
+	
+	
+	public void addJobAppliedForUID(String UID)
+	{
+		this.jobsAppliedForUIDs.add(UID);
 	}
 
-	public ArrayList<Comment> getComments()
+
+	public ArrayList<String> getCommentUIDs()
 	{
-		return comments;
+		return commentUIDs;
 	}
 
-	public void setComments(ArrayList<Comment> comments)
+
+	public void setCommentUIDs(ArrayList<String> commentUIDs)
 	{
-		this.comments = comments;
+		this.commentUIDs = commentUIDs;
+	}
+	
+	
+	public void addCommentUID(String UID)
+	{
+		this.commentUIDs.add(UID);
 	}
 
-	public ArrayList<User> getFollowers()
+
+	public ArrayList<String> getFollowerUIDs()
 	{
-		return followers;
+		return followerUIDs;
 	}
 
-	public void setFollowers(ArrayList<User> followers)
+
+	public void setFollowerUIDs(ArrayList<String> followerUIDs)
 	{
-		this.followers = followers;
+		this.followerUIDs = followerUIDs;
+	}
+	
+	
+	public void addFollowerUID(String UID)
+	{
+		this.followerUIDs.add(UID);
 	}
 
-	public ArrayList<User> getFollowering()
+
+	public ArrayList<String> getFollowingUIDs()
 	{
-		return followering;
+		return followingUIDs;
 	}
 
-	public void setFollowering(ArrayList<User> followering)
+
+	public void setFollowingUIDs(ArrayList<String> followingUIDs)
 	{
-		this.followering = followering;
+		this.followingUIDs = followingUIDs;
+	}
+	
+	
+	public void addFollowingUID(String UID)
+	{
+		this.followingUIDs.add(UID);
 	}
 
-	public ArrayList<User> getBlocked()
+
+	public ArrayList<String> getBlockedUIDs()
 	{
-		return blocked;
+		return blockedUIDs;
 	}
 
-	public void setBlocked(ArrayList<User> blocked)
+
+	public void setBlockedUIDs(ArrayList<String> blockedUIDs)
 	{
-		this.blocked = blocked;
-	}	
+		this.blockedUIDs = blockedUIDs;
+	}
+	
+	public void addBlockedUID(String UID)
+	{
+		this.blockedUIDs.add(UID);
+	}
+
+	
 }
