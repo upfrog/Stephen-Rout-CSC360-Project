@@ -1,5 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestClient;
@@ -16,17 +18,23 @@ class UserAndPostTest
 	@BeforeEach
 	void setUp() throws Exception
 	{
+		//Implicitly tests clearServer and configureServer
 		ServerHandler.INSTANCE.clearServer();
 		ServerHandler.INSTANCE.configureServer();
 		user1UID = new User("Individual").getUID();
 		user2UID = new User("Individual").getUID();
 		testUser1 = ServerHandler.INSTANCE.getUser(user1UID);
 		testUser2 = ServerHandler.INSTANCE.getUser(user2UID);
-
 	}
 	
-	
-	
+	@Test
+	void testGetAllUsers()
+	{
+		ArrayList<String>  userList = ServerHandler.INSTANCE.getAllUsers();
+		assertEquals(userList.size(), 2);
+		assertEquals(userList.contains(testUser1.getUID()), true);
+		assertEquals(userList.contains(testUser2.getUID()), true);
+	}
 	
 	@Test
 	void testGetPutDelete()
@@ -198,26 +206,7 @@ class UserAndPostTest
 		
 		assertEquals(ServerHandler.INSTANCE.getJobPost(user1Post1.getUID()).getUID(), user1Post1.getUID());
 	}
-	
-	
-	/*
-	@Test
-	void testComment()
-	{
-		user1Post1 = user1.createUserPost("I'm on Nexus!", false);
-		user1Comment1 = user1.createComment("Me too! Wanna network?", user1Post1);
-		
-		//Test the post and user containers.
-		assertEquals(user1Post1.getCommentUIDs().contains(user1Comment1), true);  
-		//assertEquals(user1.getLinkContainer().getList("Comments").contains(user1Comment1), true);
-		
-		//user1.removeComment(user1Comment1, user1Post1);
-		//assertEquals(user1.getLinkContainer().getList("Comments").contains(user1Comment1), false);
-		assertEquals(user1Post1.getCommentUIDs().contains(user1Comment1), false); 
-	}
-	*/
-	
-	
+
 	@Test
 	void testWorkExperience()
 	{
@@ -303,39 +292,5 @@ class UserAndPostTest
 		assertEquals(testUser3.getReccomendedJobUIDs().size(), 0);
 		testUser3.processJobRec(true);
 
-		
-
-		
-		//assertEquals(testUser1.getReccomender(), FollowerReccomender);
-		
-		//testUser1.reccomendJobPost(jp1, "Leadership");
-
 	}
-	
-	
-	@Test
-	void testJobReccomenderSkill()
-	{
-		JobPost jp1 = testUser1.createJobPost("Software Developer", "Write Code");
-		JobPost jp2 = testUser1.createJobPost("CEO", "Attend meetings");
-		
-		testUser2.followingToggle(testUser1);
-		User testUser3 = new User("Individual");
-	}
-	
-	
-/*
-	@Test
-	void testPushGetUser()
-	{	
-		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.getUser(user1.getUID()));
-		ServerHandler.INSTANCE.postUser(user1);
-		
-		assertEquals(ServerHandler.INSTANCE.getUser(user1.getUID()).getUID(), user1.getUID());
-		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.postUser(user1));
-	}
-
-	*/
-
-	
 }
