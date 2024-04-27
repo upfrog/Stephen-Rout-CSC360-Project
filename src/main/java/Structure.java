@@ -4,17 +4,14 @@ import java.util.UUID;
 /**
  * This is the top-level class which (almost) all other data classes inherit from.
  * 
- * It's key responsibilities are:
- * 	1) Tracking object creation time and date
- * 	2) Creating and tracking a unique ID for each object
- *  3) Filling each object's LinkContainer
+ * It had much more to do before I refactored the code to interface with the REST
+ * server. For now, it just handles creating Universally Unique IDs (which I
+ * abbreviate to UID) and the creation time for objects.
  */
 public abstract class Structure
 {
 	String UID;
-	//String[] linkTypes;
 	String creationDateTime;
-	//LinkContainer linkContainer;
 	
 
 	public Structure()
@@ -26,31 +23,6 @@ public abstract class Structure
 		
 	}
 	
-	/**
-	public LinkContainer getLinkContainer()
-	{
-		return this.linkContainer;
-	}
-	*/
-	
-	/**
-	 * All objects which inherit from Structure have a LinkContainer, and
-	 * an ArrayList called LinkTypes. This method adds each element of 
-	 * LinkTypes to the object's LinkContainer.
-	 */
-	
-	/*
-	public void populateLinkContainer()
-	{
-		for (String key : getLinkTypes())
-		{
-			linkContainer.addLinkList(key);
-		}
-	}
-	*/
-	
-
-	
 	public String getUID()
 	{
 		return this.UID;
@@ -60,14 +32,14 @@ public abstract class Structure
 	{
 		this.UID = UID;
 	}
-	
-
-
 
 	public String getCreationDateTime()
 	{
 		return this.creationDateTime;
-	}	
+	}
 	
-	abstract public String[] getLinkTypes();
+	public void setCreationDateTime(String creationDateTime)
+	{
+		this.creationDateTime = creationDateTime;
+	}
 }

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class Comment extends Post
 {
-	final String[] linkTypes = {"Creator", "Parent"};
 	
 	@JsonIgnore
 	int maxCommentLength = 15000;
@@ -20,8 +19,10 @@ public class Comment extends Post
 		parentPostUID = parentPost.getUID();
 		this.content = content;
 		
-		ServerHandler.INSTANCE.postComment(this);
+		ServerHandler.INSTANCE.postComment(this); //post the comment to the global list
 	}
+	
+	public Comment() {} //For Jackson compatibility
 	
 	/**
 	 * Checks that comment is neither too long nor too short
@@ -40,12 +41,7 @@ public class Comment extends Post
 		}
 	}
 
-	@Override
-	public String[] getLinkTypes()
-	{
-		return linkTypes;
-	}
-
+	
 	public String getCreatorUID()
 	{
 		return creatorUID;
@@ -79,5 +75,16 @@ public class Comment extends Post
 		}
 		ServerHandler.INSTANCE.putComment(this);
 	}
-	
+
+	/*
+	 * A pointless method to satisfy the requirements of inheritance.
+	 * 
+	 * It's bad to keep this, and I hope to excise it eventually.
+	 */
+	@Override
+	public Comment addComment(User creatorUser, String content)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}		
 }

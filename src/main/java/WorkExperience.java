@@ -1,4 +1,4 @@
-class WorkExperience
+public class WorkExperience
 {
 	private String startDate;
 	private String endDate;
@@ -13,7 +13,7 @@ class WorkExperience
 	 * @param 	jobTitle: 		the user's title at the job.
 	 * @param 	description: 	any additional information the user wishes to provide.
 	 */
-	protected WorkExperience(String startDate, String endDate, String companyName, String jobTitle,
+	public WorkExperience(String startDate, String endDate, String companyName, String jobTitle,
 			String description)
 	{
 		this.startDate = startDate;
@@ -23,8 +23,8 @@ class WorkExperience
 		this.description = description;
 	}
 
-	//All of these are plain, maximally boring setters and getters. 
-	
+	public WorkExperience() {}
+	//All of these are plain, auto-generated, maximally boring setters and getters. 
 	protected String getStartDate()
 	{
 		return startDate;

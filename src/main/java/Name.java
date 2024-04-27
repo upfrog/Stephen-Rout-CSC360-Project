@@ -1,6 +1,17 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
+ * To Dr. B:
+ * 
+ * There are a bunch of thins in this class which I would like to implement, but I ran out of time.
+ * Please ignore all the commented code.
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
  * Our naming system is deliberately light on validation, as naming validation can lead
  * to very unpleasant user experiences.
  * 
@@ -18,6 +29,11 @@ import java.util.ArrayList;
  */
 public class Name
 {
+	
+	
+	
+	
+	/**
 	ArrayList<String> nameComponents;
 	private static final int maxNameComponentLength = 150;
 	ArrayList<Boolean> prefferedNameComponents;
@@ -31,38 +47,66 @@ public class Name
 	 * 2) Refactor validateName so that it encapsulates most of this
 	 * 3) Allow multiple prefferedNameComponents, and let the user set different contexts for them.
 	 */
-	public Name(ArrayList<String> newNameComponents, ArrayList<Boolean> newPrefferedNameComponents)
+	/*
+	public Name(String[] newNameComponents, Boolean[] componentsToUse)
 	{
 		
 		for (String name : newNameComponents)
 		{
 			validateName(name);
 		}
-		if (newPrefferedNameComponents.size() == newNameComponents.size())
+		if (componentsToUse.length == newNameComponents.length)
 		{
-			nameComponents = new ArrayList<String>();
-			prefferedNameComponents = new ArrayList<Boolean>();
-			
-			nameComponents = newNameComponents;
-			prefferedNameComponents = newPrefferedNameComponents;
+			nameComponents = (ArrayList<String>) Arrays.asList(newNameComponents);
+			prefferedNameComponents = (ArrayList<Boolean>) Arrays.asList(componentsToUse);
 		}	
 		else
 		{
 			throw new IllegalArgumentException("Every part of the name must have it's \"Display?\" attribute set");
 		}
 	}
-	
+	*/
 	/*
 	 * This constructor is mostly for testing purposes, since it makes it easier to create a name.
 	 */
+	String name;
 	public Name(String name)
 	{
+		validateName(name);
+		this.name = name;
+		
+		/*
 		nameComponents = new ArrayList<String>();
 		prefferedNameComponents = new ArrayList<Boolean>();
 		
 		nameComponents.add(name);
 		prefferedNameComponents.add(true);
+		*/
 	}
+	
+	public void validateName(String name)
+	{
+		if (name.length() > 100)
+		{
+			throw new IllegalArgumentException("Name is too long");
+		}
+		else if (name.length() < 1)
+		{
+			throw new IllegalArgumentException("Name is too short");
+		}
+	}
+	
+	
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
 	
 
 	/*
@@ -74,6 +118,7 @@ public class Name
 	/*
 	 * Assembles a name based on the user's preferences.
 	 */
+	/*
 	public String getName()
 	{
 		String name = "";
@@ -84,10 +129,12 @@ public class Name
 		}
 		return name;
 	}
+	*/
 	
 	/*
 	 * Only checks for length
 	 */
+	/*
 	private void validateName(String name)
 	{
 		if (name.length() > maxNameComponentLength)
@@ -99,8 +146,9 @@ public class Name
 			throw new IllegalArgumentException("Sorry, that name " + name + "is too short for our system");
 		}
 	}
-
+*/
 	
+	/*
 	//Getters and setters - mandatory for Jackson
 	
 	public ArrayList<String> getNameComponents()
@@ -122,4 +170,6 @@ public class Name
 	{
 		this.prefferedNameComponents = prefferedNameComponents;
 	}
+	
+	*/
 }

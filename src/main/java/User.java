@@ -1,6 +1,5 @@
 /**
  * User represents all entities the have profile pages, including companies.
-
  * 
  * In the original design, we planned to have separate classes for companies
  * and individuals. However, as our design evolved the space between these
@@ -31,11 +30,13 @@ public class User extends Entity
 {
 	@JsonIgnore
 	private Name displayName;
-	//
+	
 	private String userType;
 	private String worksAt;
 	private ArrayList<WorkExperience> workHistory;
 	private boolean isPublic;
+	//socially responsible default value
+	JobReccomenderInterface reccomender = new FollowerReccomender(); 
 	
 	public User(String userType) 
 	{		
@@ -45,12 +46,13 @@ public class User extends Entity
 		isPublic = true;
 		workHistory = new ArrayList<WorkExperience>();
 		this.userType = userType; //Will determine how the profile page is formatted
-		this.editorList.add(this.getUID());
-		displayName = new Name("");
+		this.editorUIDs.add(this.getUID());
+		displayName = new Name("Default Name");
+		ServerHandler.INSTANCE.postUser(this);
 	}
 	
 	
-	public User() {}
+	public User() {} //Empty constructor for Jackson
 	
 	/**
 	 * Checks that the inputted userType is valid.
@@ -108,6 +110,12 @@ public class User extends Entity
 		return post;
 	}
 	
+	public void removeUserPost(UserPost userPost)
+	{
+		removeUserPostUID(userPost.getUID());
+		ServerHandler.INSTANCE.deleteUserPost(userPost.getUID());
+	}
+	
 	public JobPost createJobPost(String postTitle, String content)
 	{
 		JobPost jobPost = new JobPost(postTitle, content, this);
@@ -117,38 +125,91 @@ public class User extends Entity
 		return jobPost;
 	}
 	
-	/**
-	 * This class posts the new comment to the global comment list, 
-	 * while the parentPost's addComment() will add the new comment's UID
-	 * to the post's list of comments.
+	public void reccomendJobPost(JobPost jobPost,
+			String mostValuedSkill)
+	{
+		ArrayList<String> targetAudience = reccomender.getTargetAudience(followerUIDs, mostValuedSkill);
+		
+		for (String UID : targetAudience)
+		{
+			User targetUser = ServerHandler.INSTANCE.getUser(UID);
+			targetUser.addReccomendedJobUID(jobPost.getUID());
+			ServerHandler.INSTANCE.putUser(targetUser);
+		}
+	}
+	
+	public void removeJobPost(JobPost jobPost)
+	{
+		removeJobPostUID(jobPost.getUID());
+		ServerHandler.INSTANCE.deleteJobPost(jobPost.getUID());
+	}
+	
+	public void setReccomender(JobReccomenderInterface reccomender)
+	{
+		this.reccomender = reccomender;
+	}
+	
+	
+	public JobReccomenderInterface getReccomender()
+	{
+		return reccomender;
+	}
+	
+	
+	
+	/*
+	 * This is the only correct entry point for making a comment. 
 	 * 
-	 * @param 	commentBody: 	the text of the comment
-	 * @param 	parentPost: 	the Post this comment is replying to
+	 * User.createComment calls parentPost.addComment, which itself calls Comment.
+	 * 
+	 * Comment instantiates the new comment object, validates it, and adds it
+	 * to the global comment list.
+	 * 
+	 * addComent adds the comment to the parentPost's comment list
+	 * 
+	 * createComment adds the new comment to the user's comment list, and returns
+	 * the comment - just in case it's useful.
+	 * 
+	 * @param	commentBody: the text of the new comment
+	 * @param	parentPost: the post which the comment will be associated with.
+	 * 
 	 */
 	public Comment createComment(String commentBody, Post parentPost)
 	{
 		Comment comment = parentPost.addComment(this, commentBody);
-		ServerHandler.INSTANCE.postComment(comment);
+		addCommentUID(comment.getUID());
+		ServerHandler.INSTANCE.putUser(this);
 		return comment;
 	}
 	
+
+
+	/*
+	 * Removes comments from each of the three places they are stored:
+	 * 1) the parent post of the comment
+	 * 2) the global comment list
+	 * 3) the user who wrote the comment
+	 */
 	public void removeComment(Comment comment)
 	{
 		Post parentPost;
-		
-		//This is a hacky solution to the problem that comment's parentPost can be 
-		//a JobPost or a UserPost.
-		//Given the overhead of sendint a request, this hack makes me feel kind of 
-		//dirty
+		/*
+		 * Gets the parent post, and deletes the comment UID from it's list
+		 * 
+		 * This is a hacky solution to the fact that comment's parentPost can be 
+		 * a JobPost or a UserPost.
+		 */
 		try
 		{
 			parentPost = ServerHandler.INSTANCE.getUserPost(comment.getParentPostUID());
+			parentPost.removeCommentUID(comment.getUID());	
 		}
 		catch (Exception e)
 		{
 			try
 			{
 				parentPost = ServerHandler.INSTANCE.getJobPost(comment.getParentPostUID());
+				parentPost.removeCommentUID(comment.getUID());
 			}
 			catch (Exception c)
 			{
@@ -156,9 +217,9 @@ public class User extends Entity
 				throw c;
 			}
 		}
-		
-		parentPost.removeComment(comment.getUID());
-		//getLinkContainer().getList("Comments").remove(comment);
+		ServerHandler.INSTANCE.deleteComment(comment.getUID());
+		removeCommentUID(comment.getUID());
+		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	/**
@@ -166,27 +227,19 @@ public class User extends Entity
 	 */
 	public void likeUnlikePost(Post post)
 	{
-		/*
-		if (getLinkContainer().contains("Liked", post))
+		if (getLikedUIDs().contains(post.getUID()))
 		{
-			getLinkContainer().removeLink("Liked", post);
+			removeLikedUID(post.getUID());
 			post.increaseLikes(false);
 		}
 		else
 		{
-			getLinkContainer().addLink("Liked", post);
+			addLikedUID(post.getUID());
 			post.increaseLikes(true);
 		}
-		*/
+		ServerHandler.INSTANCE.putUser(this);
 	}
-	
-	
-	
-	@Override
-	public String[] getLinkTypes()
-	{
-		return null;
-	}
+
 	
 	public Name getDisplayName()
 	{
@@ -198,10 +251,6 @@ public class User extends Entity
 		this.displayName = displayName;
 	}
 	
-	public String generateNameAsString()
-	{
-		return this.displayName.getName();
-	}
 
 	public String getUserType()
 	{
@@ -257,6 +306,33 @@ public class User extends Entity
 		return job;
 	}
 	
+
+	/*
+	 * This method, in conjuncture with getReccomendedJobUID(), lets the
+	 * user see reccomended jobs, and per their preference, apply for them,
+	 * or dismiss them.
+	 * 
+	 * Due to my current lack of an interface, the method takes the user's
+	 * decision as a parameter - despite the fact that they haven't seen
+	 * the job post yet! This will be more sensible in the future, but for now,
+	 * the basic structure is in place.
+	 */
+	public void processJobRec(boolean applyForJob)
+	{
+		JobPost rec = getReccomendedJobUID();
+		if (rec == null)
+		{
+			System.out.println("There are no reccomended jobs");
+		}
+		
+		//Show the job - this will be for Sprint 3!
+		
+		if (applyForJob)
+		{
+			rec.addApplicant(this);
+		}
+		
+	}
 	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1
 	
 	@Override
@@ -279,9 +355,11 @@ public class User extends Entity
 	 * methods.
 	 * 
 	 * The getters and setters are necessary for Jackson. I have also added
-	 * a set of add*UID() methods. These are technically unnecessary, but a
-	 * bit of tedium here will prevent me from having to constantly perform
-	 * a get-modify-set sequence in the rest of my code. 
+	 * a set of add*UID() and remove*UID() methods. These are technically 
+	 * unnecessary, and I'm not really sure if they're beneficial; but there 
+	 * are a few cases where they are handy, and I wanted to commit to either
+	 * interacting with these lists directly, or through a helper method. I
+	 * didn't want to mix techniques.
 	 */
 	ArrayList<String> userPostUIDs = new ArrayList<String>();
 	ArrayList<String> likedUIDs = new ArrayList<String>();
@@ -291,9 +369,10 @@ public class User extends Entity
 	
 	ArrayList<String> commentUIDs = new ArrayList<String>();
 	
-	ArrayList<String> followerUIDs = new ArrayList<String>();
-	ArrayList<String> followingUIDs = new ArrayList<String>();
-	ArrayList<String> blockedUIDs = new ArrayList<String>();
+	ArrayList<String> skills = new ArrayList<String>();
+	ArrayList<String> reccomendedJobUIDs = new ArrayList<String>();
+
+	
 
 	public ArrayList<String> getUserPostUIDs()
 	{
@@ -312,10 +391,11 @@ public class User extends Entity
 		this.userPostUIDs.add(UID);
 	}
 
+	public void removeUserPostUID(String UID)
+	{
+		userPostUIDs.remove(UID);
+	}
 
-	/*
-	 * MAY REQUIRE SERVER INTEGRATION
-	 */
 	public ArrayList<String> getLikedUIDs()
 	{
 		return likedUIDs;
@@ -327,9 +407,14 @@ public class User extends Entity
 		this.likedUIDs = likedUIDs;
 	}
 	
-	public void addLikedUIDs(String UID)
+	public void addLikedUID(String UID)
 	{
 		this.likedUIDs.add(UID);
+	}
+	
+	public void removeLikedUID(String UID)
+	{
+		likedUIDs.remove(UID);
 	}
 
 
@@ -348,6 +433,11 @@ public class User extends Entity
 	public void addJobPostUID(String UID)
 	{
 		this.jobPostUIDs.add(UID);
+	}
+	
+	public void removeJobPostUID(String UID)
+	{
+		jobPostUIDs.remove(UID);
 	}
 
 
@@ -368,6 +458,10 @@ public class User extends Entity
 		this.jobsAppliedForUIDs.add(UID);
 	}
 
+	public void removeJobAppliedForUID(String UID)
+	{
+		jobsAppliedForUIDs.remove(UID);
+	}
 
 	public ArrayList<String> getCommentUIDs()
 	{
@@ -385,59 +479,62 @@ public class User extends Entity
 	{
 		this.commentUIDs.add(UID);
 	}
-
-
-	public ArrayList<String> getFollowerUIDs()
+	
+	public void removeCommentUID(String UID)
 	{
-		return followerUIDs;
+		commentUIDs.remove(UID);
 	}
 
 
-	public void setFollowerUIDs(ArrayList<String> followerUIDs)
+	public ArrayList<String> getSkills()
 	{
-		this.followerUIDs = followerUIDs;
+		return skills;
+	}
+
+	public void setSkills(ArrayList<String> skills)
+	{
+		this.skills = skills;
+	}
+
+	public void addSkill(String skill)
+	{
+		this.skills.add(skill);
 	}
 	
-	
-	public void addFollowerUID(String UID)
+	public boolean hasSkill(String skill)
 	{
-		this.followerUIDs.add(UID);
+		return skills.contains(skill);
 	}
 
 
-	public ArrayList<String> getFollowingUIDs()
+	public ArrayList<String> getReccomendedJobUIDs()
 	{
-		return followingUIDs;
+		return reccomendedJobUIDs;
 	}
 
 
-	public void setFollowingUIDs(ArrayList<String> followingUIDs)
+	public void setReccomendedJobUIDs(ArrayList<String> reccomendedJobUIDs)
 	{
-		this.followingUIDs = followingUIDs;
-	}
-	
-	
-	public void addFollowingUID(String UID)
-	{
-		this.followingUIDs.add(UID);
-	}
-
-
-	public ArrayList<String> getBlockedUIDs()
-	{
-		return blockedUIDs;
-	}
-
-
-	public void setBlockedUIDs(ArrayList<String> blockedUIDs)
-	{
-		this.blockedUIDs = blockedUIDs;
+		this.reccomendedJobUIDs = reccomendedJobUIDs;
 	}
 	
-	public void addBlockedUID(String UID)
+	public void addReccomendedJobUID(String UID)
 	{
-		this.blockedUIDs.add(UID);
+		this.reccomendedJobUIDs.add(UID);
 	}
-
+	
+	public JobPost getReccomendedJobUID()
+	{
+		if (reccomendedJobUIDs.size() > 0)
+		{
+			JobPost post = ServerHandler.INSTANCE.getJobPost(reccomendedJobUIDs.get(0));
+			reccomendedJobUIDs.remove(0);
+			return post;
+		}
+		else
+		{
+			return null;
+		}
+	}
 	
 }

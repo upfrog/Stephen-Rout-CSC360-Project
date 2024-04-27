@@ -5,40 +5,43 @@ import org.junit.jupiter.api.Test;
 
 class NameTest
 {
+	
 	Name name;
-	String tooLong;
 	
 	@BeforeEach
 	void setUp() throws Exception
 	{
-		name = new Name("Inigo", "Montoya");
+		name = new Name("Joe");
+		
+		/*
+		String[] nameList = {"Inigo", "Montoya", "Joe"};
+		Boolean[] useList = {true, true, false};
+		name = new Name(nameList, useList);
 		tooLong = new String(new char[350]).replace('\0', ' ');
-	}
-
-	@Test
-	void testGetFirstName()
-	{
-		assertEquals(name.getFirstName(), "Inigo");
-	}
-
-	@Test
-	void testGetLastName()
-	{
-		assertEquals(name.getLastName(), "Montoya");
+		
+		*/
 	}
 	
 	@Test
-	void testGetMiddleName()
+	void testName()
 	{
-		assertEquals(name.getMiddleName(), null);
+		assertEquals(name.getName(), "Joe");
+		
+		Exception a = assertThrows(IllegalArgumentException.class,
+				() -> new Name(""));
+		assertEquals(a.getMessage(), "Name is too short");
+		
+		int tooLong = 101;
+		String longString = new String(new char[tooLong]).replace('\0', ' ');
+		
+		Exception b = assertThrows(IllegalArgumentException.class, 
+				() -> new Name(longString));
+		assertEquals(b.getMessage(), "Name is too long");
 	}
 	
-	@Test
-	void testGetPreferredName()
-	{
-		assertEquals(name.getPreferredName(), null);
-	}
 	
+	
+	/*
 	@Test
 	void testSetFirstName()
 	{
@@ -93,5 +96,6 @@ class NameTest
 		name.setPreferredName("A Dashing Scoundrel");
 		assertEquals(name.getPreferredName(), "A Dashing Scoundrel");
 	}
+	*/
 
 }

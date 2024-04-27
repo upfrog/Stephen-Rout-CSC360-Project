@@ -4,7 +4,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 {
 	
 	String entityDescription;
-	ArrayList<String> editorList = new ArrayList<String>();
+
 	
 	public Entity()
 	{
@@ -24,6 +24,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 		{
 			this.entityDescription = description;
 		}
+		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	public String getDescription()
@@ -37,66 +38,194 @@ public abstract class Entity extends Structure implements Followable, Follower
 	}
 	
 	
-	public void followerChange(User user)
-	{
-		/*
-		if (getLinkContainer().contains("Following", user))
+	/*
+	 * Invoked when the calling user (this) wants to follow or unfollow
+	 * user (parameter). Also calls followerToggle, to tell the followed/
+	 * unfollowed user to add/remove this from their list of followers
+	 */
+	public void followingToggle(Entity user)
+	{	
+		if (getFollowingUIDs().contains(user.getUID()))
 		{
-			getLinkContainer().removeLink("Following", user);
+			removeFollowingUID(user.getUID());
+			user.followerToggle(this);
 		}
 		else
 		{
-			getLinkContainer().addLink("Following", user);
+			addFollowingUID(user.getUID());
+			user.followerToggle(this);
 		}
-		*/
-	}
-	
-	public ArrayList<String> getEditorList()
-	{
-		return editorList;
-	}
-	
-	public void setEditorList(ArrayList<String> editorList)
-	{
-		this.editorList = editorList;
-	}
-	
-	public boolean hasAsEditor(User editor)
-	{
-		return editorList.contains(editor);
 	}
 	
 	/*
-	 * NEED REFINING
+	 * Invoked when the calling user (this) wants to add or remove a
+	 * user (parameter) from their followerlist, and by extension,
+	 * unsubscribe user from receiving posts.
 	 */
-	public boolean hasAsEditor(String editorUID)
+	public void followerToggle(Entity user)
 	{
-		return editorList.contains(editorUID);
+		if (getFollowerUIDs().contains(user.getUID()))
+		{
+			removeFollowerUID(user.getUID());
+		}
+		else
+		{
+			addFollowerUID(user.getUID());
+		}
 	}
 	
-	public void toggleEditor(String editorUID)
+	
+	
+	ArrayList<String> followerUIDs = new ArrayList<String>();
+	ArrayList<String> followingUIDs = new ArrayList<String>();
+	
+	
+	
+	
+	/*
+	 * This is how I control who is and is not able to edit a page.
+	 */
+	ArrayList<String> editorUIDs = new ArrayList<String>();
+	
+	public ArrayList<String> getEditorUIDs()
 	{
-		if (editorList.contains(editorUID))
+		return editorUIDs;
+	}
+	
+	public void setEditorUID(ArrayList<String> editorList)
+	{
+		this.editorUIDs = editorList;
+	}
+	
+	/*
+	 * To be honest, I'm not entirely sure why I made editor methods
+	 * that take the editor UID, and ones that take the editor object.
+	 */
+	public boolean hasAsEditor(User user)
+	{
+		return hasAsEditor(user.getUID());
+	}
+	
+	public boolean hasAsEditor(String editorUID)
+	{
+		return getEditorUIDs().contains(editorUID);
+	}
+	
+	public void editorToggle(String editorUID)
+	{
+		if (editorUIDs.contains(editorUID))
 		{
-			if (editorList.size() <= 1)
+			if (editorUIDs.size() <= 1)
 			{ 
 				throw new IllegalArgumentException("A user cannot have less than 1 editor");
 			}
 			else
 			{
-				editorList.remove(editorUID);
+				editorUIDs.remove(editorUID);
 			}
 		}
 		else
 		{
-			editorList.add(editorUID);
+			editorUIDs.add(editorUID);
 		}
 	}
 	
-	public void toggleEditor(User editor)
+	public void editorToggle(User user)
 	{
-		toggleEditor(editor.getUID());
+		editorToggle(user.getUID());
 	}
 	
-	public void populateLinkContainer(LinkContainer linkContainer) {}
+	public ArrayList<String> getFollowingUIDs()
+	{
+		return followingUIDs;
+	}
+
+
+	public void setFollowingUIDs(ArrayList<String> followingUIDs)
+	{
+		this.followingUIDs = followingUIDs;
+	}
+	
+	
+	public void addFollowingUID(String UID)
+	{
+		this.followingUIDs.add(UID);
+		ServerHandler.INSTANCE.putUser(this);
+	}
+
+	public void removeFollowingUID(String UID)
+	{
+		followingUIDs.remove(UID);
+		ServerHandler.INSTANCE.putUser(this);
+	}
+	
+	
+	//Follow*er* methods
+	public ArrayList<String> getFollowerUIDs()
+	{
+		return followerUIDs;
+	}
+	
+	public void setFollowerUIDs(ArrayList<String> followerUIDs)
+	{
+		this.followerUIDs = followerUIDs;
+	}
+	
+	
+	public void addFollowerUID(String UID)
+	{
+		this.followerUIDs.add(UID);
+		ServerHandler.INSTANCE.putUser(this);
+	}
+	
+	public void removeFollowerUID(String UID)
+	{
+		this.followerUIDs.remove(UID);
+		ServerHandler.INSTANCE.putUser(this);
+
+	}
+	
+	/*
+	 * This is how I handle view permissions. It's a blacklist,
+	 * so only users blocked by a given user are restricted from
+	 * viewing their posts.
+	 */
+	ArrayList<String> blockedUIDs = new ArrayList<String>();
+	
+	public boolean hasBlocked(User user)
+	{
+		return getBlockedUIDs().contains(user.getUID());
+	}
+	
+	public void blockedToggle(User user)
+	{
+		if (getBlockedUIDs().contains(user.getUID()))
+		{
+			removeBlockedUID(user.getUID());
+		}
+		else
+		{
+			addBlockedUID(user.getUID());
+		}
+	}
+	
+	public ArrayList<String> getBlockedUIDs()
+	{
+		return blockedUIDs;
+	}
+
+	public void setBlockedUIDs(ArrayList<String> blockedUIDs)
+	{
+		this.blockedUIDs = blockedUIDs;
+	}
+	
+	public void addBlockedUID(String UID)
+	{
+		this.blockedUIDs.add(UID);
+	}
+	
+	public void removeBlockedUID(String UID)
+	{
+		this.blockedUIDs.remove(UID);
+	}
 }

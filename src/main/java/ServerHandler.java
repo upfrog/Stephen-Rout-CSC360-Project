@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 import org.springframework.web.client.RestClient;
@@ -5,7 +6,7 @@ import org.springframework.web.client.RestClient;
 
 /*
  * This class feels very inefficient. I would like to condense the various post and get methods, as 
- * they have a great deal of re-used code, but that will involve a fair bit of extra effort.
+ * they have a great deal of re-used code.
  */
 
 public enum ServerHandler
@@ -15,28 +16,18 @@ public enum ServerHandler
 	private RestClient client = RestClient.create();
 	private static String base = "http://localhost:9000/v1/StephenRout";
 	private static String[] classList = {"Users","UserPosts", "Comments", "JobPosts", "WorkExperiences"};
-	
 
-
-		
-		/*	
-	public record PostRecord(String content, int likes, ArrayList<Comment> comments, 
-			boolean isPublic, User creator) {};*/
 	
 	public RestClient getClient()
 	{
 		return this.client;
 	}
 	
-	
-	public record PutResponse(String request,
+	public record PutDeleteResponse(String request,
 			boolean successful,
 			String message,
 			String data) {};
-	
-	
-	
-	
+
 	public record CommentResponse(String request,
 			boolean successful,
 			String message,
@@ -49,37 +40,35 @@ public enum ServerHandler
 	 */
 	public void postComment(Comment comment)
 	{
-		String location = base + "/Comment/" + comment.getUID();
-		
+		String location = base + "/Comments/" + comment.getUID();
 		try
 		{
 			//Post the comment the global comment list
-			CommentResponse response = INSTANCE.client.post()
+			System.out.println("Post comment: " + INSTANCE.client.post()
 					.uri(location)
 					.body(comment)
 					.retrieve()
-					.body(CommentResponse.class);
-			
-			Post post = client.get()
-					.uri(null)
+					.body(String.class));
 		}
 		catch (Exception e)
-		{
+		{	
 			throw e;
 		}
 	}
 	
 	public void putComment(Comment comment)
 	{
-		String location = base + "/JobPosts/" + comment.getUID();
+		String location = base + "/Comments/" + comment.getUID();
+		PutDeleteResponse response = null;
 		
 		try
 		{
-			PutResponse response = INSTANCE.client.put()
+			response = INSTANCE.client.put()
 					.uri(location)
 					.body(comment)
 					.retrieve()
-					.body(PutResponse.class);
+					.body(PutDeleteResponse.class);
+
 		}
 		catch (Exception e)
 		{
@@ -87,9 +76,9 @@ public enum ServerHandler
 		}
 	}
 	
-	public Comment getCommnent(String UID)
+	public Comment getComment(String UID)
 	{
-		String location = base + "/Comment/" + UID;
+		String location = base + "/Comments/" + UID;
 		CommentResponse response = null;
 		try
 		{
@@ -97,12 +86,32 @@ public enum ServerHandler
 					.uri(location)
 					.retrieve()
 					.body(CommentResponse.class);
+			
 		} 
 		catch (Exception e) 
 		{
 			throw e;
 		}
 		return response.data();
+	}
+	
+	
+	public PutDeleteResponse deleteComment(String UID)
+	{
+		String location = base + "/Comments/" + UID;
+		PutDeleteResponse response = null;
+		try
+		{
+			response = client.delete()
+					.uri(location)
+					.retrieve()
+					.body(PutDeleteResponse.class);
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response;
 	}
 	
 	
@@ -116,22 +125,15 @@ public enum ServerHandler
 	public void postUserPost(UserPost userPost)
 	{
 		String location = base + "/UserPosts/" + userPost.getUID();
-		
+		UserPostResponse response = null;
 		try
 		{
 			//push the post to the global UserPost list
-			UserPostResponse response = INSTANCE.client.post()
+			 response = INSTANCE.client.post()
 					.uri(location)
 					.body(userPost)
 					.retrieve()
 					.body(UserPostResponse.class);
-			
-			//push the post to the creator's post list
-			User postingUser = client.get()
-					.uri(location)
-					.retrieve()
-					.body(User.class);
-			//postingUser.add
 		}
 		catch (Exception e)
 		{
@@ -141,15 +143,15 @@ public enum ServerHandler
 	
 	public void putUserPost(UserPost userPost)
 	{
-		String location = base + "/JobPosts/" + userPost.getUID();
-		
+		String location = base + "/UserPosts/" + userPost.getUID();
+		PutDeleteResponse response = null;
 		try
 		{
-			PutResponse response = INSTANCE.client.put()
+			response = INSTANCE.client.put()
 					.uri(location)
 					.body(userPost)
 					.retrieve()
-					.body(PutResponse.class);
+					.body(PutDeleteResponse.class);
 		}
 		catch (Exception e)
 		{
@@ -167,12 +169,34 @@ public enum ServerHandler
 					.uri(location)
 					.retrieve()
 					.body(UserPostResponse.class);
+			System.out.println(client.get()
+					.uri(location)
+					.retrieve()
+					.body(UserPostResponse.class));
 		} 
 		catch (Exception e) 
 		{
 			throw e;
 		}
 		return response.data();
+	}
+	
+	public PutDeleteResponse deleteUserPost(String UID)
+	{
+		String location = base + "/UserPosts/" + UID;
+		PutDeleteResponse response = null;
+		try
+		{
+			response = client.delete()
+					.uri(location)
+					.retrieve()
+					.body(PutDeleteResponse.class);
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response;
 	}
 	
 	
@@ -186,10 +210,10 @@ public enum ServerHandler
 	public void postJobPost(JobPost jobPost)
 	{
 		String location = base + "/JobPosts/" + jobPost.getUID();
-		
+		JobPostResponse response = null;
 		try
 		{
-			JobPostResponse response = INSTANCE.client.post()
+			response = INSTANCE.client.post()
 					.uri(location)
 					.body(jobPost)
 					.retrieve()
@@ -204,14 +228,14 @@ public enum ServerHandler
 	public void putJobPost(JobPost jobPost)
 	{
 		String location = base + "/JobPosts/" + jobPost.getUID();
-		
+		PutDeleteResponse response = null;
 		try
 		{
-			PutResponse response = INSTANCE.client.put()
+			response = INSTANCE.client.put()
 					.uri(location)
 					.body(jobPost)
 					.retrieve()
-					.body(PutResponse.class);
+					.body(PutDeleteResponse.class);
 		}
 		catch (Exception e)
 		{
@@ -232,19 +256,29 @@ public enum ServerHandler
 		} 
 		catch (Exception e) 
 		{
+			//System.out.println(response.toString());
 			throw e;
 		}
 		return response.data();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	public PutDeleteResponse deleteJobPost(String UID)
+	{
+		String location = base + "/JobPosts/" + UID;
+		PutDeleteResponse response = null;
+		try
+		{
+			response = client.delete()
+					.uri(location)
+					.retrieve()
+					.body(PutDeleteResponse.class);
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response;
+	}
 	
 	public record UserResponse(String request,
 			boolean successful,
@@ -254,9 +288,10 @@ public enum ServerHandler
 	public void postUser(User user)
 	{
 		String location = base + "/Users/" + user.getUID();
+		UserResponse response = null;
 		try
 		{
-			UserResponse response = INSTANCE.client.post()
+			response = INSTANCE.client.post()
 					.uri(location)
 					.body(user)
 					.retrieve()
@@ -266,27 +301,21 @@ public enum ServerHandler
 		{
 			throw e;
 		}
+		
 	}
 	
-	public void putUser(User user)
+	public void putUser(Entity user)
 	{
 		String location = base + "/Users/" + user.getUID();
+		PutDeleteResponse response = null;
 		try
 		{
 			
-			PutResponse response = INSTANCE.client.put()
+			response = INSTANCE.client.put()
 					.uri(location)
 					.body(user)
 					.retrieve()
-					.body(PutResponse.class);
-					
-			/*
-			System.out.println(INSTANCE.client.put()
-					.uri(location)
-					.body(user)
-					.retrieve()
-					.body(String.class));
-					*/
+					.body(PutDeleteResponse.class);
 		}
 		catch (Exception e)
 		{
@@ -297,19 +326,72 @@ public enum ServerHandler
 	public User getUser(String UID)
 	{
 		String location = base + "/Users/" + UID;
-		UserResponse response = null;
+		UserResponse response;
 		try
 		{
+			System.out.println("UID: " + UID);
 			response = client.get()
 					.uri(location)
 					.retrieve()
 					.body(UserResponse.class);
+			return response.data();
 		} 
 		catch (Exception e) 
 		{
 			throw e;
 		}
-		return response.data();
+	}
+	
+	public record UserDesc(String name) {};
+	
+	public record AllUsersResponse(String request,
+			boolean successful,
+			String message,
+			ArrayList<UserDesc>  data) {};	
+			
+	public ArrayList<String> getAllUsers()
+	{
+		String location = base + "/Users";
+		AllUsersResponse response = null;
+		try
+		{
+			response = client.get()
+					.uri(location)
+					.retrieve()
+					.body(AllUsersResponse.class);			
+		}
+		catch (Exception e)
+		{
+			throw e;
+		}
+		
+		ArrayList<String> descList = new ArrayList<String>();
+		for (UserDesc val: response.data())
+		{
+			descList.add(val.name);
+		}
+		return descList;
+	}
+	
+	public PutDeleteResponse deleteUser(String UID)
+	{
+		String location = base + "/Users/" + UID;
+		PutDeleteResponse response = null;
+		try
+		{
+			
+			response = client.delete()
+					.uri(location)
+					.retrieve()
+					.body(PutDeleteResponse.class);
+					
+
+		} 
+		catch (Exception e) 
+		{
+			throw e;
+		}
+		return response;
 	}
 	
 
@@ -322,16 +404,15 @@ public enum ServerHandler
 	
 	public void configureServer()
 	{
+		DescResponse response = null;
 		try
 		{
-			System.out.println("Made it into test post");
-			//I'm not currently using these Strings, but they'll make debugging easier
-			String teamResponse = 
+			response = 
 				client.post()
 				.uri("http://localhost:9000/v1/StephenRout")
 				.body(new Desc("StephenRout", "Stephen Rout's project: Nexus", ""))
 				.retrieve()
-				.body(String.class);
+				.body(DescResponse.class);
 		}
 		catch (Exception e) 
 		{
@@ -342,13 +423,14 @@ public enum ServerHandler
 		{
 			try
 			{
-				String response = 
+				response = 
 					client.post()
 					.uri(base + "/" + className)
 					.body(new Desc(className, className + " objects", ""))
 					.retrieve()
-					.body(String.class);
-			} catch (Exception e)
+					.body(DescResponse.class);
+			} 
+			catch (Exception e)
 			{
 				throw e;
 			}
@@ -357,9 +439,10 @@ public enum ServerHandler
 	
 	public void clearServer()
 	{
+		String response = null;
 		try
 		{
-			String response = 
+			response = 
 				client.delete()
 				.uri(base)
 				.retrieve()
@@ -373,10 +456,35 @@ public enum ServerHandler
 	
 	public static void main(String[] args)
 	{
+		
+		ServerHandler.INSTANCE.clearServer();
+		ServerHandler.INSTANCE.configureServer();
+		new User("Individual");
+		new User("Individual");
+		new User("Individual");
+		new User("Individual");
+		new User("Individual");
+		new User("Individual");
+		ServerHandler.INSTANCE.getAllUsers();
+		
+		
+		
+		
+		
+		/*
+		String user1UID = new User("Individual").getUID();
+		String user2UID = new User("Individual").getUID();
+		
+		User user1 = ServerHandler.INSTANCE.getUser(user1UID);
+		System.out.println("Local copy:" + user1UID + "   Remote copy: " + user1.getUID());
+		User user2 = ServerHandler.INSTANCE.getUser(user2UID);
+		System.out.println(user1.getFollowingUIDs().contains(user2UID));
+		System.out.println(user2.getFollowerUIDs().contains(user1UID));
+		*/
 		/*
 		INSTANCE.configureServer();
 		//INSTANCE.clearServer();
-		*/
+		
 		User user1 = new User("Individual");
 		user1.setDisplayName(new Name("Zim Mer"));
 		System.out.println("The local user's UID is: " + user1.getUID());
@@ -387,9 +495,12 @@ public enum ServerHandler
 		
 		user2.setDisplayName(new Name("Jeacowitz"));
 		INSTANCE.putUser(user2);
-		
+		*/
 		
 		/*
+		System.out.println(INSTANCE.deleteUser("1a9fda1c-01f8-4609-9fae-d5b269b28c8e").toString());
+		
+		
 		UserResponse user = INSTANCE.client.delete()
 				.uri("http://localhost:9000/v1/StephenRout/Users/" + user1.getUID())
 				.retrieve()
