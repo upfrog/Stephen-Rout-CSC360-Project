@@ -44,11 +44,11 @@ public enum ServerHandler
 		try
 		{
 			//Post the comment the global comment list
-			System.out.println("Post comment: " + INSTANCE.client.post()
+			INSTANCE.client.post()
 					.uri(location)
 					.body(comment)
 					.retrieve()
-					.body(String.class));
+					.body(String.class);
 		}
 		catch (Exception e)
 		{	
@@ -329,7 +329,6 @@ public enum ServerHandler
 		UserResponse response;
 		try
 		{
-			System.out.println("UID: " + UID);
 			response = client.get()
 					.uri(location)
 					.retrieve()

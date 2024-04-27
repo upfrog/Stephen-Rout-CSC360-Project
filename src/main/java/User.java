@@ -36,6 +36,7 @@ public class User extends Entity
 	private ArrayList<WorkExperience> workHistory;
 	private boolean isPublic;
 	//socially responsible default value
+	@JsonIgnore
 	JobReccomenderInterface reccomender = new FollowerReccomender(); 
 	
 	public User(String userType) 
@@ -323,14 +324,16 @@ public class User extends Entity
 		if (rec == null)
 		{
 			System.out.println("There are no reccomended jobs");
+			
 		}
-		
-		//Show the job - this will be for Sprint 3!
-		
-		if (applyForJob)
+		else if (applyForJob)
 		{
 			rec.addApplicant(this);
+			ServerHandler.INSTANCE.putJobPost(rec);
 		}
+		//Show the job - this will be for Sprint 3!
+		
+
 		
 	}
 	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1

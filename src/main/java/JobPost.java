@@ -35,7 +35,7 @@ public class JobPost extends Post
 		{
 			throw new IllegalArgumentException("Post title is too long");
 		}
-		else if (postTitle.length() < 5)
+		else if (postTitle.length() < 2)
 		{
 			throw new IllegalArgumentException("Post title is too short");
 		}
