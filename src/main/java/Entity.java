@@ -4,6 +4,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 {
 	String entityDescription;
 	ArrayList<User> editorList = new ArrayList<User>();
+	ArrayList<User> blockList = new ArrayList<User>();
 	
 	public Entity()
 	{
@@ -40,6 +41,9 @@ public abstract class Entity extends Structure implements Followable, Follower
 		}
 	}
 	
+	/*
+	 * This is how edit privileges are controlled.
+	 */
 	public boolean hasAsEditor(User editor)
 	{
 		return editorList.contains(editor);
@@ -62,6 +66,45 @@ public abstract class Entity extends Structure implements Followable, Follower
 		{
 			editorList.add(editor);
 		}
+	}
+	
+	/*
+	 * This is how I handle view permissions. It's a blacklist,
+	 * so only users blocked by a given user are restricted from
+	 * viewing their posts.
+	 */
+	ArrayList<String> blockedUIDs = new ArrayList<String>();
+	
+	public boolean hasBlocked(User user)
+	{
+		return getBlockedUsers().contains(user);
+	}
+	
+	public void blockedToggle(User user)
+	{
+		if (getBlockedUsers().contains(user))
+		{
+			removeBlockedUser(user);
+		}
+		else
+		{
+			addBlockedUser(user);
+		}
+	}
+	
+	public ArrayList<User> getBlockedUsers()
+	{
+		return blockList;
+	}
+	
+	public void addBlockedUser(User user)
+	{
+		this.blockList.add(user);
+	}
+	
+	public void removeBlockedUser(User user)
+	{
+		this.blockList.remove(user);
 	}
 	
 	public void populateLinkContainer(LinkContainer linkContainer) {}

@@ -127,15 +127,19 @@ class UserAndPostTest
 	@Test
 	void testWorkExperience()
 	{
-		//WorkExperience job = new WorkExperience("1/15/2021", "3/03/2024", "Amazon", "SDE3", "Wrote some code and stuff");
 		WorkExperience job = user1.addWorkExperience("1/15/2021", "3/03/2024", "Amazon", "SDE3", "Wrote some code and stuff");
 		assertEquals(user1.getWorkHistory().contains(job), true);
 		user1.removeWorkExperience(job);
 		assertEquals(user1.getWorkHistory().contains(job), false);
 	}
 	
-
-
-
-	
+	@Test
+	void testBlock()
+	{
+		assertEquals(user1.hasBlocked(user2), false);
+		user1.blockedToggle(user2);
+		assertEquals(user1.hasBlocked(user2), true);
+		user1.blockedToggle(user2);
+		assertEquals(user1.hasBlocked(user2), false);
+	}
 }
