@@ -114,6 +114,46 @@ public enum ServerHandler
 		return response;
 	}
 	
+	public record AllCommentsResponse(String request,
+			boolean successful,
+			String message,
+			ArrayList<CommentDesc>  data) {};
+			
+	private ArrayList<String> getAllCommentUIDs()
+	{
+			
+				
+		public ArrayList<String> getAllUsers()
+		{
+			String location = base + "/Users";
+			AllUsersResponse response = null;
+			try
+			{
+				response = client.get()
+						.uri(location)
+						.retrieve()
+						.body(AllUsersResponse.class);			
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+			
+			ArrayList<String> descList = new ArrayList<String>();
+			for (UserDesc val: response.data())
+			{
+				descList.add(val.name);
+			}
+			return descList;
+		}
+	}
+	
+	
+	public ArrayList<Comment> getAllComments()
+	{
+		
+	}
+	
 	
 	
 	
@@ -347,8 +387,8 @@ public enum ServerHandler
 			boolean successful,
 			String message,
 			ArrayList<UserDesc>  data) {};	
-			
-	public ArrayList<String> getAllUsers()
+	
+	private AllUsersResponse getAllUserUIDs()
 	{
 		String location = base + "/Users";
 		AllUsersResponse response = null;
@@ -364,12 +404,22 @@ public enum ServerHandler
 			throw e;
 		}
 		
-		ArrayList<String> descList = new ArrayList<String>();
+		return response;
+	}
+			
+	/*
+	 * Public-facing API to get all user objects currently stored in the server.	
+	 */
+	public ArrayList<User> getAllUsers()
+	{
+		AllUsersResponse response = getAllUserUIDs();
+		ArrayList<User> userList = new ArrayList<User>();
+		
 		for (UserDesc val: response.data())
 		{
-			descList.add(val.name);
+			userList.add(getUser(val.name()));
 		}
-		return descList;
+		return userList;
 	}
 	
 	public PutDeleteResponse deleteUser(String UID)
