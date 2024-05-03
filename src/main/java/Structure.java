@@ -1,5 +1,9 @@
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * This is the top-level class which (almost) all other data classes inherit from.
@@ -11,6 +15,9 @@ import java.util.UUID;
 public abstract class Structure
 {
 	String UID;
+	@JsonIgnore
+	List<String> linkTypes;
+	LinkContainer lc; //linkContainer - abbreviated due to the frequency with which it occurs
 	String creationDateTime;
 	
 
@@ -18,7 +25,7 @@ public abstract class Structure
 	{
 		this.UID = UUID.randomUUID().toString();
 		this.creationDateTime = LocalDateTime.now().toString();
-		//this.linkContainer = new LinkContainer();
+		this.lc = new LinkContainer();
 		
 		
 	}
@@ -32,6 +39,17 @@ public abstract class Structure
 	{
 		this.UID = UID;
 	}
+	
+
+	public LinkContainer getLC()
+	{
+		return lc;
+	}
+
+	public void setLc(LinkContainer lc)
+	{
+		this.lc = lc;
+	}
 
 	public String getCreationDateTime()
 	{
@@ -42,4 +60,29 @@ public abstract class Structure
 	{
 		this.creationDateTime = creationDateTime;
 	}
+	
+	
+	public LinkContainer getLinkContainer()
+	{
+		return this.lc;
+	}
+	
+	/**
+	 * All objects which inherit from Structure have a LinkContainer, and
+	 * an ArrayList called LinkTypes. This method adds each element of the  
+	 * subclass's linkTypes to the object's LinkContainer.
+	 */
+	public void populateLinkContainer()
+	{
+		for (String key : getLinkTypes())
+		{
+			lc.addLinkList(key);
+		}
+	}
+	
+	
+	abstract public List<String> getLinkTypes();
+
+
+	
 }

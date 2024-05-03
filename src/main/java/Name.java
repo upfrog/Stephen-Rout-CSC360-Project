@@ -1,10 +1,10 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.ArrayList;
+//import java.util.Arrays;
 
 /**
  * To Dr. B:
  * 
- * There are a bunch of thins in this class which I would like to implement, but I ran out of time.
+ * There are a bunch of things in this class which I would like to implement, but I ran out of time.
  * Please ignore all the commented code.
  * 
  * 

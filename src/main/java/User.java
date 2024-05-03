@@ -23,6 +23,9 @@
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -30,10 +33,12 @@ public class User extends Entity
 {
 	@JsonIgnore
 	private Name displayName;
-	
+	private List<String> linkTypes = new ArrayList<String>(Arrays.asList("UserPosts", "JobPosts", 
+			"Comments", "Blocked", "LikedPosts", "JobsAppliedFor", "Skills", 
+			"ReccomendedJobs"));
 	private String userType;
 	private String worksAt;
-	private ArrayList<WorkExperience> workHistory;
+	private List<WorkExperience> workHistory;
 	private boolean isPublic;
 	//socially responsible default value
 	@JsonIgnore
@@ -105,7 +110,7 @@ public class User extends Entity
 	public UserPost createUserPost(String content, boolean isPublic)
 	{
 		UserPost post = new UserPost(content, isPublic, this);
-		this.addUserPostUID(post.getUID());
+		getLC().addLink("UserPost", post.getUID());
 		ServerHandler.INSTANCE.postUserPost(post);
 		ServerHandler.INSTANCE.putUser(this);
 		return post;
@@ -113,19 +118,22 @@ public class User extends Entity
 	
 	public void removeUserPost(UserPost userPost)
 	{
-		removeUserPostUID(userPost.getUID());
+		getLC().removeLink("UserPosts", userPost.getUID());
 		ServerHandler.INSTANCE.deleteUserPost(userPost.getUID());
+		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	public JobPost createJobPost(String postTitle, String content)
 	{
 		JobPost jobPost = new JobPost(postTitle, content, this);
-		this.addJobPostUID(jobPost.getUID());
+		getLC().addLink("JobPost", jobPost.getUID());
+
 		ServerHandler.INSTANCE.postJobPost(jobPost);
 		ServerHandler.INSTANCE.putUser(this);
 		return jobPost;
 	}
 	
+	/*
 	public void reccomendJobPost(JobPost jobPost,
 			String mostValuedSkill)
 	{
@@ -138,11 +146,13 @@ public class User extends Entity
 			ServerHandler.INSTANCE.putUser(targetUser);
 		}
 	}
+	*/
 	
 	public void removeJobPost(JobPost jobPost)
 	{
-		removeJobPostUID(jobPost.getUID());
+		getLC().removeLink("JobPosts", jobPost.getUID());
 		ServerHandler.INSTANCE.deleteJobPost(jobPost.getUID());
+		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	public void setReccomender(JobReccomenderInterface reccomender)
@@ -178,11 +188,23 @@ public class User extends Entity
 	public Comment createComment(String commentBody, Post parentPost)
 	{
 		Comment comment = parentPost.addComment(this, commentBody);
-		addCommentUID(comment.getUID());
+		getLC().addLink("Comments", comment.getUID());
 		ServerHandler.INSTANCE.putUser(this);
 		return comment;
 	}
 	
+	
+	/*
+	 * This method handles modifying the user's LinkContainer and syncing the results,
+	 * while the JobPost's addApplicant() method will update the JobPost's LinkContainer
+	 * with the new applicant and sync it to the server.
+	 */
+	public void applyForJobPost(JobPost jobPost)
+	{
+		jobPost.addApplicant(this);
+		getLC().addLink("JobsAppliedFor", jobPost.getUID());
+		ServerHandler.INSTANCE.putUser(this);
+	}
 
 
 	/*
@@ -203,14 +225,14 @@ public class User extends Entity
 		try
 		{
 			parentPost = ServerHandler.INSTANCE.getUserPost(comment.getParentPostUID());
-			parentPost.removeCommentUID(comment.getUID());	
+			parentPost.getLC().removeLink("Comments", comment.getUID());	
 		}
 		catch (Exception e)
 		{
 			try
 			{
 				parentPost = ServerHandler.INSTANCE.getJobPost(comment.getParentPostUID());
-				parentPost.removeCommentUID(comment.getUID());
+				parentPost.getLC().removeLink("Comments", comment.getUID());	
 			}
 			catch (Exception c)
 			{
@@ -219,23 +241,28 @@ public class User extends Entity
 			}
 		}
 		ServerHandler.INSTANCE.deleteComment(comment.getUID());
-		removeCommentUID(comment.getUID());
+		getLC().removeLink("Comments", comment.getUID());
 		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	/**
+	 * This method handles the updating the User's LinkContainer to reflect
+	 * the like action, and then updating the user's data on the Server. The post's increaseLikes()
+	 * method handles updating the post's data on the server.
+	 * 
 	 * @param 	post: the Post to be liked
+	 * 
 	 */
 	public void likeUnlikePost(Post post)
 	{
-		if (getLikedUIDs().contains(post.getUID()))
+		if (getLC().getList("LikedPosts").contains(post.getUID()))
 		{
-			removeLikedUID(post.getUID());
+			getLC().removeLink("LikedPosts", post.getUID());
 			post.increaseLikes(false);
 		}
 		else
 		{
-			addLikedUID(post.getUID());
+			getLC().addLink("LikedPosts", post.getUID());
 			post.increaseLikes(true);
 		}
 		ServerHandler.INSTANCE.putUser(this);
@@ -273,7 +300,7 @@ public class User extends Entity
 		this.worksAt = worksAt;
 	}
 
-	public ArrayList<WorkExperience> getWorkHistory()
+	public List<WorkExperience> getWorkHistory()
 	{
 		return workHistory;
 	}
@@ -318,7 +345,7 @@ public class User extends Entity
 	 * the job post yet! This will be more sensible in the future, but for now,
 	 * the basic structure is in place.
 	 */
-	public void processJobRec(boolean applyForJob)
+	/*public void processJobRec(boolean applyForJob)
 	{
 		JobPost rec = getReccomendedJobUID();
 		if (rec == null)
@@ -336,6 +363,7 @@ public class User extends Entity
 
 		
 	}
+	*/
 	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1
 	
 	@Override
@@ -352,179 +380,8 @@ public class User extends Entity
 		
 	}
 	
-	
+
 	/*
-	 * Mass declaration for the user's lists of links, and their associated 
-	 * methods.
-	 * 
-	 * The getters and setters are necessary for Jackson. I have also added
-	 * a set of add*UID() and remove*UID() methods. These are technically 
-	 * unnecessary, and I'm not really sure if they're beneficial; but there 
-	 * are a few cases where they are handy, and I wanted to commit to either
-	 * interacting with these lists directly, or through a helper method. I
-	 * didn't want to mix techniques.
-	 */
-	ArrayList<String> userPostUIDs = new ArrayList<String>();
-	ArrayList<String> likedUIDs = new ArrayList<String>();
-	
-	ArrayList<String> jobPostUIDs = new ArrayList<String>();
-	ArrayList<String> jobsAppliedForUIDs= new ArrayList<String>();
-	
-	ArrayList<String> commentUIDs = new ArrayList<String>();
-	
-	ArrayList<String> skills = new ArrayList<String>();
-	ArrayList<String> reccomendedJobUIDs = new ArrayList<String>();
-
-	
-
-	public ArrayList<String> getUserPostUIDs()
-	{
-		return userPostUIDs;
-	}
-
-
-	public void setUserPostUIDs(ArrayList<String> userPostUIDs)
-	{
-		this.userPostUIDs = userPostUIDs;
-	}
-	
-	
-	public void addUserPostUID(String UID)
-	{
-		this.userPostUIDs.add(UID);
-	}
-
-	public void removeUserPostUID(String UID)
-	{
-		userPostUIDs.remove(UID);
-	}
-
-	public ArrayList<String> getLikedUIDs()
-	{
-		return likedUIDs;
-	}
-
-
-	public void setLikedUIDs(ArrayList<String> likedUIDs)
-	{
-		this.likedUIDs = likedUIDs;
-	}
-	
-	public void addLikedUID(String UID)
-	{
-		this.likedUIDs.add(UID);
-	}
-	
-	public void removeLikedUID(String UID)
-	{
-		likedUIDs.remove(UID);
-	}
-
-
-	public ArrayList<String> getJobPostUIDs()
-	{
-		return jobPostUIDs;
-	}
-
-
-	public void setJobPostUIDs(ArrayList<String> jobPostUIDs)
-	{
-		this.jobPostUIDs = jobPostUIDs;
-	}
-	
-	
-	public void addJobPostUID(String UID)
-	{
-		this.jobPostUIDs.add(UID);
-	}
-	
-	public void removeJobPostUID(String UID)
-	{
-		jobPostUIDs.remove(UID);
-	}
-
-
-	public ArrayList<String> getJobsAppliedForUIDs()
-	{
-		return jobsAppliedForUIDs;
-	}
-
-
-	public void setJobsAppliedForUIDs(ArrayList<String> jobsAppliedForUIDs)
-	{
-		this.jobsAppliedForUIDs = jobsAppliedForUIDs;
-	}
-	
-	
-	public void addJobAppliedForUID(String UID)
-	{
-		this.jobsAppliedForUIDs.add(UID);
-	}
-
-	public void removeJobAppliedForUID(String UID)
-	{
-		jobsAppliedForUIDs.remove(UID);
-	}
-
-	public ArrayList<String> getCommentUIDs()
-	{
-		return commentUIDs;
-	}
-
-
-	public void setCommentUIDs(ArrayList<String> commentUIDs)
-	{
-		this.commentUIDs = commentUIDs;
-	}
-	
-	
-	public void addCommentUID(String UID)
-	{
-		this.commentUIDs.add(UID);
-	}
-	
-	public void removeCommentUID(String UID)
-	{
-		commentUIDs.remove(UID);
-	}
-
-
-	public ArrayList<String> getSkills()
-	{
-		return skills;
-	}
-
-	public void setSkills(ArrayList<String> skills)
-	{
-		this.skills = skills;
-	}
-
-	public void addSkill(String skill)
-	{
-		this.skills.add(skill);
-	}
-	
-	public boolean hasSkill(String skill)
-	{
-		return skills.contains(skill);
-	}
-
-
-	public ArrayList<String> getReccomendedJobUIDs()
-	{
-		return reccomendedJobUIDs;
-	}
-
-
-	public void setReccomendedJobUIDs(ArrayList<String> reccomendedJobUIDs)
-	{
-		this.reccomendedJobUIDs = reccomendedJobUIDs;
-	}
-	
-	public void addReccomendedJobUID(String UID)
-	{
-		this.reccomendedJobUIDs.add(UID);
-	}
 	
 	public JobPost getReccomendedJobUID()
 	{
@@ -539,5 +396,24 @@ public class User extends Entity
 			return null;
 		}
 	}
+	
+	*/
+
+
+	/*
+	 * Condenses the link types of the this object, and all it's superclasses.
+	 * 
+	 * There isn't very much benefit to this approach now, but it is a more
+	 * scaleable solution for the future.
+	 */
+	public List<String> getLinkTypes()
+	{
+		List<String> result = new ArrayList<String>();
+		result.addAll(linkTypes);
+		result.addAll(super.getLinkTypes());
+		return result;
+	}
+	
+	
 	
 }

@@ -3,14 +3,26 @@
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public abstract class Post extends Structure
 {
 	String content;
+	
 	int likes;
-	String creatorUID; //in principal, this should be final, but that interferes with Jackson.
+	
+	//String creatorUID; //in principal, this should be final, but that interferes with Jackson.
+	/*
 	ArrayList<String> commentUIDs;
 	ArrayList<String> likerUIDs;
+	*/
+	@JsonIgnore
+	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("Comments", "Likers", 
+			"Creator"));
+
 	
 	
 	/*
@@ -38,22 +50,6 @@ public abstract class Post extends Structure
 	public abstract Comment addComment(User creatorUser, String content);
 	
 	
-	public ArrayList<String> getCommentUIDs()
-	{
-		return commentUIDs;
-	}
-
-	public void setCommentUIDs(ArrayList<String> commentUIDs)
-	{
-		this.commentUIDs = commentUIDs;
-	}
-	
-	public void removeCommentUID(String UID)
-	{
-		commentUIDs.remove(UID);
-	}
-	
-	
 	public int getLikes()
 	{
 		return this.likes;
@@ -77,22 +73,11 @@ public abstract class Post extends Structure
 
 	public String getCreatorUID()
 	{
-		return creatorUID;
+		return getLC().getList("Creator").get(0);
 	}
 
-	public void setCreatorUID(String creatorUID)
+	public List<String> getLinkTypes()
 	{
-		this.creatorUID = creatorUID;
-	}
-
-
-	public ArrayList<String> getLikerUIDs()
-	{
-		return likerUIDs;
-	}
-
-	public void setLikerUIDs(ArrayList<String> likerUIDs)
-	{
-		this.likerUIDs = likerUIDs;
+		return linkTypes;
 	}
 }

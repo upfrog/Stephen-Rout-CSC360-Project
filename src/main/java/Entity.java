@@ -1,10 +1,13 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class Entity extends Structure implements Followable, Follower
 {
 	
 	String entityDescription;
-
+	List<String> linkTypes = new ArrayList<String>(Arrays.asList(
+			"Followers", "Following"));
 	
 	public Entity()
 	{
@@ -228,4 +231,11 @@ public abstract class Entity extends Structure implements Followable, Follower
 	{
 		this.blockedUIDs.remove(UID);
 	}
+	
+	public List<String> getLinkTypes()
+	{
+		return linkTypes;
+	}
+	
+	
 }

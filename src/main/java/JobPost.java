@@ -1,12 +1,15 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class JobPost extends Post
 {
 	
 	String postTitle;
-	ArrayList<String> applicantUIDs;
-
+	@JsonIgnore
+	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("Applicants"));
 	@JsonIgnore
 	final int maxPostLength = 10000;
 	@JsonIgnore
@@ -20,11 +23,9 @@ public class JobPost extends Post
 	{
 		validateJobPost(postTitle, content);
 		
-		
 		this.content = content;
 		this.postTitle = postTitle;
-		this.applicantUIDs = new ArrayList<String>();
-		this.commentUIDs = new ArrayList<String>();
+		this.getLC().addLink("Creator", creatorUser.getUID());
 	}
 	
 	public JobPost() {} //empty constructor for Jackson
@@ -53,37 +54,29 @@ public class JobPost extends Post
 	public Comment addComment(User creatorUser, String content)
 	{
 		Comment comment = new Comment(this, creatorUser, content);
-		commentUIDs.add(comment.getUID());
-		ServerHandler.INSTANCE.putJobPost(this); //update the post's list of comments
+		getLC().addLink("Comments", comment.getUID());
+		ServerHandler.INSTANCE.putJobPost(this); //update the post linkContainer
 		return comment;
 	}
 	
-	public void addApplicant(User newApplicant)
+	public void addApplicant(User applicant)
 	{
-		applicantUIDs.add(newApplicant.getUID());
+		getLC().addLink("Applicants", applicant.getUID());
 		ServerHandler.INSTANCE.putJobPost(this);
-		newApplicant.addJobAppliedForUID(this.getUID());
-		ServerHandler.INSTANCE.putUser(newApplicant);
+
 	}
 	
+	/*
+	 * Removing an applicant can be initiated from the JobPost, so all of the 
+	 * requisite code is here, as opposed to being split between User and JobPost.
+	 */
 	public void removeApplicant(User applicant)
 	{
-		applicantUIDs.remove(applicant.getUID());
+		//applicantUIDs.remove(applicant.getUID());
+		getLC().removeLink("Applicants", applicant.getUID());
 		ServerHandler.INSTANCE.putJobPost(this);
-		applicant.removeJobAppliedForUID(this.getUID());
+		applicant.getLC().removeLink("JobsAppliedFor", this.getUID());
 		ServerHandler.INSTANCE.putUser(applicant);
-
-
-	}
-	
-	public ArrayList<String> getApplicantUIDs()
-	{
-		return this.applicantUIDs;
-	}
-	
-	public void setApplicantUIDs(ArrayList<String> applicantUIDs)
-	{
-		this.applicantUIDs = applicantUIDs;
 	}
 	
 	@Override
@@ -98,5 +91,14 @@ public class JobPost extends Post
 			likes--;
 		}
 		ServerHandler.INSTANCE.putJobPost(this);
+	}
+
+	@Override
+	public List<String> getLinkTypes()
+	{
+		List<String> result = new ArrayList<String>();
+		result.addAll(linkTypes);
+		result.addAll(super.getLinkTypes());
+		return result;
 	}
 }

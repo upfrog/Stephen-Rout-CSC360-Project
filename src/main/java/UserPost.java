@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /*
@@ -8,16 +11,17 @@ public class UserPost extends Post
 {
 	private boolean isPublic;
 	@JsonIgnore
-	final int maxPostLength = 25000;
+	final static int maxPostLength = 25000;
 	@JsonIgnore
-	final int minPostLength = 1;
+	final static int minPostLength = 1;
 
 	public UserPost(String content, boolean isPublic, User creatorUser)
 	{
 		validateUserPost(content);
-		commentUIDs = new ArrayList<String>();
 		this.content = content;
 		this.isPublic = isPublic;
+		this.getLC().addLink("Creator", creatorUser.getUID());
+
 	}
 	
 	public UserPost() {} //Empty constructor for Jackson
@@ -44,7 +48,7 @@ public class UserPost extends Post
 	public Comment addComment(User creatorUser, String content)
 	{
 		Comment comment = new Comment(this, creatorUser, content);
-		commentUIDs.add(comment.getUID());
+		this.getLC().addLink("Comments", comment.getUID());
 		ServerHandler.INSTANCE.putUserPost(this); //update the post's list of comments
 		return comment;
 	}
@@ -83,4 +87,36 @@ public class UserPost extends Post
 	{
 		isPublic = publicity;
 	}
+	
+	@Override
+	public List<String> getLinkTypes()
+	{
+		List<String> result = new ArrayList<String>();
+		result.addAll(linkTypes);
+		result.addAll(super.getLinkTypes());
+		return result;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(getUID(), isPublic, content, likes);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof UserPost))
+			return false;
+		UserPost other = (UserPost) obj;
+		return this.getContent().equals(other.getContent())
+				&& this.getCreationDateTime().equals(other.getCreationDateTime())
+				&& this.getLC().equals(other.getLC())
+				&& this.getLikes() == other.getLikes()
+				&& this.getUID() == other.getUID()
+				&& getIsPublic() == other.getIsPublic();
+	}
+	
 }

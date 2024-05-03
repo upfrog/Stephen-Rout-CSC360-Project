@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /*
@@ -9,14 +13,15 @@ public class Comment extends Post
 	
 	@JsonIgnore
 	int maxCommentLength = 15000;
-	String creatorUID;
-	String parentPostUID;
+	
+	@JsonIgnore
+	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("ParentPost"));
 	
 	public Comment(Post parentPost, User creatorUser, String content) 
 	{
 		validateComment(content);
-		creatorUID = creatorUser.getUID();
-		parentPostUID = parentPost.getUID();
+		getLC().addLink("Creator", creatorUser.getUID());
+		getLC().addLink("ParentPost", parentPost.getUID());
 		this.content = content;
 		
 		ServerHandler.INSTANCE.postComment(this); //post the comment to the global list
@@ -44,22 +49,13 @@ public class Comment extends Post
 	
 	public String getCreatorUID()
 	{
-		return creatorUID;
+		return getLC().getList("Creator").get(0);
 	}
 
-	public void setCreatorUID(String creatorUID)
-	{
-		this.creatorUID = creatorUID;
-	}
 
 	public String getParentPostUID()
 	{
-		return parentPostUID;
-	}
-
-	public void setParentPostUID(String parentPostUID)
-	{
-		this.parentPostUID = parentPostUID;
+		return getLC().getList("ParentPost").get(0);
 	}
 	
 	@Override
@@ -76,6 +72,16 @@ public class Comment extends Post
 		ServerHandler.INSTANCE.putComment(this);
 	}
 
+	
+	@Override
+	public List<String> getLinkTypes()
+	{
+		List<String> result = new ArrayList<String>();
+		result.addAll(linkTypes);
+		result.addAll(super.getLinkTypes());
+		return result;
+	}
+	
 	/*
 	 * A pointless method to satisfy the requirements of inheritance.
 	 * 
