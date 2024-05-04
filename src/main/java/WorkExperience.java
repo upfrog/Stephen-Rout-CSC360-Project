@@ -83,4 +83,37 @@ public class WorkExperience
 	{
 		this.description = description;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		int result = 0;
+		if (this != null)
+		{
+			int c = 31;
+			result = startDate.hashCode();
+			result = c * result + endDate.hashCode();
+			result = c * result + companyName.hashCode();
+			result = c * result + jobTitle.hashCode();
+			result = c * result + description.hashCode();
+		}
+
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof WorkExperience))
+			return false;
+		WorkExperience other = (WorkExperience) obj;
+		
+		return this.startDate.equals(other.startDate)
+				&& this.endDate.equals(other.endDate)
+				&& this.companyName.equals(other.companyName)
+				&& this.jobTitle.equals(other.jobTitle)
+				&& this.description.equals(other.description);
+	}
 }

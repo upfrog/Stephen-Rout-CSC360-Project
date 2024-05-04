@@ -11,9 +11,12 @@ public class LinkContainerTest
 	@BeforeEach
 	void setUp() throws Exception
 	{
-		User user1 = new User("Individual");
 		ServerHandler.INSTANCE.clearServer();
 		ServerHandler.INSTANCE.configureServer();
+		user1 = new User("Individual");
+		System.out.println(user1.getLC().getLinkMap().keySet());
+		System.out.println(user1.getUID());
+
 		
 		/*
 		String[] nameList = {"Inigo", "Montoya", "Joe"};
@@ -27,10 +30,14 @@ public class LinkContainerTest
 	@Test
 	void testUserPostEquality()
 	{
+		System.out.println("now in the test");
+		//user1 = ServerHandler.INSTANCE.getUser(user1.getUID());
+		System.out.println(user1.getLC().getLinkMap().keySet());
 		UserPost post1 = user1.createUserPost("I am on Nexus, wow!", true);
 		UserPost post1Copy = ServerHandler.INSTANCE.getUserPost(post1.getUID());
 		
 		assertEquals(post1.equals(post1Copy), true);
+		
 				
 				
 	}

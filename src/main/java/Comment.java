@@ -78,7 +78,7 @@ public class Comment extends Post
 	{
 		List<String> result = new ArrayList<String>();
 		result.addAll(linkTypes);
-		result.addAll(super.getLinkTypes());
+		//result.addAll(super.getLinkTypes());
 		return result;
 	}
 	
@@ -92,5 +92,29 @@ public class Comment extends Post
 	{
 		// TODO Auto-generated method stub
 		return null;
-	}		
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int c = 31;
+		int result = universalHash();
+		result = c * result + Integer.hashCode(likes);
+		
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Comment))
+			return false;
+		Comment other = (Comment) obj;
+		
+		return universalComparison(this, other)
+				&& this.likes == other.likes;
+	}
+	
 }

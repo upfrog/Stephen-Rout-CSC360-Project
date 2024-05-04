@@ -26,6 +26,8 @@ public class LinkContainer
 		linkMap = new HashMap<String, List<String>>();
 	}
 	
+	//public LinkContainer()
+	
 	public boolean contains(String listType, String UID)
 	{
 		try
@@ -98,7 +100,17 @@ public class LinkContainer
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(linkMap);
+		return linkMap.hashCode();
+	}
+
+	public void setLinkMap(HashMap<String, List<String>> linkMap)
+	{
+		this.linkMap = linkMap;
+	}
+	
+	public HashMap<String, List<String>> getLinkMap()
+	{
+		return this.linkMap;
 	}
 
 	@Override
@@ -109,9 +121,14 @@ public class LinkContainer
 		if (!(obj instanceof LinkContainer))
 			return false;
 		LinkContainer other = (LinkContainer) obj;
+		return linkMap.equals(other.getLinkMap());
+		/*
 		return linkMap.values().equals(other.linkMap.values())
 				&& linkMap.keySet().equals(other.linkMap.keySet());
+		*/
 	}
+	
+
 	
 	
 }

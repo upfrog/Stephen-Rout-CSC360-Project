@@ -33,7 +33,9 @@ public class User extends Entity
 {
 	@JsonIgnore
 	private Name displayName;
-	private List<String> linkTypes = new ArrayList<String>(Arrays.asList("UserPosts", "JobPosts", 
+	private String userName;
+	@JsonIgnore
+	private static List<String> linkTypes = new ArrayList<String>(Arrays.asList("UserPosts", "JobPosts", 
 			"Comments", "Blocked", "LikedPosts", "JobsAppliedFor", "Skills", 
 			"ReccomendedJobs"));
 	private String userType;
@@ -48,7 +50,7 @@ public class User extends Entity
 	{		
 		validateUserType(userType);
 		
-		//populateLinkContainer();
+		populateLinkContainer();
 		isPublic = true;
 		workHistory = new ArrayList<WorkExperience>();
 		this.userType = userType; //Will determine how the profile page is formatted
@@ -92,6 +94,16 @@ public class User extends Entity
 		return isPublic;
 	}
 	
+	public void setUserName(String userName)
+	{
+		this.userName = userName;
+	}
+	
+	public String getUserName()
+	{
+		return this.userName;
+	}
+	
 	/*
 	 * Only included for compatibility with Jackson
 	 * 
@@ -110,7 +122,7 @@ public class User extends Entity
 	public UserPost createUserPost(String content, boolean isPublic)
 	{
 		UserPost post = new UserPost(content, isPublic, this);
-		getLC().addLink("UserPost", post.getUID());
+		getLC().addLink("UserPosts", post.getUID());
 		ServerHandler.INSTANCE.postUserPost(post);
 		ServerHandler.INSTANCE.putUser(this);
 		return post;
@@ -415,5 +427,42 @@ public class User extends Entity
 	}
 	
 	
+	@Override
+	public int hashCode()
+	{
+		int c = 31;
+		int result = universalHash();
+		result = c * result + displayName.hashCode();
+		result = c * result + userName.hashCode();
+		result = c * result + userType.hashCode();
+		result = c * result + worksAt.hashCode();
+		result = c * result + workHistory.hashCode();
+		result = c * result + Boolean.hashCode(isPublic);
+		
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof User))
+			return false;
+		User other = (User) obj;
+		
+		return universalComparison(this, other)
+				&& this.displayName.equals(other.displayName)
+				&& this.userName.equals(other.userName)
+				&& this.userType.equals(other.userType) 
+				&& this.worksAt.equals(other.worksAt)
+				&& this.workHistory.equals(other.workHistory)
+				&& this.isPublic == other.isPublic;
+	}
+	/*
+	 * TODO:
+	 * having issues with not being able t call hashCode due to attribtues being null - maybe
+	 * make sure that all attribtues have default values? But displayName already does....
+	 */
 	
 }

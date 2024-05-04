@@ -80,6 +80,38 @@ public abstract class Structure
 		}
 	}
 	
+	/*
+	 * A handy way to encapsulate some comparison operations which will be necessary for 
+	 * all instances where I override .equals().
+	 * 
+	 * I'm not sure how much I should generalize this pattern. In principle, I could 
+	 * do this for all objects, which would leave the last part of my .equals() as, at most
+	 * three function calls. But I suspect that by that point, I would have used the motif
+	 * past usefulness. This method is useful because it applies to every single object in
+	 * the model - and if all is at is should be, it is more than enough to distinguish 
+	 * two structures.  
+	 */
+	public boolean universalComparison(Structure a, Structure b)
+	{
+		return a.UID.equals(b.UID)
+				&& a.creationDateTime.equals(b.creationDateTime)
+				&& a.lc.equals(b.lc);
+	}
+	
+	/*
+	 * between this and universalComparison, I seem to be asymptotically approaching just
+	 * implementing .equals() and .hashCode() for all my objects. So why am I not just doing
+	 * that? Answer: I think doing so would be unneeded and unproductive. Structure (and it's
+	 * immediate descendants) are never directly instantiated.
+	 */
+	public int universalHash()
+	{
+		int result = UID.hashCode();
+		result = 31 * result + creationDateTime.hashCode();
+		result = 31 * result + lc.hashCode();
+		
+		return result;
+	}
 	
 	abstract public List<String> getLinkTypes();
 

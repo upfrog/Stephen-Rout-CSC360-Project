@@ -101,4 +101,30 @@ public class JobPost extends Post
 		result.addAll(super.getLinkTypes());
 		return result;
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		int c = 31;
+		int result = universalHash();
+		result = c * result + content.hashCode();
+		result = c * result + postTitle.hashCode();
+		result = c * result + likes;
+		
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof JobPost))
+			return false;
+		JobPost other = (JobPost) obj;
+		return universalComparison(this, other)
+				&& this.content.equals(other.content)
+				&& this.postTitle.equals(other.postTitle)
+				&& this.likes == other.likes;
+	}
 }

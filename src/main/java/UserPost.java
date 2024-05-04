@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,12 +15,16 @@ public class UserPost extends Post
 	final static int maxPostLength = 25000;
 	@JsonIgnore
 	final static int minPostLength = 1;
+	
+	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("Comments", "Likers", 
+			"Creator"));
 
 	public UserPost(String content, boolean isPublic, User creatorUser)
 	{
 		validateUserPost(content);
 		this.content = content;
 		this.isPublic = isPublic;
+		populateLinkContainer();
 		this.getLC().addLink("Creator", creatorUser.getUID());
 
 	}
@@ -93,14 +98,22 @@ public class UserPost extends Post
 	{
 		List<String> result = new ArrayList<String>();
 		result.addAll(linkTypes);
-		result.addAll(super.getLinkTypes());
+		System.out.println("in the getLinkTypes() method");
+		//result.addAll(super.getLinkTypes());
+		
 		return result;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(getUID(), isPublic, content, likes);
+		int c = 31;
+		int result = universalHash();
+		result = c * result + content.hashCode();
+		result = c * result + Boolean.hashCode(isPublic);
+		result = c * result + likes;
+		
+		return result;
 	}
 
 	@Override
@@ -111,12 +124,10 @@ public class UserPost extends Post
 		if (!(obj instanceof UserPost))
 			return false;
 		UserPost other = (UserPost) obj;
-		return this.getContent().equals(other.getContent())
-				&& this.getCreationDateTime().equals(other.getCreationDateTime())
-				&& this.getLC().equals(other.getLC())
-				&& this.getLikes() == other.getLikes()
-				&& this.getUID() == other.getUID()
-				&& getIsPublic() == other.getIsPublic();
+		return universalComparison(this, other)
+				&& this.content.equals(other.content)
+				&& this.likes == other.likes
+				&& this.isPublic == other.isPublic;
 	}
 	
 }

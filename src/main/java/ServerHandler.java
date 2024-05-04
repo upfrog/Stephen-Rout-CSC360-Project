@@ -326,11 +326,11 @@ public enum ServerHandler
 		String location = base + "/Users/" + user.getUID();
 		try
 		{
-			client.post()
+			System.out.println(client.post()
 					.uri(location)
 					.body(user)
 					.retrieve()
-					.body(UserResponse.class);
+					.body(UserResponse.class));
 		}
 		catch (Exception e)
 		{

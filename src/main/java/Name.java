@@ -172,4 +172,29 @@ public class Name
 	}
 	
 	*/
+	
+	@Override
+	public int hashCode()
+	{
+		//int c = 31;
+		int result = 0;
+		if (this != null)
+		{
+			result = name.hashCode();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Name))
+			return false;
+		Name other = (Name) obj;
+		
+		return this.name.equals(other.name);
+	}
 }
