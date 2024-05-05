@@ -20,10 +20,10 @@ public abstract class Post extends Structure
 	ArrayList<String> likerUIDs;
 	*/
 	@JsonIgnore
-	/*
+	
 	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("Comments", "Likers", 
 			"Creator"));
-			*/
+			
 	
 	public Post() {}
 	
@@ -79,10 +79,9 @@ public abstract class Post extends Structure
 		return getLC().getList("Creator").get(0);
 	}
 
-	/*
+	
 	public List<String> getLinkTypes()
 	{
 		return linkTypes;
 	}
-	*/
 }

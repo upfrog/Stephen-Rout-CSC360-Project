@@ -1,3 +1,7 @@
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+
+
 public class WorkExperience
 {
 	private String startDate;
@@ -13,6 +17,7 @@ public class WorkExperience
 	 * @param 	jobTitle: 		the user's title at the job.
 	 * @param 	description: 	any additional information the user wishes to provide.
 	 */
+	
 	public WorkExperience(String startDate, String endDate, String companyName, String jobTitle,
 			String description)
 	{

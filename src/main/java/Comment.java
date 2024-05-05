@@ -15,11 +15,13 @@ public class Comment extends Post
 	int maxCommentLength = 15000;
 	
 	@JsonIgnore
-	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("ParentPost"));
+	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("ParentPost", "Likers", 
+			"Creator"));
 	
 	public Comment(Post parentPost, User creatorUser, String content) 
 	{
 		validateComment(content);
+		populateLinkContainer();
 		getLC().addLink("Creator", creatorUser.getUID());
 		getLC().addLink("ParentPost", parentPost.getUID());
 		this.content = content;

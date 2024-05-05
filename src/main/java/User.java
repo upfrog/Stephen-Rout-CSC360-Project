@@ -25,23 +25,23 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
+
 public class User extends Entity
 {
-	@JsonIgnore
-	private Name displayName;
-	private String userName;
+	private Name displayName = new Name();
+	private String userName = "Default";
 	@JsonIgnore
 	private static List<String> linkTypes = new ArrayList<String>(Arrays.asList("UserPosts", "JobPosts", 
-			"Comments", "Blocked", "LikedPosts", "JobsAppliedFor", "Skills", 
-			"ReccomendedJobs"));
-	private String userType;
-	private String worksAt;
-	private List<WorkExperience> workHistory;
-	private boolean isPublic;
+			"Comments", "Blocked", "LikedPosts", "JobsAppliedFor", "Skills", "ReccomendedJobs"));
+	private String userType = "";
+	private String worksAt = "";
+	private List<WorkExperience> workHistory = new ArrayList<WorkExperience>();
+	private boolean isPublic = false;
 	//socially responsible default value
 	@JsonIgnore
 	JobReccomenderInterface reccomender = new FollowerReccomender(); 
@@ -55,7 +55,7 @@ public class User extends Entity
 		workHistory = new ArrayList<WorkExperience>();
 		this.userType = userType; //Will determine how the profile page is formatted
 		this.editorUIDs.add(this.getUID());
-		displayName = new Name("Default Name");
+		displayName = new Name("Default");
 		ServerHandler.INSTANCE.postUser(this);
 	}
 	
@@ -138,7 +138,7 @@ public class User extends Entity
 	public JobPost createJobPost(String postTitle, String content)
 	{
 		JobPost jobPost = new JobPost(postTitle, content, this);
-		getLC().addLink("JobPost", jobPost.getUID());
+		getLC().addLink("JobPosts", jobPost.getUID());
 
 		ServerHandler.INSTANCE.postJobPost(jobPost);
 		ServerHandler.INSTANCE.putUser(this);
@@ -280,6 +280,7 @@ public class User extends Entity
 		ServerHandler.INSTANCE.putUser(this);
 	}
 
+	
 	
 	public Name getDisplayName()
 	{

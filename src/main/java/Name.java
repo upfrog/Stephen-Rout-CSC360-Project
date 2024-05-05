@@ -69,7 +69,7 @@ public class Name
 	/*
 	 * This constructor is mostly for testing purposes, since it makes it easier to create a name.
 	 */
-	String name;
+	String name = "Default";
 	public Name(String name)
 	{
 		validateName(name);
@@ -83,6 +83,8 @@ public class Name
 		prefferedNameComponents.add(true);
 		*/
 	}
+	
+	public Name() {}
 	
 	public void validateName(String name)
 	{
@@ -112,7 +114,7 @@ public class Name
 	/*
 	 * This constructor only exists because Jackson needs it.
 	 */
-	public Name() {}
+
 
 	
 	/*

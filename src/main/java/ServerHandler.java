@@ -17,9 +17,6 @@ import org.springframework.web.client.RestClient;
  * 							with the matching UID from the server, return void
  *
  * Records should never be passed out of this class; all server data must be fully unpacked.
- * 
- * After making a request, I frequently retrieve a response, only to do nothing with it. This is
- * for convenience during debugging; when there is a problem, I can easily see the server response.
  */
 
 public enum ServerHandler
@@ -28,8 +25,7 @@ public enum ServerHandler
 
 	private RestClient client = RestClient.create();
 	private static final String base = "http://localhost:9000/v1/StephenRout";
-	private static final String[] classList = {"Users","UserPosts", "Comments", "JobPosts", 
-			"WorkExperiences"};
+	private static final String[] classList = {"Users","UserPosts", "Comments", "JobPosts"};
 
 	
 	public RestClient getClient()
@@ -285,7 +281,7 @@ public enum ServerHandler
 	
 	public ArrayList<JobPost> getAllJobPosts()
 	{
-		GetAllResponse response = getAllUIDsIn("UserPosts");
+		GetAllResponse response = getAllUIDsIn("JobPosts");
 		ArrayList<JobPost> jobPostList = new ArrayList<JobPost>();
 		
 		for (GenericResponse val: response.data())
@@ -326,11 +322,11 @@ public enum ServerHandler
 		String location = base + "/Users/" + user.getUID();
 		try
 		{
-			System.out.println(client.post()
+			client.post()
 					.uri(location)
 					.body(user)
 					.retrieve()
-					.body(UserResponse.class));
+					.body(UserResponse.class);
 		}
 		catch (Exception e)
 		{

@@ -3,22 +3,23 @@ import java.util.ArrayList;
 public class SkillReccomender extends JobReccomenderInterface
 {
 	@Override
-	public ArrayList<String> getTargetAudience(ArrayList<String> followerList, String mostValuedSkill)
+	public ArrayList<User> getTargetAudience(JobPost post)
 	{
-		//ArrayList<String> userList = ServerHandler.INSTANCE.getAllUsers();
-		ArrayList<String> targetAudience = new ArrayList<String>();
-		/*
-		for (String UID : userList)
+		ArrayList<User> userList = ServerHandler.INSTANCE.getAllUsers();
+		ArrayList<User> targetAudience = new ArrayList<User>();
+		
+		for (User user : userList)
 		{
-			User user = ServerHandler.INSTANCE.getUser(UID);
+			//User user = ServerHandler.INSTANCE.getUser(UID);
 			
-			if (user.hasSkill(mostValuedSkill))
+			if (post.checkSkillMatch(user.getLC().getList("Skills")))
 			{
-				targetAudience.add(UID);
+				targetAudience.add(user);
+				/*
+				 * Is it better decoupled to have the skill match assessment in here, or in the job post?
+				 */
 			}
-		}	
-		System.out.println(targetAudience);
-		*/
+		}		
 
 		return targetAudience;
 	}

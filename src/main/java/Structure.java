@@ -61,7 +61,6 @@ public abstract class Structure
 		this.creationDateTime = creationDateTime;
 	}
 	
-	
 	public LinkContainer getLinkContainer()
 	{
 		return this.lc;

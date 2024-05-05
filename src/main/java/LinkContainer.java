@@ -10,11 +10,20 @@
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 
+/*
+ * This class is mostly a wrapper for a single HashMap, which maps String category names ("Followers", etc, 
+ * henceforth referred to as listTypes) onto ArrayLists of UIDs for the associated object type. It also
+ * contains some additional methods for convenience, but most of these closely mirror the function of a 
+ * default HashMap. The class mostly lets me define my own interface and behavior, with slightly cleaner
+ * behavior for my specific use case.
+ * 
+ * With the exception of getList() and getListLength(), the methods of this class should smoothly handle
+ * impossible requests, without throwing. Data duplication is also avoided.
+ */
 public class LinkContainer
 {
 	@JsonIgnore
@@ -25,29 +34,31 @@ public class LinkContainer
 	{
 		linkMap = new HashMap<String, List<String>>();
 	}
-	
-	//public LinkContainer()
-	
+		
 	public boolean contains(String listType, String UID)
 	{
-		try
-		{
-			return linkMap.get(listType).contains(UID);
-		}
-		catch(Exception e)
-		{
-			return false;
-		}
+		return linkMap.get(listType).contains(UID);
 	}
 	
-	public void addLinkList(String key)
+	/*
+	 * Adds a new <key, arrayList> pairing to the hashmap.
+	 * 
+	 * Should only be called at object instantiation.
+	 */
+	public void addLinkList(String listType)
 	{
-		linkMap.put(key, new ArrayList<String>());
+		if (!linkMap.containsKey(listType))
+		{
+			linkMap.put(listType, new ArrayList<String>());
+		}
 	}
 	
 	public void addLink(String listType, String UID)
 	{
-		linkMap.get(listType).add(UID);
+		if (linkMap.containsKey(listType) && !(this.contains(listType, UID)))
+		{
+			linkMap.get(listType).add(UID);
+		}
 	}
 	
 	public void removeLink(String listType, String UID)
@@ -96,13 +107,7 @@ public class LinkContainer
 			throw new RuntimeException(listNotFound);
 		}
 	}
-
-	@Override
-	public int hashCode()
-	{
-		return linkMap.hashCode();
-	}
-
+	
 	public void setLinkMap(HashMap<String, List<String>> linkMap)
 	{
 		this.linkMap = linkMap;
@@ -114,6 +119,12 @@ public class LinkContainer
 	}
 
 	@Override
+	public int hashCode()
+	{
+		return linkMap.hashCode();
+	}
+
+	@Override
 	public boolean equals(Object obj)
 	{
 		if (this == obj)
@@ -122,13 +133,5 @@ public class LinkContainer
 			return false;
 		LinkContainer other = (LinkContainer) obj;
 		return linkMap.equals(other.getLinkMap());
-		/*
-		return linkMap.values().equals(other.linkMap.values())
-				&& linkMap.keySet().equals(other.linkMap.keySet());
-		*/
 	}
-	
-
-	
-	
 }

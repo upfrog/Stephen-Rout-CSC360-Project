@@ -2,14 +2,18 @@ import java.util.ArrayList;
 
 public class FollowerReccomender extends JobReccomenderInterface
 {
-	/*
-	 * This method isn't very useful, but it lets me be consistent about how
-	 * companies send out job posts
-	 */
 	@Override
-	public ArrayList<String> getTargetAudience(ArrayList<String> followerList, String mostValuedSkill)
+	public ArrayList<User> getTargetAudience(JobPost post)
 	{
-		return followerList;
+		String creatorUID = post.getLC().getList("Creator").get(0);
+		User creator = ServerHandler.INSTANCE.getUser(creatorUID);
+		ArrayList<User> targetAudience = new ArrayList<User>();
+		
+		for (String UID : creator.getLC().getList("Followers"))
+		{
+			targetAudience.add(ServerHandler.INSTANCE.getUser(UID));
+		}
+		return targetAudience;
 	}
 	
 	public FollowerReccomender() {}

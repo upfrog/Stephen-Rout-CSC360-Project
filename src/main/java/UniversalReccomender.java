@@ -4,9 +4,9 @@ public class UniversalReccomender extends JobReccomenderInterface
 {
 
 	@Override
-	public ArrayList<String> getTargetAudience(ArrayList<String> followerList, String mostValuedSkill)
+	public ArrayList<User> getTargetAudience(JobPost post)
 	{
-		return new ArrayList<String>(); //ServerHandler.INSTANCE.getAllUsers();
+		return new ArrayList<User>(ServerHandler.INSTANCE.getAllUsers());
 	}
 	
 	public UniversalReccomender() {}

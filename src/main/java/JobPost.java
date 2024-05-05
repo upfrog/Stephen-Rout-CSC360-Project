@@ -6,10 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class JobPost extends Post
 {
-	
+	ArrayList<String> desiredSkills = new ArrayList<String>();
 	String postTitle;
 	@JsonIgnore
-	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("Applicants"));
+	final static List<String> linkTypes = new ArrayList<String>(Arrays.asList("Comments", "Likers", 
+			"Creator", "Applicants"));
 	@JsonIgnore
 	final int maxPostLength = 10000;
 	@JsonIgnore
@@ -25,6 +26,7 @@ public class JobPost extends Post
 		
 		this.content = content;
 		this.postTitle = postTitle;
+		populateLinkContainer();
 		this.getLC().addLink("Creator", creatorUser.getUID());
 	}
 	
@@ -48,6 +50,33 @@ public class JobPost extends Post
 		{
 			throw new IllegalArgumentException("Post is too short");
 		}
+	}
+	
+	
+	
+	public String getPostTitle()
+	{
+		return postTitle;
+	}
+
+	public void setPostTitle(String postTitle)
+	{
+		this.postTitle = postTitle;
+	}
+	
+	public ArrayList<String> getDesiredSkills()
+	{
+		return desiredSkills;
+	}
+
+	public void setDesiredSkills(ArrayList<String> desiredSkills)
+	{
+		this.desiredSkills = desiredSkills;
+	}
+
+	public boolean checkSkillMatch(User user)
+	{
+		
 	}
 	
 	@Override
@@ -98,7 +127,7 @@ public class JobPost extends Post
 	{
 		List<String> result = new ArrayList<String>();
 		result.addAll(linkTypes);
-		result.addAll(super.getLinkTypes());
+		//result.addAll(super.getLinkTypes());
 		return result;
 	}
 	

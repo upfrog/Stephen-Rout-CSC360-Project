@@ -1,5 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,15 +9,15 @@ public class LinkContainerTest
 {
 	
 	User user1 = new User();
+	LinkContainer lc = new LinkContainer();
 	
 	@BeforeEach
 	void setUp() throws Exception
 	{
 		ServerHandler.INSTANCE.clearServer();
 		ServerHandler.INSTANCE.configureServer();
-		user1 = new User("Individual");
-		System.out.println(user1.getLC().getLinkMap().keySet());
-		System.out.println(user1.getUID());
+		//user1 = new User("Individual");
+		lc = new LinkContainer();
 
 		
 		/*
@@ -28,18 +30,40 @@ public class LinkContainerTest
 	}
 	
 	@Test
-	void testUserPostEquality()
+	public void testMethods()
 	{
-		System.out.println("now in the test");
-		//user1 = ServerHandler.INSTANCE.getUser(user1.getUID());
-		System.out.println(user1.getLC().getLinkMap().keySet());
-		UserPost post1 = user1.createUserPost("I am on Nexus, wow!", true);
-		UserPost post1Copy = ServerHandler.INSTANCE.getUserPost(post1.getUID());
+		String key = "SecretToHappiness";
+		String value = "Health";
+		assertThrows(RuntimeException.class, () -> lc.getList(key));
+		assertThrows(RuntimeException.class, () -> lc.getListLength(key));
+		lc.addLink(key, value);
 		
-		assertEquals(post1.equals(post1Copy), true);
 		
-				
-				
+		lc.addLinkList(key);
+		assertEquals(lc.getList(key).equals(new ArrayList<String>()), true);
+		assertEquals(lc.getListLength(key), 0);
+		assertEquals(lc.contains(key, value), false);
+		lc.addLinkList(key);
+		
+		lc.addLink(key, value);
+		assertEquals(lc.getListLength(key), 1);
+		assertEquals(lc.getList(key).get(0), value);
+		assertEquals(lc.contains(key, value), true);
+		
+		lc.addLink(key, value);
+		assertEquals(lc.getListLength(key), 1);
+
+		
+		lc.removeLink(key, value);
+		assertEquals(lc.getListLength(key), 0);
+		assertEquals(lc.getList(key).equals(new ArrayList<String>()), true);
+		assertEquals(lc.contains(key, value), false);
+		lc.removeLink(key, value);
+
+		
+
+
 	}
+
 	
 }

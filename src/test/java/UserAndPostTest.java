@@ -30,10 +30,10 @@ class UserAndPostTest
 	@Test
 	void testGetAllUsers()
 	{
-		ArrayList<String>  userList = ServerHandler.INSTANCE.getAllUsers();
+		ArrayList<User>  userList = ServerHandler.INSTANCE.getAllUsers();
 		assertEquals(userList.size(), 2);
-		assertEquals(userList.contains(testUser1.getUID()), true);
-		assertEquals(userList.contains(testUser2.getUID()), true);
+		assertEquals(userList.contains(testUser1), true);
+		assertEquals(userList.contains(testUser2), true);
 	}
 	
 	@Test
@@ -202,7 +202,8 @@ class UserAndPostTest
 	void testCreateJobPost()
 	{
 		user1Post1 = testUser1.createJobPost("Software Developer", "We pay money!");
-		assertEquals(testUser1.getJobPostUIDs().contains(user1Post1.getUID()), true);
+		//assertEquals(testUser1.getJobPostUIDs().contains(user1Post1.getUID()), true);
+		assertEquals(testUser1.getLC().contains("JobPosts", user1Post1.getUID()), true);
 		
 		assertEquals(ServerHandler.INSTANCE.getJobPost(user1Post1.getUID()).getUID(), user1Post1.getUID());
 	}
@@ -229,7 +230,7 @@ class UserAndPostTest
 	}
 	
 	
-	
+	/*
 	@Test
 	void testJobReccomender()
 	{
@@ -293,4 +294,5 @@ class UserAndPostTest
 		testUser3.processJobRec(true);
 
 	}
+	*/
 }

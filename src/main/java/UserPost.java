@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -83,6 +82,7 @@ public class UserPost extends Post
 	}
 	
 	
+	
 	public boolean getIsPublic()
 	{
 		return this.isPublic;
@@ -98,8 +98,6 @@ public class UserPost extends Post
 	{
 		List<String> result = new ArrayList<String>();
 		result.addAll(linkTypes);
-		System.out.println("in the getLinkTypes() method");
-		//result.addAll(super.getLinkTypes());
 		
 		return result;
 	}

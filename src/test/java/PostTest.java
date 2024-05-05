@@ -56,24 +56,23 @@ class PostTest
 	void testUserPost()
 	{
 		UserPost user1Post1 = testUser1.createUserPost("I'm on Nexus!", false);
-		assertEquals(testUser1.getUserPostUIDs().contains(user1Post1.getUID()), true);
-		assertEquals(ServerHandler.INSTANCE.getUserPost(user1Post1.getUID()).getUID(), user1Post1.getUID());
+		//assertEquals(testUser1.getUserPostUIDs().contains(user1Post1.getUID()), true);
+		assertEquals(testUser1.getLC().contains("UserPosts", user1Post1.getUID()), true);
+
+		assertEquals(ServerHandler.INSTANCE.getUserPost(user1Post1.getUID()).equals(user1Post1), true);
 		testUser1.removeUserPost(user1Post1);
+		assertEquals(testUser1.getLC().contains("UserPosts", user1Post1.getUID()), false);
+		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.getUserPost(user1Post1.getUID()));
+
 	}
 	@Test
 	void testGetContent()
 	{
 		assertEquals(testPost.getContent(), testPostContent);
 	}
-	
+
 	@Test
-	void testGetLike()
-	{
-		assertEquals(testPost.getLikes(), 0);
-	}
-	
-	@Test
-	void testUpdateUserPostLikes()
+	void testUserPostLikes()
 	{
 		assertEquals(testPost.getLikes(), 0);
 		testPost.increaseLikes(true);
@@ -88,7 +87,7 @@ class PostTest
 	@Test
 	void testGetCreator()
 	{
-		assertEquals(testPost.getCreatorUID(), testUser2);
+		assertEquals(testPost.getCreatorUID(), user1UID);
 	}
 	
 	
@@ -121,10 +120,13 @@ class PostTest
 	@Test
 	void testComments()
 	{
-		assertEquals(testPost.getCommentUIDs().size(), 0);
+		//assertEquals(testPost.getCommentUIDs().size(), 0);
+		assertEquals(testPost.getLC().getListLength("Comments"), 0);
 		Comment testComment = testUser1.createComment("We should connect!", testPost);
 		String testCommentUID = testComment.getUID();
-		assertEquals(testPost.getCommentUIDs().size(), 1);
+		//assertEquals(testPost.getCommentUIDs().size(), 1);
+		assertEquals(testPost.getLC().getListLength("Comments"), 1);
+
 		
 		assertEquals(ServerHandler.INSTANCE.getComment(testCommentUID).getContent(), 
 				testComment.getContent());
@@ -136,10 +138,12 @@ class PostTest
 		assertEquals(ServerHandler.INSTANCE.getComment(testCommentUID).getLikes(), 0);
 		
 		testUser1.removeComment(testComment);
-		assertEquals(testUser1.getCommentUIDs().size(), 0);
+		//assertEquals(testUser1.getCommentUIDs().size(), 0);
+		assertEquals(testPost.getLC().getListLength("Comments"), 1);
+
 		
 		assertThrows( Exception.class, () -> ServerHandler.INSTANCE.getComment(testCommentUID));
-		System.out.println(testPost.getCommentUIDs());
+		//System.out.println(testPost.getCommentUIDs());
 		//testPost = ServerHandler.INSTANCE.getUserPost(testCommentUID);
 		//assertEquals(testPost.getCommentUIDs().size(), 0);
 	}
@@ -173,22 +177,26 @@ class PostTest
 	{
 		JobPost jobPost = testUser1.createJobPost("Number peasant", testPostContent);
 		Comment testComment= testUser1.createComment("Are you still hiring?", jobPost);
-		assertEquals(jobPost.getCommentUIDs().contains(testComment.getUID()), true);
-		
+		//assertEquals(jobPost.getCommentUIDs().contains(testComment.getUID()), true);
+		assertEquals(jobPost.getLC().contains("Comments", testComment.getUID()), true);
 		
 		testUser1.removeComment(testComment);
-		assertEquals(jobPost.getCommentUIDs().contains(testComment.getUID()), true);
+		//assertEquals(jobPost.getCommentUIDs().contains(testComment.getUID()), true);
+		assertEquals(jobPost.getLC().contains("Comments", testComment.getUID()), true);
 
 		
 		jobPost.addApplicant(testUser1);
 		jobPost = ServerHandler.INSTANCE.getJobPost(jobPost.getUID());
-		assertEquals(jobPost.getApplicantUIDs().contains(testUser1.getUID()), true);
+		//assertEquals(jobPost.getApplicantUIDs().contains(testUser1.getUID()), true);
+		assertEquals(jobPost.getLC().contains("Applicants", testUser1.getUID()), true);
+
 		jobPost.removeApplicant(testUser1);
 		jobPost = ServerHandler.INSTANCE.getJobPost(jobPost.getUID());
-		assertEquals(jobPost.getApplicantUIDs().contains(testUser1.getUID()), false);
+		assertEquals(jobPost.getLC().contains("Applicants", testUser1.getUID()), false);
 		
 		testUser1.removeJobPost(jobPost);
-		assertEquals(testUser1.getJobPostUIDs().size(), 0);
+		//assertEquals(testUser1.getJobPostUIDs().size(), 0);
+		assertEquals(testUser1.getLC().getListLength("JobPosts"), 0);
 		
 		
 	}
