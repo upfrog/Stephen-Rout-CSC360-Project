@@ -139,32 +139,44 @@ public class User extends Entity
 	{
 		JobPost jobPost = new JobPost(postTitle, content, this);
 		getLC().addLink("JobPosts", jobPost.getUID());
-
+		
+		ArrayList<User> targetAudience = getTargetAudience(jobPost);
+		jobPost.pushJobPost(targetAudience);
 		ServerHandler.INSTANCE.postJobPost(jobPost);
 		ServerHandler.INSTANCE.putUser(this);
 		return jobPost;
 	}
 	
-	/*
-	public void reccomendJobPost(JobPost jobPost,
-			String mostValuedSkill)
+	public JobPost createJobPost(String postTitle, String content, 
+			ArrayList<String> desiredSkills, double desiredSkillMatchPercentage)
 	{
-		ArrayList<String> targetAudience = reccomender.getTargetAudience(followerUIDs, mostValuedSkill);
+		JobPost jobPost = new JobPost(postTitle, content, this, desiredSkills, desiredSkillMatchPercentage);
+		getLC().addLink("JobPosts", jobPost.getUID());
 		
-		for (String UID : targetAudience)
+		ArrayList<User> targetAudience = getTargetAudience(jobPost);
+		jobPost.pushJobPost(targetAudience);
+		ServerHandler.INSTANCE.postJobPost(jobPost);
+		ServerHandler.INSTANCE.putUser(this);
+		return jobPost;
+	}
+	
+	
+	/*
+	public void reccomendJobPost(JobPost jobPost)
+	{
+		ArrayList<User> targetAudience = jobPost.getTargetAudience();
+		
+		for (User user : targetAudience)
 		{
-			User targetUser = ServerHandler.INSTANCE.getUser(UID);
-			targetUser.addReccomendedJobUID(jobPost.getUID());
-			ServerHandler.INSTANCE.putUser(targetUser);
+			user.getLC().addLink("ReccomendedJobs", jobPost.getUID());
+			ServerHandler.INSTANCE.putUser(user);
 		}
 	}
 	*/
 	
-	public void removeJobPost(JobPost jobPost)
+	public ArrayList<User> getTargetAudience(JobPost jobPost)
 	{
-		getLC().removeLink("JobPosts", jobPost.getUID());
-		ServerHandler.INSTANCE.deleteJobPost(jobPost.getUID());
-		ServerHandler.INSTANCE.putUser(this);
+		return reccomender.getTargetAudience(jobPost);
 	}
 	
 	public void setReccomender(JobReccomenderInterface reccomender)
@@ -179,7 +191,14 @@ public class User extends Entity
 	}
 	
 	
+	public void removeJobPost(JobPost jobPost)
+	{
+		getLC().removeLink("JobPosts", jobPost.getUID());
+		ServerHandler.INSTANCE.deleteJobPost(jobPost.getUID());
+		ServerHandler.INSTANCE.putUser(this);
+	}
 	
+
 	/*
 	 * This is the only correct entry point for making a comment. 
 	 * 
@@ -358,9 +377,9 @@ public class User extends Entity
 	 * the job post yet! This will be more sensible in the future, but for now,
 	 * the basic structure is in place.
 	 */
-	/*public void processJobRec(boolean applyForJob)
+	public void processJobRec(boolean applyForJob)
 	{
-		JobPost rec = getReccomendedJobUID();
+		JobPost rec =  getReccomendedJobUID();
 		if (rec == null)
 		{
 			System.out.println("There are no reccomended jobs");
@@ -376,7 +395,8 @@ public class User extends Entity
 
 		
 	}
-	*/
+	
+
 	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1
 	
 	@Override
@@ -385,23 +405,39 @@ public class User extends Entity
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void update()
 	{
 		// TODO Auto-generated method stub
 		
 	}
-	
 
-	/*
 	
+	
+	public User updatedUser()
+	{
+		return ServerHandler.INSTANCE.getUser(this.getUID());
+	}
+	
+	public void pushUser()
+	{
+		ServerHandler.INSTANCE.putUser(this);
+	}
+
+
+	@JsonIgnore
 	public JobPost getReccomendedJobUID()
 	{
-		if (reccomendedJobUIDs.size() > 0)
+		List<String> recs = getLC().getList("ReccomendedJobs");
+		System.out.println(this.getUID());
+		System.out.println(recs);
+		if (recs.size() > 0)
 		{
-			JobPost post = ServerHandler.INSTANCE.getJobPost(reccomendedJobUIDs.get(0));
-			reccomendedJobUIDs.remove(0);
+			String UID = recs.get(0);
+			JobPost post = ServerHandler.INSTANCE.getJobPost(UID);
+			recs.remove(0);
+			getLC().removeLink("ReccomendedJobs", UID);
+			pushUser();
 			return post;
 		}
 		else
@@ -409,8 +445,6 @@ public class User extends Entity
 			return null;
 		}
 	}
-	
-	*/
 
 
 	/*
@@ -460,10 +494,7 @@ public class User extends Entity
 				&& this.workHistory.equals(other.workHistory)
 				&& this.isPublic == other.isPublic;
 	}
-	/*
-	 * TODO:
-	 * having issues with not being able t call hashCode due to attribtues being null - maybe
-	 * make sure that all attribtues have default values? But displayName already does....
-	 */
-	
+
+
+
 }

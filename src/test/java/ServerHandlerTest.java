@@ -68,6 +68,7 @@ class ServerHandlerTest
 		assertEquals(objectList.size(), 0);
 		User u1 = new User("Individual");
 
+		System.out.println("Made it here");
 		String o1UID = u1.createJobPost("Software Developer", "We pay money!").getUID();
 		String o2UID = u1.createJobPost("CEO", "Generous stock options!").getUID();
 		JobPost o1 = ServerHandler.INSTANCE.getJobPost(o1UID);//Ensures that the objects are on the server

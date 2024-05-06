@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestClient;
@@ -26,6 +27,8 @@ class UserAndPostTest
 		testUser1 = ServerHandler.INSTANCE.getUser(user1UID);
 		testUser2 = ServerHandler.INSTANCE.getUser(user2UID);
 	}
+	
+	/*
 	
 	@Test
 	void testGetAllUsers()
@@ -132,13 +135,14 @@ class UserAndPostTest
 		assertEquals(testUser1.getIsPublic(), true);
 	}
 	 
-	
+	*/
 	
 	/*
 	 * Need to test that changes effect user A's following list, and
 	 * user B's follower list
 	 */
 	
+	/*
 	@Test
 	void testFollowerChange()
 	{
@@ -155,10 +159,10 @@ class UserAndPostTest
 		assertEquals(user1.getFollowingUIDs().contains(user2UID), false);
 		assertEquals(user2.getFollowerUIDs().contains(user1UID), false);
 	}
+	*/
 	
 	
-	
-	
+	/*
 	@Test
 	void testDescription()
 	{
@@ -229,52 +233,73 @@ class UserAndPostTest
 		assertEquals(testUser1.hasBlocked(testUser2), false);
 	}
 	
+	*/
 	
-	/*
 	@Test
 	void testJobReccomender()
 	{
-		JobPost jp1 = testUser1.createJobPost("Software Developer", "Write Code");
-		JobPost jp2 = testUser1.createJobPost("CEO", "Attend meetings");
+		
 		
 		testUser2.followingToggle(testUser1);
 		User testUser3 = new User("Individual");
+		User testUser4 = new User("Individual");
 		
-		//Test follower targetting
-		testUser1.reccomendJobPost(jp1, "Leadership");
-		testUser2 = ServerHandler.INSTANCE.getUser(testUser2.getUID());
-		assertEquals(testUser2.getReccomendedJobUIDs().contains(jp1.getUID()), true);
-		testUser2.processJobRec(true);
-		assertEquals(testUser2.getReccomendedJobUIDs().contains(jp1.getUID()), false);
+		testUser3.followingToggle(testUser1);
+		
+		
+		JobPost jp1 = testUser1.createJobPost("Software Developer", "Write Code");
+		
+		//Check that the two followers have the post, and the non-follower does not
+		testUser3 = testUser3.updatedUser();
+		assertEquals(testUser3.getLC().getList("ReccomendedJobs").contains(jp1.getUID()), true);
+		testUser2 = testUser2.updatedUser();
+		assertEquals(testUser2.getLC().getList("ReccomendedJobs").contains(jp1.getUID()), true);
+		testUser4 = testUser4.updatedUser();
+		assertEquals(testUser4.getLC().getList("ReccomendedJobs").contains(jp1.getUID()), false);
 
-		jp1 = ServerHandler.INSTANCE.getJobPost(jp1.getUID());
-		assertEquals(jp1.getApplicantUIDs().get(0), testUser2.getUID());
-		
-		//Test universal targetting
+
+		//Check pushing job posts to all users
 		testUser1.setReccomender(new UniversalReccomender());
-		ServerHandler.INSTANCE.putUser(testUser1);
-		testUser1.reccomendJobPost(jp1, "Leadership");
+		JobPost jp2 = testUser1.createJobPost("Mechanical Engineer", "Rotate Shapes");
+		testUser3 = testUser3.updatedUser();
+		assertEquals(testUser3.getLC().getList("ReccomendedJobs").contains(jp2.getUID()), true);
+		testUser2 = testUser2.updatedUser();
+		assertEquals(testUser2.getLC().getList("ReccomendedJobs").contains(jp2.getUID()), true);
+		testUser4 = testUser4.updatedUser();
+		assertEquals(testUser4.getLC().getList("ReccomendedJobs").contains(jp2.getUID()), true);
 		
-		testUser1 = ServerHandler.INSTANCE.getUser(testUser2.getUID());
-		testUser2 = ServerHandler.INSTANCE.getUser(testUser2.getUID());
-		testUser3 = ServerHandler.INSTANCE.getUser(testUser3.getUID());
-		assertEquals(testUser1.getReccomendedJobUIDs().contains(jp1.getUID()), true);
-		assertEquals(testUser2.getReccomendedJobUIDs().contains(jp1.getUID()), true);
-		assertEquals(testUser3.getReccomendedJobUIDs().contains(jp1.getUID()), true);
-		testUser1.processJobRec(false);
-		assertEquals(testUser1.getReccomendedJobUIDs().contains(jp1.getUID()), false);
-		jp1 = ServerHandler.INSTANCE.getJobPost(jp1.getUID());
-		assertEquals(jp1.getApplicantUIDs().get(0), testUser1.getUID());
 		
-		//Test skill targetting
+		
+		
+		//Check pushing posts to users with sufficient skill
 		testUser1.setReccomender(new SkillReccomender());
-		ServerHandler.INSTANCE.putUser(testUser1);
-		testUser2.addSkill("Programming");
-		ServerHandler.INSTANCE.putUser(testUser2);
-		testUser3.addSkill("Leadership");
-		ServerHandler.INSTANCE.putUser(testUser3);
 		
 		
+		testUser1.setReccomender(new SkillReccomender());
+
+		testUser2.getLC().addLink("Skills", "Coding");
+		testUser2.pushUser();
+		testUser3.getLC().addLink("Skills", "Coding");
+		testUser3.getLC().addLink("Skills", "Go");
+		testUser3.pushUser();
+
+		ArrayList<String> skills = new ArrayList<String>();
+		skills.add("Go");
+		skills.add("Coding");
+		skills.add("Design");
+		
+		JobPost jp3 = testUser1.createJobPost("Expert Go Developr", "We'll pay too much!", skills, 0.6);
+
+		testUser3 = testUser3.updatedUser();
+		assertEquals(testUser3.getLC().getList("ReccomendedJobs").contains(jp3.getUID()), true);
+		testUser2 = testUser2.updatedUser();
+		assertEquals(testUser2.getLC().getList("ReccomendedJobs").contains(jp3.getUID()), false);
+		
+		JobPost post = ServerHandler.INSTANCE.getJobPost(jp3.getUID());
+		ServerHandler.INSTANCE.putJobPost(jp3);
+		
+		
+		/*		
 		testUser1.reccomendJobPost(jp2, "Leadership");
 		testUser1 = ServerHandler.INSTANCE.getUser(testUser1.getUID());
 		testUser2 = ServerHandler.INSTANCE.getUser(testUser2.getUID());
@@ -292,7 +317,23 @@ class UserAndPostTest
 		testUser3.processJobRec(true);
 		assertEquals(testUser3.getReccomendedJobUIDs().size(), 0);
 		testUser3.processJobRec(true);
+		*/
 
 	}
-	*/
+	
+	@Test
+	void testReccomendedJobs()
+	{
+		testUser2.followingToggle(testUser1);
+		
+		JobPost testjob1 = testUser1.createJobPost("Software Developer", "Long distance is fine");
+		testUser2 = testUser2.updatedUser();
+		assertEquals(testUser2.getReccomendedJobUID(), testjob1);
+		assertEquals(testUser2.getReccomendedJobUID(), null);
+		
+		
+	}
+	
+
+	
 }

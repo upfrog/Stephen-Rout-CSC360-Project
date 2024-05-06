@@ -1,14 +1,24 @@
 import java.util.ArrayList;
 
-public class UniversalReccomender extends JobReccomenderInterface
+public class UniversalReccomender implements JobReccomenderInterface
 {
 
-	@Override
 	public ArrayList<User> getTargetAudience(JobPost post)
 	{
 		return new ArrayList<User>(ServerHandler.INSTANCE.getAllUsers());
 	}
 	
 	public UniversalReccomender() {}
+
+	public JobReccomenderInterface getJobReccomenderInterface()
+	{
+		return this;
+	}
+
+	public void setJobReccomenderInterface(JobReccomenderInterface rec)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
 }

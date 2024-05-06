@@ -58,6 +58,8 @@ public abstract class Entity extends Structure implements Followable, Follower
 			addFollowingUID(user.getUID());
 			user.followerToggle(this);
 		}
+		ServerHandler.INSTANCE.putUser(this);
+
 	}
 	
 	/*
@@ -75,13 +77,14 @@ public abstract class Entity extends Structure implements Followable, Follower
 		{
 			addFollowerUID(user.getUID());
 		}
+		//ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	
-	
+	/*
 	ArrayList<String> followerUIDs = new ArrayList<String>();
 	ArrayList<String> followingUIDs = new ArrayList<String>();
-	
+	*/
 	
 	
 	
@@ -138,52 +141,41 @@ public abstract class Entity extends Structure implements Followable, Follower
 		editorToggle(user.getUID());
 	}
 	
-	public ArrayList<String> getFollowingUIDs()
+	public List<String> getFollowingUIDs()
 	{
-		return followingUIDs;
+		return this.getLC().getList("Following");
 	}
-
-
-	public void setFollowingUIDs(ArrayList<String> followingUIDs)
-	{
-		this.followingUIDs = followingUIDs;
-	}
-	
 	
 	public void addFollowingUID(String UID)
 	{
-		this.followingUIDs.add(UID);
+		//this.followingUIDs.add(UID);
+		getLC().addLink("Following", UID);
 		ServerHandler.INSTANCE.putUser(this);
 	}
 
 	public void removeFollowingUID(String UID)
 	{
-		followingUIDs.remove(UID);
+		getLC().removeLink("Following", UID);
 		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	
 	//Follow*er* methods
-	public ArrayList<String> getFollowerUIDs()
+	public List<String> getFollowerUIDs()
 	{
-		return followerUIDs;
-	}
-	
-	public void setFollowerUIDs(ArrayList<String> followerUIDs)
-	{
-		this.followerUIDs = followerUIDs;
+		return this.getLC().getList("Followers");
 	}
 	
 	
 	public void addFollowerUID(String UID)
 	{
-		this.followerUIDs.add(UID);
+		getLC().addLink("Followers", UID);
 		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	public void removeFollowerUID(String UID)
 	{
-		this.followerUIDs.remove(UID);
+		getLC().removeLink("Followers", UID);
 		ServerHandler.INSTANCE.putUser(this);
 
 	}
