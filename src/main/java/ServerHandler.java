@@ -59,7 +59,7 @@ public enum ServerHandler
 					.uri(location)
 					.body(comment)
 					.retrieve()
-					.body(String.class);
+					.body(CommentResponse.class);
 		}
 		catch (Exception e)
 		{	

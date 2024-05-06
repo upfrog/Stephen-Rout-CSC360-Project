@@ -80,7 +80,7 @@ class UserAndPostTest
 		//Comment
 		assertDoesNotThrow(() -> ServerHandler.INSTANCE.getComment(commentUID));
 		Comment testComment = ServerHandler.INSTANCE.getComment(commentUID);
-		//assertThrows(Exception.class, () -> ServerHandler.INSTANCE.postComment(testComment));
+		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.postComment(testComment));
 		testComment.setContent("content2");
 		ServerHandler.INSTANCE.putComment(testComment);
 		Comment testCommentCopy = ServerHandler.INSTANCE.getComment(commentUID);
