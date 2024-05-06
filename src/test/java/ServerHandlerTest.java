@@ -101,5 +101,6 @@ class ServerHandlerTest
 		assertEquals(objectList.size(), 2);
 		assertEquals(objectList.contains(o1), true);
 		assertEquals(objectList.contains(o2), true);
+		
 	}
 }

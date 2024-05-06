@@ -16,17 +16,7 @@ public class LinkContainerTest
 	{
 		ServerHandler.INSTANCE.clearServer();
 		ServerHandler.INSTANCE.configureServer();
-		//user1 = new User("Individual");
 		lc = new LinkContainer();
-
-		
-		/*
-		String[] nameList = {"Inigo", "Montoya", "Joe"};
-		Boolean[] useList = {true, true, false};
-		name = new Name(nameList, useList);
-		tooLong = new String(new char[350]).replace('\0', ' ');
-		
-		*/
 	}
 	
 	@Test
@@ -37,7 +27,6 @@ public class LinkContainerTest
 		assertThrows(RuntimeException.class, () -> lc.getList(key));
 		assertThrows(RuntimeException.class, () -> lc.getListLength(key));
 		lc.addLink(key, value);
-		
 		
 		lc.addLinkList(key);
 		assertEquals(lc.getList(key).equals(new ArrayList<String>()), true);
@@ -53,17 +42,10 @@ public class LinkContainerTest
 		lc.addLink(key, value);
 		assertEquals(lc.getListLength(key), 1);
 
-		
 		lc.removeLink(key, value);
 		assertEquals(lc.getListLength(key), 0);
 		assertEquals(lc.getList(key).equals(new ArrayList<String>()), true);
 		assertEquals(lc.contains(key, value), false);
 		lc.removeLink(key, value);
-
-		
-
-
 	}
-
-	
 }

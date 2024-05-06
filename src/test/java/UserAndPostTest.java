@@ -2,10 +2,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.client.RestClient;
 
 class UserAndPostTest
 {
@@ -28,7 +26,7 @@ class UserAndPostTest
 		testUser2 = ServerHandler.INSTANCE.getUser(user2UID);
 	}
 	
-	/*
+	
 	
 	@Test
 	void testGetAllUsers()
@@ -42,7 +40,7 @@ class UserAndPostTest
 	@Test
 	void testGetPutDelete()
 	{
-		
+	
 		//User
 		assertDoesNotThrow(() -> ServerHandler.INSTANCE.getUser(user1UID));
 		User user1 = ServerHandler.INSTANCE.getUser(user1UID);
@@ -67,17 +65,7 @@ class UserAndPostTest
 		ServerHandler.INSTANCE.deleteUserPost(user1Post1UID);
 		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.getUserPost(user1Post1UID));	
 		
-		//JobPost
-		String user1JobPost1UID = user1.createJobPost("Engineer", "content1").getUID();
-		assertDoesNotThrow(() -> ServerHandler.INSTANCE.getJobPost(user1JobPost1UID));
-		JobPost user1JobPost1 = ServerHandler.INSTANCE.getJobPost(user1JobPost1UID);
-		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.postJobPost(user1JobPost1));
-		user1JobPost1.setContent("content2");
-		ServerHandler.INSTANCE.putJobPost(user1JobPost1);
-		JobPost user1JobPost1Copy = ServerHandler.INSTANCE.getJobPost(user1JobPost1UID);
-		assertEquals(user1JobPost1.getContent(), user1JobPost1Copy.getContent());
-		ServerHandler.INSTANCE.deleteJobPost(user1JobPost1UID);
-		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.getJobPost(user1JobPost1UID));	
+		
 		
 		
 		
@@ -101,6 +89,24 @@ class UserAndPostTest
 		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.getComment(commentUID));	
 	}
 	
+	@Test
+	void testGetAllUser()
+	{
+		System.out.println("===============================");
+		User user1 = ServerHandler.INSTANCE.getUser(testUser1.getUID());
+		//JobPost
+		user1.setReccomender(new FollowerReccomender());
+		String user1JobPost1UID = user1.createJobPost("Engineer", "content1").getUID();
+		assertDoesNotThrow(() -> ServerHandler.INSTANCE.getJobPost(user1JobPost1UID));
+		JobPost user1JobPost1 = ServerHandler.INSTANCE.getJobPost(user1JobPost1UID);
+		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.postJobPost(user1JobPost1));
+		user1JobPost1.setContent("content2");
+		ServerHandler.INSTANCE.putJobPost(user1JobPost1);
+		JobPost user1JobPost1Copy = ServerHandler.INSTANCE.getJobPost(user1JobPost1UID);
+		assertEquals(user1JobPost1.getContent(), user1JobPost1Copy.getContent());
+		ServerHandler.INSTANCE.deleteJobPost(user1JobPost1UID);
+		assertThrows(Exception.class, () -> ServerHandler.INSTANCE.getJobPost(user1JobPost1UID));	
+	}
 	
 	
 	
@@ -135,14 +141,14 @@ class UserAndPostTest
 		assertEquals(testUser1.getIsPublic(), true);
 	}
 	 
-	*/
+	
 	
 	/*
 	 * Need to test that changes effect user A's following list, and
 	 * user B's follower list
 	 */
 	
-	/*
+	
 	@Test
 	void testFollowerChange()
 	{
@@ -159,10 +165,10 @@ class UserAndPostTest
 		assertEquals(user1.getFollowingUIDs().contains(user2UID), false);
 		assertEquals(user2.getFollowerUIDs().contains(user1UID), false);
 	}
-	*/
 	
 	
-	/*
+	
+	
 	@Test
 	void testDescription()
 	{
@@ -233,7 +239,7 @@ class UserAndPostTest
 		assertEquals(testUser1.hasBlocked(testUser2), false);
 	}
 	
-	*/
+	
 	
 	@Test
 	void testJobReccomender()
@@ -294,31 +300,6 @@ class UserAndPostTest
 		assertEquals(testUser3.getLC().getList("ReccomendedJobs").contains(jp3.getUID()), true);
 		testUser2 = testUser2.updatedUser();
 		assertEquals(testUser2.getLC().getList("ReccomendedJobs").contains(jp3.getUID()), false);
-		
-		JobPost post = ServerHandler.INSTANCE.getJobPost(jp3.getUID());
-		ServerHandler.INSTANCE.putJobPost(jp3);
-		
-		
-		/*		
-		testUser1.reccomendJobPost(jp2, "Leadership");
-		testUser1 = ServerHandler.INSTANCE.getUser(testUser1.getUID());
-		testUser2 = ServerHandler.INSTANCE.getUser(testUser2.getUID());
-		testUser3 = ServerHandler.INSTANCE.getUser(testUser3.getUID());
-		assertEquals(testUser1.getReccomendedJobUIDs().contains(jp2.getUID()), false);
-		assertEquals(testUser2.getReccomendedJobUIDs().contains(jp2.getUID()), false);
-		assertEquals(testUser3.getReccomendedJobUIDs().contains(jp2.getUID()), true);
-		testUser3.processJobRec(false);
-		assertEquals(testUser3.getReccomendedJobUIDs().contains(jp1.getUID()), false);
-		jp2 = ServerHandler.INSTANCE.getJobPost(jp2.getUID());
-		assertEquals(jp2.getApplicantUIDs().contains(testUser3.getUID()), false);
-
-		//check behavior when processing an empty jobRecList
-		assertEquals(testUser3.getReccomendedJobUIDs().size(), 1);
-		testUser3.processJobRec(true);
-		assertEquals(testUser3.getReccomendedJobUIDs().size(), 0);
-		testUser3.processJobRec(true);
-		*/
-
 	}
 	
 	@Test
@@ -326,12 +307,28 @@ class UserAndPostTest
 	{
 		testUser2.followingToggle(testUser1);
 		
+		//Test the method for getting UIDs from the recommendation queue
 		JobPost testjob1 = testUser1.createJobPost("Software Developer", "Long distance is fine");
 		testUser2 = testUser2.updatedUser();
 		assertEquals(testUser2.getReccomendedJobUID(), testjob1);
 		assertEquals(testUser2.getReccomendedJobUID(), null);
 		
-		
+		//Test rejecting a job
+		JobPost testjob2 = testUser1.createJobPost("Software Developer", "Long distance is fine");
+		testUser2 = testUser2.updatedUser();
+		assertEquals(testjob2.getLC().getList("Applicants").contains(testUser2.getUID()), false);
+		testUser2.processJobRec(false);
+		testjob2 = ServerHandler.INSTANCE.getJobPost(testjob2.getUID());
+		assertEquals(testjob2.getLC().getList("Applicants").contains(testUser2.getUID()), false);
+
+		//Test accepting a job
+		JobPost testjob3 = testUser1.createJobPost("Software Developer", "Long distance is fine");
+		testUser2 = testUser2.updatedUser();
+		testUser2.processJobRec(true);
+		testjob3 = ServerHandler.INSTANCE.getJobPost(testjob3.getUID());
+		assertEquals(testjob3.getLC().getList("Applicants").contains(testUser2.getUID()), true);
+		//Test that program fails gracefully if there are no jobs in the queue
+		assertDoesNotThrow(() -> testUser2.processJobRec(true));
 	}
 	
 

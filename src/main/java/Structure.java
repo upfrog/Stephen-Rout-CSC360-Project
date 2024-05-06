@@ -1,6 +1,5 @@
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -112,8 +111,5 @@ public abstract class Structure
 		return result;
 	}
 	
-	abstract public List<String> getLinkTypes();
-
-
-	
+	abstract public List<String> getLinkTypes();	
 }

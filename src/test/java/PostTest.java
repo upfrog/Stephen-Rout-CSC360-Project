@@ -31,7 +31,6 @@ class PostTest
 		user1UID = new User("Individual").getUID();
 		user2UID = new User("Individual").getUID();
 		testUser1 = ServerHandler.INSTANCE.getUser(user1UID);
-		User testUser2 = ServerHandler.INSTANCE.getUser(user2UID);
 		
 		testPost = testUser1.createUserPost(testPostContent, testPostIsPublic);
 	}

@@ -84,6 +84,46 @@ public class TestEqualsAndHashCode
 		testEqualityAndHashCode(a,b,c,d,user);
 	}
 	
+	@Test
+	void testWorkExperienceEquality()
+	{
+		WorkExperience a = new WorkExperience("fsda", "fff", "4023e", "325r", "fawef");
+		WorkExperience b = new WorkExperience("fsda", "fff", "4023e", "325r", "fawef");
+		WorkExperience c = new WorkExperience("fsda", "fff", "4023e", "325r", "fawef");
+		WorkExperience d = new WorkExperience("fsfasdda", "ffaff", "402afs3e", "32a5r", "fawsef");
+		User e = new User("Individual");
+		
+		//WorkExperiences aren't structures, so I can't use my test helper
+		assertEquals(a.equals(a), true); //Reflexivity
+		
+		assertEquals(a.equals(b), true); //Symmetry - true
+		assertEquals(b.equals(a), true);
+		
+		assertEquals(b.equals(d), false); //Symmetry - false
+		assertEquals(d.equals(a), false);
+		
+		assertEquals(a.equals(b), true); //Transitivity
+		assertEquals(b.equals(c), true);
+		assertEquals(a.equals(c), true); 
+		
+		assertEquals(a.equals(b), true); //Extra (probably unnecessary) test for consistency
+		assertEquals(a.equals(null), false); //Non-nullity
+		assertEquals(a.equals(d), false); //Returning false for comparisons within same object
+		assertEquals(a.equals(d), false); //Repeat to test consistency with false results
+		assertEquals(a.equals(e), false); //Returning false due to different objects
+		
+		//Test that when .equals() returns true, hashCode() produces identical results on the two objects.
+		int aHash = a.hashCode();
+		assertEquals(a.hashCode(), a.hashCode()); 
+		assertEquals(a.hashCode(), b.hashCode());
+		assertEquals(aHash, a.hashCode()); //Extra consistency
+		
+		//Test that object changes are reflected in .equals()
+		a.setStartDate("432423523"); //THIS IS VERY BAD AND SHOULD NEVER HAPPEN - but it's easiest attribute to test
+		assertEquals(a.equals(b), false);
+		assertEquals(b.equals(a), false);
+	}
+	
 	
 	/** A helper method to encapsulate testing .equals()
 	 * 

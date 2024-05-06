@@ -25,7 +25,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -381,9 +380,7 @@ public class User extends Entity
 	{
 		JobPost rec =  getReccomendedJobUID();
 		if (rec == null)
-		{
-			System.out.println("There are no reccomended jobs");
-			
+		{			
 		}
 		else if (applyForJob)
 		{
@@ -429,8 +426,6 @@ public class User extends Entity
 	public JobPost getReccomendedJobUID()
 	{
 		List<String> recs = getLC().getList("ReccomendedJobs");
-		System.out.println(this.getUID());
-		System.out.println(recs);
 		if (recs.size() > 0)
 		{
 			String UID = recs.get(0);

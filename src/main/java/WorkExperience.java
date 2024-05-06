@@ -1,6 +1,3 @@
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-
 
 public class WorkExperience
 {
