@@ -3,6 +3,7 @@ package models;
 import java.io.IOException;
 
 import models.User;
+import views.LoginController;
 import views.ProfileController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 public class ViewTransitionModel implements ViewTransitionModelInterface
 {
 	Stage stage;
+	
 	BorderPane view;
 	
 	public ViewTransitionModel(Stage stage)
@@ -28,6 +30,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		this.view = view;
 	}
 
+	
 	@Override
 	public void showProfileView()
 	{
@@ -39,10 +42,19 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			BorderPane view = loader.load();
 			this.view.setCenter(view);
 			ProfileController cont = loader.getController();
+			
+			
+			
+			FXMLLoader sidebarLoader = new FXMLLoader();
+			
+			sidebarLoader.setLocation(getClass().getResource("../views/Sidebar.fxml"));
+			this.view.setLeft(sidebarLoader.load());
+			/*
 			User user = new User("Individual");
 			cont.setVTM(this);
 			cont.setUser(user);
 			cont.populatePage();
+			*/
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -54,18 +66,16 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass()
-				.getResource("../Views/LoginView.fxml"));
+				.getResource("../views/LoginView.fxml"));
 		try
 		{
 			BorderPane view = loader.load();
+			LoginController controller = new LoginController();
 			this.view.setCenter(view);
-			/*
-			ProfileController cont = loader.getController();
-			User user = new User("Individual");
-			cont.setVTM(this);
-			cont.setUser(user);
-			cont.populatePage();
-			*/
+			ViewTransitionModel vtm = new ViewTransitionModel(view);
+			controller.setVTM(vtm);
+			
+			
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -92,5 +102,14 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		
 		
 	}
+	*/
+	
+	
+	/*
+	ProfileController cont = loader.getController();
+	User user = new User("Individual");
+	cont.setVTM(this);
+	cont.setUser(user);
+	cont.populatePage();
 	*/
 }

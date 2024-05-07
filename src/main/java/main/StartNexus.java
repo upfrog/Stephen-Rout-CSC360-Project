@@ -1,5 +1,7 @@
 package main;
 
+import com.sun.javafx.css.StyleManager;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,7 @@ public class StartNexus extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+		
 		
 		
 		//Start by making a model
@@ -38,11 +41,14 @@ public class StartNexus extends Application
 		//Why do we need to set VTM as the model here, but in the VTM class we 
 		//set the model itself as the model?
 		controller.setVTM(vtm);
-		vtm.showLoginView();
+		//vtm.showLoginView();
 		
 		
-		
+		//Page 257 for more CSS tips
 		Scene s = new Scene(view);
+		//s.getStylesheets().add(getClass().getResource("../css/styles.css").toExternalForm());
+		setUserAgentStylesheet(STYLESHEET_MODENA);
+		StyleManager.getInstance().addUserAgentStylesheet(getClass().getResource("../css/styles.css").toString());
 		primaryStage.setScene(s);
 		primaryStage.show();
 		
@@ -101,8 +107,8 @@ public class StartNexus extends Application
 		primaryStage.show();
 		*/
 		
-		/*
-
+		
+/*
 		//Trying to do it my way: 
 		
 		BorderPane view = FXMLLoader.load(getClass().getResource("../views/LoginView.fxml"));
@@ -121,6 +127,7 @@ public class StartNexus extends Application
 		primaryStage.setTitle("Nexus");
 		primaryStage.setScene(s);
 		primaryStage.show();
+		*/
 		
 		/*
 		FXMLLoader loader = new FXMLLoader();
