@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginController">
    <center>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1200.0">
          <top>
@@ -31,7 +31,7 @@
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <Button id="login-button" layoutX="475.0" layoutY="364.0" mnemonicParsing="false" stylesheets="@../../resources/css/styles.css" text="Log In" />
+                  <Button id="login-button" fx:id="loginButton" layoutX="475.0" layoutY="364.0" mnemonicParsing="false" onAction="#onClickLogin" stylesheets="@../../resources/css/styles.css" text="Log In" />
                </children>
             </AnchorPane>
          </center>
