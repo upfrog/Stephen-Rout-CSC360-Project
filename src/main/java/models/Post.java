@@ -1,6 +1,7 @@
 /**
  * Contains some foundational logic for comment interaction, such as liking and commenting.
  */
+package models;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,3 +1,4 @@
+package models;
 /**
  * Included, but not relevant for Sprint 1.
  */

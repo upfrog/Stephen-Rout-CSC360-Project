@@ -1,0 +1,76 @@
+.title {
+ 	-fx-background-color: #9257ff;
+	-fx-font-size: 40;
+	-fx-text-fill: White;
+
+}
+
+
+#login-button {
+	-fx-text-fill: white;
+	-fx-background-color: #9257ff;
+	-fx-background-radius: 50;
+	-fx-pref-height: 30;
+	-fx-pref-width: 250;
+	-fx-font-size: 25;
+	-fx-alignment: center; 
+	
+	
+}
+
+.sidebar-button {
+	-fx-pref-height: 60;
+	-fx-pref-width: 60;
+	-fx-background-radius: 60;
+	-fx-background-color: #9257ff;
+}
+
+.sidebar-button-label {
+	-fx-font-size:25;
+	-fx-padding: 0
+}
+
+.profile-element {
+	-fx-background-color: white;
+	-fx-border-color: gray;
+	-fx-border-width: 2;
+	-fx-padding:5;
+	
+	
+	
+}
+
+
+.background {
+	/*
+	 * -fx-background-color:#ededed;
+	 * 
+	 */
+	 -fx-background-color:#e0dede;
+	 
+	 /* #9257ff*/
+	
+}
+
+
+.test-button {
+	-fx-pref-height: 30;
+	-fx-pref-width: 220;
+	-fx-background-radius: 60;
+	-fx-background-color: #9257ff;
+	-fx-font-size: 50;
+	-fx-alignment:baseline-left;
+	-fx-padding:10;
+	
+}
+
+
+.profile-button {
+	-fx-pref-height: 30;
+	-fx-pref-width: 150;
+	-fx-background-radius: 60;
+	-fx-background-color: #9257ff;
+	-fx-font-size: 28;
+	-fx-alignment:baseline-left;
+	-fx-padding:10;
+}

@@ -1,7 +1,10 @@
+package model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import models.*;
 
 /** 
  * Properly testing an implementation of .equals() requires  verifying that at least 5 properties hold:

@@ -21,6 +21,7 @@
  * called from a wider variety of circumstances, and so need to contain their
  * own system for propagating their effect.
  */
+package models;
 
 import java.util.ArrayList;
 import java.util.Arrays;

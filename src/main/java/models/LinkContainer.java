@@ -7,6 +7,7 @@
 * with the only difference being the types of links contained in that object's instances of
 * LinkContainer.
  */
+package models;
 
 import java.util.HashMap;
 import java.util.List;

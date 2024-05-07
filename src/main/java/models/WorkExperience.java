@@ -1,3 +1,4 @@
+package models;
 
 public class WorkExperience
 {
@@ -33,7 +34,7 @@ public class WorkExperience
 	}
 
 	
-	protected void setStartDate(String startDate)
+	public void setStartDate(String startDate)
 	{
 		this.startDate = startDate;
 	}
