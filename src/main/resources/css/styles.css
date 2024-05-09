@@ -6,7 +6,7 @@
 }
 
 
-#login-button {
+#loginButton {
 	-fx-text-fill: white;
 	-fx-background-color: #9257ff;
 	-fx-background-radius: 50;
@@ -24,6 +24,11 @@
 	-fx-pref-width: 275;
 	-fx-font-size: 18;
 	-fx-alignment: center; 	
+}
+
+#warningMessage {
+	-fx-text-fill: Red;
+	-fx-font-size: 16;
 }
 
 .sidebar-button {

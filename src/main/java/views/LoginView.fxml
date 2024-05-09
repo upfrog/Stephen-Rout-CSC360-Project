@@ -21,18 +21,19 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField layoutX="508.0" layoutY="122.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Username">
+                  <TextField id="usernameField" fx:id="usernameField" layoutX="508.0" layoutY="122.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Username">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <TextField layoutX="508.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Password">
+                  <TextField id="passwordField" fx:id="passwordField" layoutX="508.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Password">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <Button id="login-button" fx:id="loginButton" layoutX="533.0" layoutY="342.0" mnemonicParsing="false" onAction="#onClickLogin" stylesheets="@../../resources/css/styles.css" text="Log In" />
-                  <Button id="signup-button" layoutX="546.0" layoutY="454.0" mnemonicParsing="false" stylesheets="@../../resources/css/styles.css" text="Make a New Account" />
+                  <Button id="loginButton" fx:id="loginButton" layoutX="533.0" layoutY="342.0" mnemonicParsing="false" onAction="#onClickLogin" stylesheets="@../../resources/css/styles.css" text="Log In" />
+                  <Button id="signup-button" fx:id="loginMakeNewAccountButton" layoutX="546.0" layoutY="454.0" mnemonicParsing="false" onAction="#onMakeNewAccount" stylesheets="@../../resources/css/styles.css" text="Make a New Account" />
+                  <Label id="warningMessage" fx:id="warningMessage" layoutX="669.0" layoutY="291.0" stylesheets="@../../resources/css/styles.css" />
                </children>
             </AnchorPane>
          </center>

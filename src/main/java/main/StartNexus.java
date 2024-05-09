@@ -138,6 +138,11 @@ public class StartNexus extends Application
 		*/
 	}
 	
+	public static void setStylesheet()
+	{
+		setUserAgentStylesheet(STYLESHEET_MODENA);
+	}
+	
 	public static void main(String[] args)
 	{
 		launch(args);
