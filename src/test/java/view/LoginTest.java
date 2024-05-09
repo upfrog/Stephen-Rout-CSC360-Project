@@ -1,4 +1,5 @@
 package view;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import com.sun.javafx.css.StyleManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import models.ServerHandler;
 import models.User;
@@ -24,10 +25,6 @@ import views.LoginController;
 @ExtendWith(ApplicationExtension.class)
 public class LoginTest
 {
-
-
-
-
 
 /*
  * I couldn't get Assertions.AssertThat to work for me - the methods
@@ -52,37 +49,25 @@ public class LoginTest
 		user.setUserName("upfrog");
 		user.setPassword("1234");
 		ServerHandler.INSTANCE.putUser(user);
-		//main.StartNexus.main(args);
-		
-		//
-		//ViewTransitionModel vtm = new ViewTransitionModel();
-		
-		//main();
-
 		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("../views/LoginView.fxml"));
 		
 		try {
-			Pane view = loader.load();
+			BorderPane view = loader.load();
 			LoginController cont = loader.getController();
-			ViewTransitionModel vtm = new ViewTransitionModel(stage);
+			ViewTransitionModel vtm = new ViewTransitionModel(view);
 			cont.setVTM(vtm);
 			Scene s = new Scene(view, 1366, 768);
-			//s.getStylesheets().add(getClass().getResource("../css/styles.css").toExternalForm());
 			main.StartNexus.setStylesheet();
-			//StyleManager.getInstance().addUserAgentStylesheet(getClass().getResource("../css/styles.css").toString());
 			StyleManager.getInstance().addUserAgentStylesheet(getClass().getResource("../css/styles.css").toString());
 
-			//Scene s = new Scene(view);
 			stage.setScene(s);
 			stage.show();
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	
@@ -123,7 +108,6 @@ public class LoginTest
 		assertEquals(robot.lookup("#warningMessage").queryAs(Label.class).getText(), 
 				"Username or password is wrong");
 		
-		
 		//Both, wrong password
 		robot.clickOn("#usernameField");
 		robot.eraseText(8);
@@ -136,7 +120,6 @@ public class LoginTest
 		assertEquals(robot.lookup("#warningMessage").queryAs(Label.class).getText(), 
 				"Username or password is wrong");
 		
-		
 		//correct
 		robot.clickOn("#usernameField");
 		robot.eraseText(8);
@@ -145,19 +128,14 @@ public class LoginTest
 		robot.clickOn("#passwordField");
 		robot.eraseText(8);
 		robot.write("1234");
-		robot.clickOn("#loginButton");
-		
-		//assertEquals(robot.lookup("#resultLabel").queryAs(Label.class).getText(), "");
-		/*
-		testOperationListSize(robot, 0);
-		checkAddNum(robot, "0.15", "0.15", "0.3");
-		checkAddNum(robot, "0.30", "-0.45", "-0.15");
-		checkAddNum(robot, "3", "1.07", "4.07");
-		checkAddNum(robot, "44", "333", "377");
-		testOperationListSize(robot, 4);
-		*/
+		assertDoesNotThrow(() -> robot.clickOn("#loginButton"));
 	}
 	
+	@Test
+	public void testCreateUser()
+	{
+		
+	}
 	/*
 	
 	private void enterNum1(FxRobot robot, String amt)
