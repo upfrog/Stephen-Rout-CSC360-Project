@@ -1,5 +1,8 @@
 package views;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import models.User;
 import models.ViewTransitionModelInterface;
 
@@ -18,6 +21,10 @@ public class ProfileController
 	{
 		this.vtm = vtm;
 	}
+	
+
+
+	
 	
 	public void setUser(User user)
 	{

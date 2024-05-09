@@ -8,30 +8,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginController">
+<BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.LoginController">
    <center>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1200.0">
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0">
          <top>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="152.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label id="title" alignment="CENTER" prefHeight="165.0" prefWidth="1200.0" styleClass="title" stylesheets="@../../resources/css/styles.css" text="Welcome to Nexus!" VBox.vgrow="SOMETIMES" />
+                  <Label id="title" alignment="CENTER" prefHeight="152.0" prefWidth="1366.0" styleClass="title" stylesheets="@../../resources/css/styles.css" text="Welcome to Nexus!" VBox.vgrow="SOMETIMES" />
                </children>
             </VBox>
          </top>
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField layoutX="425.0" layoutY="122.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Username">
+                  <TextField layoutX="508.0" layoutY="122.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Username">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <TextField layoutX="425.0" layoutY="222.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Password">
+                  <TextField layoutX="508.0" layoutY="209.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="350.0" promptText="Password">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <Button id="login-button" fx:id="loginButton" layoutX="475.0" layoutY="364.0" mnemonicParsing="false" onAction="#onClickLogin" stylesheets="@../../resources/css/styles.css" text="Log In" />
+                  <Button id="login-button" fx:id="loginButton" layoutX="533.0" layoutY="342.0" mnemonicParsing="false" onAction="#onClickLogin" stylesheets="@../../resources/css/styles.css" text="Log In" />
+                  <Button id="signup-button" layoutX="546.0" layoutY="454.0" mnemonicParsing="false" stylesheets="@../../resources/css/styles.css" text="Make a New Account" />
                </children>
             </AnchorPane>
          </center>

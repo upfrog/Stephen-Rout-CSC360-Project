@@ -2,14 +2,12 @@ package models;
 
 import java.io.IOException;
 
-import models.User;
-import views.LoginController;
-import views.ProfileController;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import views.LoginController;
+import views.ProfileController;
+import views.SidebarController;
 
 /*
  * Stores methods to transition between views
@@ -37,17 +35,27 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass()
 				.getResource("../views/ProfileView.fxml"));
+		
+		
+		//Get the sidebar images
+		/*
+		File f = new File("../img/search.png");
+		Image img = new Image(f.toURI().toString());
+		ImageView iview1 = new ImageView(img);
+		*/
 		try
 		{
 			BorderPane view = loader.load();
 			this.view.setCenter(view);
+			
+			
 			ProfileController cont = loader.getController();
-			
-			
-			
+			cont.setVTM(this);
+			cont.populatePage();
 			FXMLLoader sidebarLoader = new FXMLLoader();
 			
 			sidebarLoader.setLocation(getClass().getResource("../views/Sidebar.fxml"));
+			SidebarController sidebarCont = sidebarLoader.getController();
 			this.view.setLeft(sidebarLoader.load());
 			/*
 			User user = new User("Individual");

@@ -11,16 +11,24 @@
 	-fx-background-color: #9257ff;
 	-fx-background-radius: 50;
 	-fx-pref-height: 30;
-	-fx-pref-width: 250;
+	-fx-pref-width: 300;
 	-fx-font-size: 25;
-	-fx-alignment: center; 
-	
-	
+	-fx-alignment: center; 	
+}
+
+#signup-button {
+	-fx-text-fill: white;
+	-fx-background-color: #9257ff;
+	-fx-background-radius: 50;
+	-fx-pref-height: 30;
+	-fx-pref-width: 275;
+	-fx-font-size: 18;
+	-fx-alignment: center; 	
 }
 
 .sidebar-button {
 	-fx-pref-height: 60;
-	-fx-pref-width: 60;
+	-fx-pref-width: 200;
 	-fx-background-radius: 60;
 	-fx-background-color: #9257ff;
 }
@@ -66,11 +74,10 @@
 
 
 .profile-button {
-	-fx-pref-height: 30;
-	-fx-pref-width: 150;
+
 	-fx-background-radius: 60;
 	-fx-background-color: #9257ff;
-	-fx-font-size: 28;
+	-fx-font-size: 12;
 	-fx-alignment:baseline-left;
 	-fx-padding:10;
 }

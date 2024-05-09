@@ -45,11 +45,12 @@ public class StartNexus extends Application
 		
 		
 		//Page 257 for more CSS tips
-		Scene s = new Scene(view);
+		Scene s = new Scene(view, 1366, 768);
 		//s.getStylesheets().add(getClass().getResource("../css/styles.css").toExternalForm());
 		setUserAgentStylesheet(STYLESHEET_MODENA);
 		StyleManager.getInstance().addUserAgentStylesheet(getClass().getResource("../css/styles.css").toString());
 		primaryStage.setScene(s);
+		primaryStage.setTitle("Nexus");
 		primaryStage.show();
 		
 		
