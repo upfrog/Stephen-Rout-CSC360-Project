@@ -42,6 +42,7 @@ public class User extends Entity
 	private String worksAt = "";
 	private List<WorkExperience> workHistory = new ArrayList<WorkExperience>();
 	private boolean isPublic = false;
+	private String password = "";
 	//socially responsible default value
 	@JsonIgnore
 	JobReccomenderInterface reccomender = new FollowerReccomender(); 
@@ -116,6 +117,18 @@ public class User extends Entity
 	}
 	
 	
+	public String getPassword()
+	{
+		return password;
+	}
+
+
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+
+
 	/*
 	 * Remeber that you still need to integrate the feed for this. 
 	 */

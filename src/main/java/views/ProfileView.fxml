@@ -17,11 +17,11 @@
       <VBox prefHeight="675.0" prefWidth="282.0" styleClass="profile-element" stylesheets="@../../resources/css/styles.css" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="200.0" prefWidth="308.0" />
-            <Label text="Name">
+            <Label fx:id="profileName" text="Name">
                <font>
                   <Font size="34.0" />
                </font></Label>
-            <Label text="Titel and Company">
+            <Label fx:id="profileTitleAndCompany" text="Titel and Company">
                <font>
                   <Font size="20.0" />
                </font>
@@ -30,17 +30,17 @@
                </VBox.margin></Label>
             <HBox prefHeight="66.0" prefWidth="308.0">
                <children>
-                  <Button mnemonicParsing="false" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Follow" HBox.hgrow="NEVER">
+                  <Button fx:id="profileFollowUserButton" mnemonicParsing="false" onAction="#followUser" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Follow" HBox.hgrow="NEVER">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin></Button>
-                  <Button maxHeight="30.0" maxWidth="150.0" minWidth="-Infinity" mnemonicParsing="false" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Edit Page" HBox.hgrow="NEVER">
+                  <Button fx:id="profileEditUserButton" maxHeight="30.0" maxWidth="150.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#editUser" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Edit Page" HBox.hgrow="NEVER">
                      <HBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </HBox.margin></Button>
                </children>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsum" wrappingWidth="307.13671875" VBox.vgrow="ALWAYS">
+            <Text fx:id="profileDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsum" wrappingWidth="307.13671875" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="15.0" />
                </font></Text>
@@ -53,7 +53,7 @@
    <center>
       <StackPane styleClass="background" stylesheets="@../../resources/css/styles.css" BorderPane.alignment="CENTER">
          <children>
-            <ListView prefHeight="675.0" prefWidth="987.0" styleClass="profile-element" stylesheets="@../../resources/css/styles.css">
+            <ListView fx:id="contentList" prefHeight="675.0" prefWidth="987.0" styleClass="profile-element" stylesheets="@../../resources/css/styles.css">
                <StackPane.margin>
                   <Insets left="5.0" right="5.0" top="5.0" />
                </StackPane.margin></ListView>
