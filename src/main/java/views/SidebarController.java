@@ -38,6 +38,9 @@ public class SidebarController
 
     @FXML
     private Button sidebarSearchButton;
+    
+    @FXML 
+    private Button sidebarMakePostButton;
 
     @FXML
     private ImageView homeImage;
@@ -57,6 +60,9 @@ public class SidebarController
     @FXML
     private ImageView globalListsImage;
     
+    @FXML
+    private ImageView makePostImage;
+    
     public void populateImages()
     {
     	homeImage.setImage(new Image("img/home.png", true));
@@ -65,6 +71,7 @@ public class SidebarController
     	jobRecsImage.setImage(new Image("img/jobs.png", true));
     	profileImage.setImage(new Image("img/account_circle.png", true));
     	globalListsImage.setImage(new Image("img/search.png", true));
+    	makePostImage.setImage(new Image("img/add.png"));
     }
     
     
@@ -92,7 +99,7 @@ public class SidebarController
 
     @FXML
     void showProfile(ActionEvent event) {
-    	System.out.println("Profile");
+    	vtm.showProfileView();
 
     }
 
@@ -101,4 +108,12 @@ public class SidebarController
     	System.out.println("Search");
 
     }
+    
+    @FXML
+    void makePost(ActionEvent event) {
+    	vtm.showMakePostView();
+    	//System.out.println("making post!");
+
+    }
+
 }

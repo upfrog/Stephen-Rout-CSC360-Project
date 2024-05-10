@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1116.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.MakePostController">
+   <children>
+      <HBox prefHeight="57.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="189.0" text="Write your Post!">
+               <HBox.margin>
+                  <Insets left="25.0" top="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <RadioButton id="isJobPostRadioButton" fx:id="isJobPostRadioButton" mnemonicParsing="false" text="Is this a job post?">
+               <HBox.margin>
+                  <Insets top="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+            <RadioButton id="isPrivateRadioButton" fx:id="isPrivateRadioButton" mnemonicParsing="false" text="Should this post be private? (job posts cannot be private)">
+               <HBox.margin>
+                  <Insets left="15.0" top="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </RadioButton>
+         </children>
+      </HBox>
+      <HBox prefHeight="56.0" prefWidth="1116.0">
+         <children>
+            <Label text="Job post title:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" top="15.0" />
+               </HBox.margin>
+            </Label>
+            <TextField id="MakePostTitleField" fx:id="MakePostTitleField" prefHeight="25.0" prefWidth="960.0">
+               <HBox.margin>
+                  <Insets left="10.0" top="15.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Desired Skills (please lists skills, with spaces in between distinct skills:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Label>
+            <TextArea id="makePostSkillsField" fx:id="makePostSkillsField" prefHeight="85.0" prefWidth="520.0">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" />
+               </HBox.margin>
+            </TextArea>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Post Method:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox id="postMethodChoice" fx:id="postMethodChoice" prefWidth="150.0">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </ChoiceBox>
+            <Label text="What percent of these skills MUST recipient of this job post have?">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+            <TextField id="requriedSkillPercentage" fx:id="requriedSkillPercentage">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <TextArea id="postBody" fx:id="postBody" prefHeight="501.0" prefWidth="1096.0">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin>
+            </TextArea>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <AnchorPane prefHeight="100.0" prefWidth="1117.0">
+               <children>
+                  <Button id="cancelPostButton" fx:id="cancelPostButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false" onAction="#onClickCancelPost" styleClass="generic-button" stylesheets="@../../resources/css/styles.css" text="Cancel" />
+                  <Button id="submitPostButton" fx:id="submitPostButton" layoutX="931.0" layoutY="11.0" mnemonicParsing="false" onAction="#onClickPost" styleClass="generic-button" stylesheets="@../../resources/css/styles.css" text="Post!" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</VBox>

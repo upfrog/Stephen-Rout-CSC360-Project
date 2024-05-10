@@ -90,7 +90,15 @@
 	-fx-padding:10;
 	
 }
+.generic-button {
 
+	-fx-background-radius: 60;
+	-fx-background-color: #9257ff;
+	-fx-font-size: 18;
+	-fx-pref-width: 150;
+	-fx-alignment:center;
+	-fx-padding:10;
+}
 
 .profile-button {
 

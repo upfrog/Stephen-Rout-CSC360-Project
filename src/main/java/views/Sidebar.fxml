@@ -129,7 +129,23 @@
                   </Label>
                </children>
             </HBox>
-            <HBox prefWidth="240.0" />
+            <HBox prefHeight="60.0" prefWidth="240.0">
+               <children>
+                  <Button id="sidebarMakePostButton" fx:id="sidebarMakePostButton" mnemonicParsing="false" onAction="#makePost" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
+                     <HBox.margin>
+                        <Insets left="8.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView id="makePostImage" fx:id="makePostImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                     </graphic>
+                  </Button>
+                  <Label alignment="CENTER" styleClass="sidebar-button-label" stylesheets="@../../resources/css/styles.css" text="Make Post">
+                     <HBox.margin>
+                        <Insets left="5.0" top="7.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets left="20.0" />

@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import views.LoginController;
+import views.MakePostController;
 import views.ProfileController;
 import views.SidebarController;
 
@@ -73,7 +75,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			sidebarLoader.setLocation(getClass().getResource("../views/Sidebar.fxml"));
 			this.view.setLeft(sidebarLoader.load());
 			SidebarController sidebarCont = sidebarLoader.getController();
-			
+			sidebarCont.setVTM(this);
 			
 			sidebarCont.populateImages();
 			/*
@@ -103,6 +105,42 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			controller.setVTM(vtm);
 			
 			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void showMakePostView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/MakePostView.fxml"));
+		
+		
+		//Get the sidebar images
+		/*
+		File f = new File("../img/search.png");
+		Image img = new Image(f.toURI().toString());
+		ImageView iview1 = new ImageView(img);
+		*/
+		try
+		{
+			VBox view = loader.load();
+			this.view.setCenter(view);
+			
+			
+			MakePostController cont = loader.getController();
+			cont.setVTM(this);
+			
+			//cont.
+			
+			/*
+			User user = new User("Individual");
+			cont.setVTM(this);
+			cont.setUser(user);
+			cont.populatePage();
+			*/
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
