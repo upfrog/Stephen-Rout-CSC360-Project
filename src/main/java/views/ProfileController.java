@@ -48,7 +48,10 @@ public class ProfileController
 	{
 		System.out.println("populating!");
 		profileDescription.setText("I'm a developer (of software!) doing the sorts of things that developers (of software) like to do!");
-		
+		User user = vtm.getUser();
+		profileDescription.setText(user.getDescription());
+		profileName.setText(user.getDisplayName().getName());
+		profileTitleAndCompany.setText(user.getCurrentRole() + "@" + user.getWorksAt());
 		
 	}
 	
