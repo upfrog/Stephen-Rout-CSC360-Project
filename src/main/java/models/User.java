@@ -46,7 +46,7 @@ public class User extends Entity
 	private String password = "";
 	//socially responsible default value
 	@JsonIgnore
-	JobReccomenderInterface reccomender = new FollowerReccomender(); 
+	public JobReccomenderInterface reccomender = new FollowerReccomender(); 
 	
 	public User(String userType) 
 	{		

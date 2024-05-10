@@ -132,6 +132,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			
 			MakePostController cont = loader.getController();
 			cont.setVTM(this);
+			cont.populatePostMethodChoiceBox();
 			
 			//cont.
 			
