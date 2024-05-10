@@ -34,6 +34,7 @@ public class LoginController
 		try
 		{
 			User user = authenticateUser(usernameField.getText(), passwordField.getText());
+			vtm.setUser(user);
 			vtm.showProfileView();
 		} 
 		catch (SecurityException e)

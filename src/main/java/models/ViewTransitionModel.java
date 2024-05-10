@@ -15,9 +15,22 @@ import views.SidebarController;
 public class ViewTransitionModel implements ViewTransitionModelInterface
 {
 	Stage stage;
-	
+	User user;
 	BorderPane view;
 	
+	
+	
+	public User getUser()
+	{
+		return user;
+	}
+
+	@Override
+	public void setUser(User user)
+	{
+		this.user = user;		
+	}
+
 	public ViewTransitionModel(Stage stage)
 	{
 		this.stage = stage;
@@ -52,7 +65,8 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			ProfileController cont = loader.getController();
 			cont.setVTM(this);
 			cont.populatePage();
-			
+			cont.populatePosts();
+			//cont.
 			
 			FXMLLoader sidebarLoader = new FXMLLoader();
 			
@@ -95,6 +109,8 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			e.printStackTrace();
 		}
 	}
+
+
 	
 	/*
 	My work

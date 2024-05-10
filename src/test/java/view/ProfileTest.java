@@ -4,6 +4,7 @@ import java.awt.ScrollPane;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -20,7 +21,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import models.MiniPost;
 import models.Name;
 import models.ServerHandler;
 import models.User;
@@ -36,8 +36,10 @@ public class ProfileTest
 	@Start
 	public void start(Stage stage) throws Exception
 	{
+		testPosts = new ArrayList<UserPost>();
 		ServerHandler.INSTANCE.clearServer();
 		ServerHandler.INSTANCE.configureServer();
+		//I'd like to stick this in a seperate method,but it breaks when I do :(
 		user = new User("Individual");
 		user.setUserName("upfrog");
 		user.setPassword("1234");
@@ -79,6 +81,7 @@ public class ProfileTest
 	private GridPane feedGrid;
 	
 	@Test
+	@Order(1)
 	public void setup(FxRobot robot)
 	{
 		robot.clickOn("#usernameField");
@@ -86,6 +89,11 @@ public class ProfileTest
 		robot.clickOn("#passwordField");
 		robot.write("1234");
 		robot.clickOn("#loginButton");
+	}
+	
+	public void testProfile(FxRobot robot)
+	{
+		
 	}
 	
 	@Test
