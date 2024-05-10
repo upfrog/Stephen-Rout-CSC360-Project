@@ -28,7 +28,7 @@ public class FeedController
 			try
 			{
 				Node postBox = loader.load();
-				MiniPostController miniController = loader.getController();
+				UserPostController miniController = loader.getController();
 				miniController.setData(posts.get(i));
 				
 				postGrid.add(postBox, 0, i);

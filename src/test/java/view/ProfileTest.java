@@ -1,5 +1,7 @@
 package view;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.awt.ScrollPane;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +20,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Name;
 import models.ServerHandler;
@@ -49,6 +54,7 @@ public class ProfileTest
 		user.setWorksAt("Yamaxun");
 		testPosts.add(user.createUserPost("Nexus is really the future of employment!", true));
 		testPosts.add(user.createUserPost("The power of social media remains underappreciated.", true));
+		user.likeUnlikePost(testPosts.get(1));
 		testPosts.add(user.createUserPost("What people need to understand about tech jobs is "
 				+ "that they...", true));
 		ServerHandler.INSTANCE.putUser(user);
@@ -89,18 +95,69 @@ public class ProfileTest
 		robot.clickOn("#passwordField");
 		robot.write("1234");
 		robot.clickOn("#loginButton");
+		
+		
+		int i = 0;
+		//This seems to stop working if I move it into another method. Onwards!
+		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(testPosts.get(i).getLikes()));
+		assertEquals(robot.lookup("#postContent" + i).queryAs(Label.class).getText(), 
+				testPosts.get(i).getContent());
+		assertEquals(robot.lookup("#postCreationDate" + i).queryAs(Text.class).getText(), 
+				testPosts.get(i).getCreationDateTime());
+		assertEquals(robot.lookup("#postCommentCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(testPosts.get(i).getLC().getListLength("Comments")));
+		
+		i++; //Everything except the comment count is different
+		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(testPosts.get(i).getLikes()));
+		assertEquals(robot.lookup("#postContent" + i).queryAs(Label.class).getText(), 
+				testPosts.get(i).getContent());
+		assertEquals(robot.lookup("#postCreationDate" + i).queryAs(Text.class).getText(), 
+				testPosts.get(i).getCreationDateTime());
+		assertEquals(robot.lookup("#postCommentCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(testPosts.get(i).getLC().getListLength("Comments")));
+		i++;
+		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(testPosts.get(i).getLikes()));
+		assertEquals(robot.lookup("#postContent" + i).queryAs(Label.class).getText(), 
+				testPosts.get(i).getContent());
+		assertEquals(robot.lookup("#postCreationDate" + i).queryAs(Text.class).getText(), 
+				testPosts.get(i).getCreationDateTime());
+		assertEquals(robot.lookup("#postCommentCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(testPosts.get(i).getLC().getListLength("Comments")));
+		
+		
+		//Test profile values
+		assertEquals(robot.lookup("#profileDescription").queryAs(Text.class).getText(),
+				user.getDescription());
+		assertEquals(robot.lookup("#profileName").queryAs(Label.class).getText(),
+				user.getDisplayName().getName());
+		assertEquals(robot.lookup("#profileTitleAndCompany").queryAs(Label.class).getText(),
+				user.getCurrentRole() + "@" + user.getWorksAt());
 	}
 	
+	@Test
 	public void testProfile(FxRobot robot)
 	{
 		
+		
+		/*
+		assertEquals(robot.lookup("#postContent").queryAs(Label.class).getText()
+				.equals("Nexus is really the future of employment!"), true);
+		*/
 	}
 	
+	
+	/*
 	@Test
 	public void testPosts(FxRobot robot)
 	{
 		//GridPane grid  = ((ScrollPane)feed.getSelectionModel().getSelectedItem().getContent()).getContent();
 		ObservableList<Node> posts = feedGrid.getChildren();
-		posts.get(0);
+		BorderPane bp = ((BorderPane)posts.get(0));
+		ObservableList<Node> level2 = bp.get(0);
+		VBox box = ((VBox) level2.get(0).getChildren()));
 	}
+	*/
 }

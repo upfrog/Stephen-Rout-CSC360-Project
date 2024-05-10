@@ -12,11 +12,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import models.MiniPost;
+import models.ServerHandler;
 import models.User;
+import models.UserPost;
 import models.ViewTransitionModelInterface;
 
 public class ProfileController
@@ -87,7 +88,7 @@ public class ProfileController
 	private ScrollPane feed;
     @FXML
     private GridPane feedGrid;
-	private List<MiniPost> posts;
+	private List<UserPost> posts;
 	
 	public void initialize()
 	{
@@ -95,6 +96,7 @@ public class ProfileController
 		
 	}
     
+	ArrayList<String[]> postIDs = new ArrayList<String[]>(); 
 	
 	public void populatePosts()
 	{
@@ -108,9 +110,12 @@ public class ProfileController
 			try
 			{
 				Node postBox = loader.load();
-				MiniPostController miniController = loader.getController();
-				miniController.setData(posts.get(i));
+				UserPostController userPostController = loader.getController();
+				postIDs.add(userPostController.setData(posts.get(i), i));
 				
+				
+
+
 				feedGrid.add(postBox, 0, i+1); //Without the +1, posts get clustered at the top of the pane
 				
 			} catch (IOException e)
@@ -162,10 +167,18 @@ public class ProfileController
 	}
 	*/
 
-	private List<MiniPost> fetchPosts()
+	private List<UserPost> fetchPosts()
 	{
-		ArrayList<MiniPost> posts = new ArrayList<MiniPost>();
+		//ArrayList<MiniPost> posts = new ArrayList<MiniPost>();
 		
+		ArrayList<UserPost> userPosts = new ArrayList<UserPost>();
+		User user = vtm.getUser();
+		for (String UID : user.getLC().getList("UserPosts"))
+		{
+			userPosts.add(ServerHandler.INSTANCE.getUserPost(UID));
+		}
+		
+		/*
 		posts.add(new MiniPost("I'm having an amazing time on Nexus!"));
 		posts.add(new MiniPost("Lorum ipsum"));
 		posts.add(new MiniPost("It is a truth universally acknowledge that a single man in want of"));
@@ -180,8 +193,8 @@ public class ProfileController
 		posts.add(new MiniPost("'It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife'.\r\n"
 				+ "\r\n"
 				+ "No-one in 1813 who read that opening sentence of Jane Austen's second novel would have imagined that it was destined to become one of the most famous first lines in literary history. This first edition featured in our display '200 years of \"Pride and Prejudice\": From Austen to zombies', which , which ran at the National Library of Scotland from 10 July to 15 September 2013."));
-		
-		return posts;
+		*/
+		return userPosts;
 	}
 	
 }
