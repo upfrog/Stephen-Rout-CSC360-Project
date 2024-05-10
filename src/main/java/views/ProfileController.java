@@ -88,6 +88,8 @@ public class ProfileController
 	private ScrollPane feed;
     @FXML
     private GridPane feedGrid;
+    @FXML
+    private Node feedGridNode;
 	private List<UserPost> posts;
 	
 	public void initialize()
@@ -100,6 +102,10 @@ public class ProfileController
 	
 	public void populatePosts()
 	{
+		feedGridNode = feedGrid;
+		
+		feedGridNode.setRotate(180); //setAngle(180);
+		feedGrid.setGridLinesVisible(true);
 		posts = fetchPosts();
 		//GridPane feedGrid = new GridPane();
 		//feed.setContent(feedGrid);
@@ -115,7 +121,7 @@ public class ProfileController
 				
 				
 
-
+				postBox.setRotate(180);
 				feedGrid.add(postBox, 0, i+1); //Without the +1, posts get clustered at the top of the pane
 				
 			} catch (IOException e)
