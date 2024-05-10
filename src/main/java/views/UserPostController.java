@@ -13,6 +13,7 @@ public class UserPostController
 	{
 		postContent.setText(post.getContent());
 		postContent.setId(postContent.getId() + i);
+		//postContent.setWrappingWidth();
 		
 		postCreationDate.setText(post.getCreationDateTime());
 		postCreationDate.setId(postCreationDate.getId() + i);
@@ -47,7 +48,7 @@ public class UserPostController
     private Text postCommentCount;
 
     @FXML
-    private Label postContent;
+    private Text postContent;
 
     @FXML
     private Text postCreationDate;

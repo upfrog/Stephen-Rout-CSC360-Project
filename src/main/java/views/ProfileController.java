@@ -100,6 +100,9 @@ public class ProfileController
     
 	ArrayList<String[]> postIDs = new ArrayList<String[]>(); 
 	
+	/*
+	 * By default, this solution causes posts to be made in chronological order
+	 */
 	public void populatePosts()
 	{
 		feedGridNode = feedGrid;

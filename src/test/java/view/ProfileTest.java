@@ -101,7 +101,7 @@ public class ProfileTest
 		//This seems to stop working if I move it into another method. Onwards!
 		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
 				String.valueOf(testPosts.get(i).getLikes()));
-		assertEquals(robot.lookup("#postContent" + i).queryAs(Label.class).getText(), 
+		assertEquals(robot.lookup("#postContent" + i).queryAs(Text.class).getText(), 
 				testPosts.get(i).getContent());
 		assertEquals(robot.lookup("#postCreationDate" + i).queryAs(Text.class).getText(), 
 				testPosts.get(i).getCreationDateTime());
@@ -111,7 +111,7 @@ public class ProfileTest
 		i++; //Everything except the comment count is different
 		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
 				String.valueOf(testPosts.get(i).getLikes()));
-		assertEquals(robot.lookup("#postContent" + i).queryAs(Label.class).getText(), 
+		assertEquals(robot.lookup("#postContent" + i).queryAs(Text.class).getText(), 
 				testPosts.get(i).getContent());
 		assertEquals(robot.lookup("#postCreationDate" + i).queryAs(Text.class).getText(), 
 				testPosts.get(i).getCreationDateTime());
@@ -120,7 +120,7 @@ public class ProfileTest
 		i++;
 		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
 				String.valueOf(testPosts.get(i).getLikes()));
-		assertEquals(robot.lookup("#postContent" + i).queryAs(Label.class).getText(), 
+		assertEquals(robot.lookup("#postContent" + i).queryAs(Text.class).getText(), 
 				testPosts.get(i).getContent());
 		assertEquals(robot.lookup("#postCreationDate" + i).queryAs(Text.class).getText(), 
 				testPosts.get(i).getCreationDateTime());
@@ -135,13 +135,31 @@ public class ProfileTest
 				user.getDisplayName().getName());
 		assertEquals(robot.lookup("#profileTitleAndCompany").queryAs(Label.class).getText(),
 				user.getCurrentRole() + "@" + user.getWorksAt());
+		
+		//Test making a new post
+		robot.clickOn("#sidebarMakePostButton");
+		robot.clickOn("#postBody");
+		
+		robot.write("With new technology, AI generated content will take over most Social Media.");
+		
+		robot.clickOn("#submitPostButton");
+		robot.clickOn("#sidebarProfileButton");
+		
+		i++;
+		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(0));
+		assertEquals(robot.lookup("#postContent" + i).queryAs(Text.class).getText(), 
+				"With new technology, AI generated content will take over most Social Media.");
+		assertEquals(robot.lookup("#postCommentCount" + i).queryAs(Text.class).getText(), 
+				String.valueOf(0));
+		robot.sleep(1000);
+	
 	}
 	
 	@Test
 	public void testProfile(FxRobot robot)
 	{
-		
-		
+
 		/*
 		assertEquals(robot.lookup("#postContent").queryAs(Label.class).getText()
 				.equals("Nexus is really the future of employment!"), true);
