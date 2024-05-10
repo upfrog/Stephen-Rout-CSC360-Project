@@ -26,19 +26,6 @@ import views.LoginController;
 public class LoginTest
 {
 
-/*
- * I couldn't get Assertions.AssertThat to work for me - the methods
- * you wanted me to use simply didn't appear. I'm not clear on what
- * benefit the Assertions package gives us above JUnit, so I just used
- * the JUnit phrasing.
- * 
- * Also, I am aware that the console freaks out whenever a number
- * that starts with "-" is entered - but the calculation still works,
- * the Operation still accurately reflects the input, and all the tests
- * run without issue, so I'm calling it fine - not that I'm the one 
- * that gets to make that call!
- */
-
 
 	@Start
 	public void start(Stage stage) throws Exception

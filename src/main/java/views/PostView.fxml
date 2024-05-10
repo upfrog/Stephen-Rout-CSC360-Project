@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.MiniPostController">
    <bottom>
       <StackPane BorderPane.alignment="CENTER">
          <children>
@@ -54,12 +54,12 @@
       </StackPane>
    </bottom>
    <center>
-      <VBox BorderPane.alignment="CENTER">
+      <VBox prefHeight="37.0" prefWidth="589.0" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
-            <Label id="postContent" fx:id="postContent" text="Label" />
+            <Label id="postContent" fx:id="postContent" text="Label" wrapText="true" />
          </children>
       </VBox>
    </center>

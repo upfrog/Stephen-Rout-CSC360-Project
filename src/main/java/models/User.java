@@ -40,6 +40,7 @@ public class User extends Entity
 			"Comments", "Blocked", "LikedPosts", "JobsAppliedFor", "Skills", "ReccomendedJobs"));
 	private String userType = "";
 	private String worksAt = "";
+	private String currentRole = "";
 	private List<WorkExperience> workHistory = new ArrayList<WorkExperience>();
 	private boolean isPublic = false;
 	private String password = "";
@@ -126,6 +127,19 @@ public class User extends Entity
 	public void setPassword(String password)
 	{
 		this.password = password;
+	}
+
+	
+
+	public String getCurrentRole()
+	{
+		return currentRole;
+	}
+
+
+	public void setCurrentRole(String currentRole)
+	{
+		this.currentRole = currentRole;
 	}
 
 

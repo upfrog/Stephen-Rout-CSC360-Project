@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1116.0" styleClass="background" stylesheets="@../../resources/css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ProfileController">
+   <right>
+      <VBox prefHeight="675.0" prefWidth="282.0" styleClass="profile-element" stylesheets="@../../resources/css/styles.css" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="308.0" />
+            <Label fx:id="profileName" text="Name">
+               <font>
+                  <Font size="34.0" />
+               </font></Label>
+            <Label fx:id="profileTitleAndCompany" text="Titel and Company">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin></Label>
+            <HBox prefHeight="66.0" prefWidth="308.0">
+               <children>
+                  <Button fx:id="profileFollowUserButton" mnemonicParsing="false" onAction="#followUser" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Follow" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin></Button>
+                  <Button fx:id="profileEditUserButton" maxHeight="30.0" maxWidth="150.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#editUser" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Edit Page" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+            <Text fx:id="profileDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsumLorum ipsum" wrappingWidth="307.13671875" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+      </VBox>
+   </right>
+   <center>
+      <StackPane styleClass="background" stylesheets="@../../resources/css/styles.css" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane id="feed" fx:id="feed" hbarPolicy="NEVER" prefWidth="117.0" vbarPolicy="ALWAYS">
+               <StackPane.margin>
+                  <Insets left="10.0" top="15.0" />
+               </StackPane.margin>
+               <content>
+                  <GridPane id="feedGrid" fx:id="feedGrid" alignment="TOP_CENTER" prefHeight="751.0" prefWidth="765.0" vgap="15.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="756.0" minWidth="10.0" prefWidth="729.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

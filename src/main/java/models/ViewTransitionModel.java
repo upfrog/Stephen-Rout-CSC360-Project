@@ -34,7 +34,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass()
-				.getResource("../views/ProfileView.fxml"));
+				.getResource("../views/ProfileViewGrid.fxml"));
 		
 		
 		//Get the sidebar images
@@ -52,11 +52,16 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			ProfileController cont = loader.getController();
 			cont.setVTM(this);
 			cont.populatePage();
+			
+			
 			FXMLLoader sidebarLoader = new FXMLLoader();
 			
 			sidebarLoader.setLocation(getClass().getResource("../views/Sidebar.fxml"));
-			SidebarController sidebarCont = sidebarLoader.getController();
 			this.view.setLeft(sidebarLoader.load());
+			SidebarController sidebarCont = sidebarLoader.getController();
+			
+			
+			sidebarCont.populateImages();
 			/*
 			User user = new User("Individual");
 			cont.setVTM(this);

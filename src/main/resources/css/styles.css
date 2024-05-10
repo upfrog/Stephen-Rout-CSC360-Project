@@ -31,16 +31,30 @@
 	-fx-font-size: 16;
 }
 
+/* for no images */
+/*
 .sidebar-button {
 	-fx-pref-height: 60;
 	-fx-pref-width: 200;
 	-fx-background-radius: 60;
 	-fx-background-color: #9257ff;
 }
+*/
+.sidebar-button {
+	-fx-pref-height: 50;
+	-fx-pref-width: 50;
+	-fx-background-radius: 50;
+	-fx-background-color: #9257ff;
+}
 
 .sidebar-button-label {
 	-fx-font-size:25;
 	-fx-padding: 0
+}
+
+#sidebar-background {
+	-fx-background-radius: 0 0 50 50;
+	-fxbackground-color: red;
 }
 
 .profile-element {
