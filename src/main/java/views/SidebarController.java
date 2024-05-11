@@ -106,6 +106,7 @@ public class SidebarController
     @FXML
     void showJobFeed(ActionEvent event) {
     	System.out.println("Job Feed");
+    	vtm.showJobFeedView();
 
     }
 

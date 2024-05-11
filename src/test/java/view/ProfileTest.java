@@ -73,7 +73,7 @@ public class ProfileTest
 		
 		
 		user2.createUserPost("Most people don't appreciate the beauty of life", true);
-		
+		user.createJobPost("Software Developers!", "Please please please please apply>");
 		
 		
 		testPosts.add(user.createUserPost("Nexus is really the future of employment!", true));

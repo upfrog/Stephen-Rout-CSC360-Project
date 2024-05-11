@@ -10,5 +10,6 @@ public interface ViewTransitionModelInterface
 	public void showEditProfileView();
 	public void showFeed();
 	public void showForeignProfile(User user);
+	public void showJobFeedView();
 	//void showProfileView(User user);
 }
