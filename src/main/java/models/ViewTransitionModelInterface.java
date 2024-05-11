@@ -7,4 +7,5 @@ public interface ViewTransitionModelInterface
 	public User getUser();
 	public void showMakePostView();
 	//void showProfileView(User user);
+	public void showEditProfileView();
 }

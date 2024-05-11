@@ -3,13 +3,14 @@ package views;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import models.User;
 import models.UserPost;
 
 public class UserPostController
 {
-	public String[] setData(UserPost post, int i)
+	public String[] setData(UserPost post, int i, User user)
 	{
 		postContent.setText(post.getContent());
 		postContent.setId(postContent.getId() + i);
@@ -27,7 +28,10 @@ public class UserPostController
 		postCommentCount.setId(postCommentCount.getId() + i);
 		
 		PostSeeCommentsButton.setId(PostSeeCommentsButton.getId() + i);
-
+		
+		//st.getCreatorUID()
+		 //nameplateName.setText(user.getDisplayName().getName());
+		//nameplateRoleAndCompany.setText(user.getCurrentRole() + "@" + user.getWorksAt());
 		
 
 		String[] ids = {"ff"};
@@ -55,6 +59,20 @@ public class UserPostController
 
     @FXML
     private Button postLike;
+
+    @FXML
+    private Button nameplateFollow;
+
+    @FXML
+    private ImageView nameplateImage;
+
+    @FXML
+    private Text nameplateName;
+
+    @FXML
+    private Text nameplateRoleAndCompany;
+
+    
 
     @FXML
     void likePost(ActionEvent event) {

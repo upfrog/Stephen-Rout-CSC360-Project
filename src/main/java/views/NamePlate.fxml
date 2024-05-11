@@ -8,37 +8,34 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane minWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane minWidth="-Infinity" prefHeight="87.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.UserPostController">
    <top>
-      <StackPane minHeight="-Infinity" minWidth="-Infinity">
+      <StackPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="554.0">
          <children>
             <Pane>
                <children>
-                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="111.0" prefWidth="726.0">
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="87.0" prefWidth="641.0">
                      <children>
-                        <StackPane prefHeight="115.0" prefWidth="115.0">
-                           <children>
-                              <ImageView fitHeight="115.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true" />
-                              <Circle fill="DODGERBLUE" radius="53.0" stroke="BLACK" strokeType="INSIDE" />
-                           </children>
-                        </StackPane>
-                        <VBox prefHeight="400.0" prefWidth="402.0">
+                        <ImageView fitHeight="88.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true" />
+                        <VBox prefHeight="84.0" prefWidth="517.0">
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="545.0">
                                        <children>
-                                          <Text fx:id="nameplateName" strokeType="OUTSIDE" strokeWidth="0.0" text="John Smith">
+                                          <Text id="nameplateName" fx:id="nameplateName" strokeType="OUTSIDE" strokeWidth="0.0" text="John Smith">
                                              <font>
                                                 <Font size="21.0" />
                                              </font>
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
                                           </Text>
                                           <HBox prefHeight="100.0" prefWidth="200.0" />
-                                          <Button alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" scaleX="1.5" scaleY="1.5" text="Follow" HBox.hgrow="NEVER">
+                                          <Button id="nameplateFollow" fx:id="nameplateFollow" alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" scaleX="1.5" scaleY="1.5" text="Follow" HBox.hgrow="NEVER">
                                              <HBox.margin>
                                                 <Insets left="200.0" />
                                              </HBox.margin>
@@ -47,10 +44,13 @@
                                     </HBox>
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Text fx:id="nameplateJob" strokeType="OUTSIDE" strokeWidth="0.0" text="Distinguished Senior Vice-Fellow at Appamagoolesoftflixforce">
+                                          <Text id="nameplateRoleAndCompany" fx:id="nameplateRoleAndCompany" strokeType="OUTSIDE" strokeWidth="0.0" text="Distinguished Senior Vice-Fellow at Appamagoolesoftflixforce">
                                              <font>
                                                 <Font size="19.0" />
                                              </font>
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
                                           </Text>
                                        </children>
                                     </HBox>
@@ -58,7 +58,7 @@
                               </VBox>
                            </children>
                         </VBox>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                        <BorderPane prefHeight="88.0" prefWidth="51.0" />
                      </children>
                   </HBox>
                </children>

@@ -152,7 +152,7 @@ public class ProfileTest
 				"With new technology, AI generated content will take over most Social Media.");
 		assertEquals(robot.lookup("#postCommentCount" + i).queryAs(Text.class).getText(), 
 				String.valueOf(0));
-		robot.sleep(1000);
+		robot.sleep(10000);
 	
 	}
 	

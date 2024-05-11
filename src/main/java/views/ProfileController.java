@@ -12,9 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import models.MiniPost;
 import models.ServerHandler;
 import models.User;
 import models.UserPost;
@@ -75,8 +76,9 @@ public class ProfileController
     private Label profileTitleAndCompany;
 
     @FXML
-    void editUser(ActionEvent event) {
-
+    void editUser(ActionEvent event) 
+    {
+    	vtm.showEditProfileView();
     }
 
     @FXML
@@ -107,20 +109,26 @@ public class ProfileController
 	{
 		feedGridNode = feedGrid;
 		
+		User user = vtm.getUser();
 		feedGridNode.setRotate(180); //setAngle(180);
 		feedGrid.setGridLinesVisible(true);
-		posts = fetchPosts();
+		posts = fetchPosts(user);
 		//GridPane feedGrid = new GridPane();
 		//feed.setContent(feedGrid);
 		for (int i = 0; i < posts.size(); i++)
 		{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("../views/PostView.fxml"));
+			FXMLLoader namePlateLoader = new FXMLLoader();
+			namePlateLoader.setLocation(getClass().getResource("../views/NamePlate.fxml"));
+
+			//Combine nameplate with userpost, or just combine them in scenbuilder
 			try
 			{
-				Node postBox = loader.load();
+				BorderPane postBox = loader.load();
+				postBox.setTop(namePlateLoader.load());
 				UserPostController userPostController = loader.getController();
-				postIDs.add(userPostController.setData(posts.get(i), i));
+				postIDs.add(userPostController.setData(posts.get(i), i, user));
 				
 				
 
@@ -176,12 +184,12 @@ public class ProfileController
 	}
 	*/
 
-	private List<UserPost> fetchPosts()
+	private List<UserPost> fetchPosts(User user)
 	{
 		//ArrayList<MiniPost> posts = new ArrayList<MiniPost>();
 		
 		ArrayList<UserPost> userPosts = new ArrayList<UserPost>();
-		User user = vtm.getUser();
+		
 		for (String UID : user.getLC().getList("UserPosts"))
 		{
 			userPosts.add(ServerHandler.INSTANCE.getUserPost(UID));
