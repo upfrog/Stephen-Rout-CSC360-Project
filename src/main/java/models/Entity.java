@@ -78,7 +78,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 		{
 			addFollowerUID(user.getUID());
 		}
-		//ServerHandler.INSTANCE.putUser(this);
+		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	
@@ -108,12 +108,13 @@ public abstract class Entity extends Structure implements Followable, Follower
 	@Override
 	public void pushPost(Post post)
 	{
-		ArrayList<String> followerUIDs = new ArrayList<String>(getLC().getList("Followers"));
-		
+		ArrayList<String> followerUIDs = new ArrayList<String>(this.getFollowerUIDs());
+		System.out.println(followerUIDs);
 		for (String followerUID : followerUIDs)
 		{
 			User user = ServerHandler.INSTANCE.getUser(followerUID);
 			user.recievePost(post);
+			ServerHandler.INSTANCE.putUser(user);
 		}
 	}
 	

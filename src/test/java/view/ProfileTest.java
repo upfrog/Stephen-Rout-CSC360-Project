@@ -44,6 +44,9 @@ public class ProfileTest
 		testPosts = new ArrayList<UserPost>();
 		ServerHandler.INSTANCE.clearServer();
 		ServerHandler.INSTANCE.configureServer();
+		
+		
+		
 		//I'd like to stick this in a seperate method,but it breaks when I do :(
 		user = new User("Individual");
 		user.setUserName("upfrog");
@@ -52,15 +55,8 @@ public class ProfileTest
 		user.setDescription("I'm pretty okay at my job I guess.");
 		user.setCurrentRole("SDE XVI");
 		user.setWorksAt("Yamaxun");
-		testPosts.add(user.createUserPost("Nexus is really the future of employment!", true));
-		testPosts.add(user.createUserPost("The power of social media remains underappreciated.", true));
-		user.likeUnlikePost(testPosts.get(1));
-		testPosts.add(user.createUserPost("What people need to understand about tech jobs is "
-				+ "that they...", true));
-		ServerHandler.INSTANCE.putUser(user);
 		
 		
-		//For convenience
 		
 		User user2 = new User("Individual");
 		user2.setUserName("downdog");
@@ -69,8 +65,29 @@ public class ProfileTest
 		user2.setDescription("Leveraging Shareholder Synergy To Revolutiona A New Paradigmatic Revolution.");
 		user2.setCurrentRole("Though Leader");
 		user2.setWorksAt("Unemployed");
-		user2.createUserPost("Most people don't appreciate the beauty of life", true);
+		
+		user2.followingToggle(user);
+		//ServerHandler.INSTANCE.putUser(user);
 		ServerHandler.INSTANCE.putUser(user2);
+		ServerHandler.INSTANCE.putUser(user);
+		
+		
+		user2.createUserPost("Most people don't appreciate the beauty of life", true);
+		
+		
+		
+		testPosts.add(user.createUserPost("Nexus is really the future of employment!", true));
+		testPosts.add(user.createUserPost("The power of social media remains underappreciated.", true));
+		user.likeUnlikePost(testPosts.get(1));
+		testPosts.add(user.createUserPost("What people need to understand about tech jobs is "
+				+ "that they...", true));
+
+		
+		
+		//For convenience
+		
+		
+		
 
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("../views/LoginView.fxml"));
@@ -169,15 +186,17 @@ public class ProfileTest
 	
 	}
 	
+	/*
 	@Test
 	public void testProfile(FxRobot robot)
 	{
 
-		/*
+		
 		assertEquals(robot.lookup("#postContent").queryAs(Label.class).getText()
 				.equals("Nexus is really the future of employment!"), true);
-		*/
+		
 	}
+	*/
 	
 	
 	/*

@@ -164,12 +164,31 @@ class UserAndPostTest
 		user1.followingToggle(user2);
 		assertEquals(user1.getFollowingUIDs().contains(user2UID), true);
 		assertEquals(user2.getFollowerUIDs().contains(user1UID), true);
+		assertEquals(user1.getFollowerUIDs().contains(user2UID), false);
+		assertEquals(user2.getFollowingUIDs().contains(user1UID), false);
+
+		
 		user1.followingToggle(user2);
 		assertEquals(user1.getFollowingUIDs().contains(user2UID), false);
 		assertEquals(user2.getFollowerUIDs().contains(user1UID), false);
 	}
 	
-	
+	@Test
+	void testPostFeed()
+	{
+		User user1 = ServerHandler.INSTANCE.getUser(user1UID);
+		User user2 = ServerHandler.INSTANCE.getUser(user2UID);
+		user1.followingToggle(user2);
+		assertEquals(user1.getFollowingUIDs().contains(user2UID), true);
+
+		UserPost post1 = user2.createUserPost("Lalalala", true);
+
+		user1 = user1.updatedUser();
+		user2 = user2.updatedUser();
+		assertEquals(user1.getLC().getList("PostFeed").contains(post1.getUID()), true);
+		assertEquals(user2.getLC().getList("PostFeed").contains(post1.getUID()), false);
+
+	}
 	
 	
 	@Test
@@ -334,6 +353,6 @@ class UserAndPostTest
 		assertDoesNotThrow(() -> testUser2.processJobRec(true));
 	}
 	
-
+	
 	
 }

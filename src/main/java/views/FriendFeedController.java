@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
@@ -27,9 +28,11 @@ public class FriendFeedController
 	}
 	
 	Node feedGridNode;
+	@FXML
 	GridPane feedGrid;
 	
 	ArrayList<String[]> postIDs = new ArrayList<String[]>(); 
+	private List<UserPost> posts;
 
 	public void populatePosts()
 	{

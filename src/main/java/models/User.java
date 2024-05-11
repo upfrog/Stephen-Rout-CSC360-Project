@@ -150,6 +150,7 @@ public class User extends Entity
 	{
 		UserPost post = new UserPost(content, isPublic, this);
 		getLC().addLink("UserPosts", post.getUID());
+		pushPost(post);
 		ServerHandler.INSTANCE.postUserPost(post);
 		ServerHandler.INSTANCE.putUser(this);
 		

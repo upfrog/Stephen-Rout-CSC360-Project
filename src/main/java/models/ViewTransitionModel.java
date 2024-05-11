@@ -182,10 +182,13 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		try
 		{
 			BorderPane view = loader.load();
+			this.view.setCenter(view);
 			//EditProfileController controller = new EditProfileController(this);
 			FriendFeedController controller = loader.getController();
+			
 			controller.setVTM(this);
-			this.view.setCenter(view);
+			controller.populatePosts();
+			
 			//controller.populate();
 			//ViewTransitionModel vtm = new ViewTransitionModel(view);
 			
