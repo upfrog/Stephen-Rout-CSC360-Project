@@ -117,11 +117,15 @@ public class ProfileController
 		{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("../views/PostView.fxml"));
+
+
 			try
 			{
 				Node postBox = loader.load();
 				UserPostController userPostController = loader.getController();
+				userPostController.setVTM(this.vtm);
 				postIDs.add(userPostController.setData(posts.get(i), i));
+				
 				
 				
 

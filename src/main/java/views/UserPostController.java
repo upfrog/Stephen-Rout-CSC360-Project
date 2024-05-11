@@ -5,10 +5,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
+import models.User;
 import models.UserPost;
+import models.ViewTransitionModelInterface;
 
 public class UserPostController
 {
+	ViewTransitionModelInterface vtm;
+	
+	public void setVTM(ViewTransitionModelInterface vtm)
+	{
+		this.vtm = vtm;
+	}
+	
 	public String[] setData(UserPost post, int i)
 	{
 		postContent.setText(post.getContent());
@@ -27,6 +36,14 @@ public class UserPostController
 		postCommentCount.setId(postCommentCount.getId() + i);
 		
 		PostSeeCommentsButton.setId(PostSeeCommentsButton.getId() + i);
+		
+		User user = vtm.getUser();
+		
+		postViewJob.setText(user.getCurrentRole() + "@" + user.getWorksAt());
+		postViewJob.setId(postViewJob.getId() + i);
+		
+		postViewName.setText(user.getDisplayName().getName());
+		postViewName.setId(postViewName.getId() + i);
 
 		
 
@@ -55,6 +72,15 @@ public class UserPostController
 
     @FXML
     private Button postLike;
+    
+    @FXML
+    private Button seeUserProfileButton;
+    
+    @FXML
+    private Label postViewJob;
+
+    @FXML
+    private Label postViewName;
 
     @FXML
     void likePost(ActionEvent event) {
@@ -63,6 +89,11 @@ public class UserPostController
 
     @FXML
     void onClickSeeComments(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void seeUserProfile(ActionEvent event) {
 
     }
 }
