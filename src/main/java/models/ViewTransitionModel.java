@@ -22,7 +22,6 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	BorderPane view;
 	
 	
-	
 	public User getUser()
 	{
 		return user;
@@ -158,10 +157,13 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		try
 		{
 			VBox view = loader.load();
-			EditProfileController controller = new EditProfileController();
-			this.view.setCenter(view);
-			//ViewTransitionModel vtm = new ViewTransitionModel(view);
+			//EditProfileController controller = new EditProfileController(this);
+			EditProfileController controller = loader.getController();
 			controller.setVTM(this);
+			this.view.setCenter(view);
+			controller.populateExistingData();
+			//ViewTransitionModel vtm = new ViewTransitionModel(view);
+			
 			
 			
 		} catch (IOException e)

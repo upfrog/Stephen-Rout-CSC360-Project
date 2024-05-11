@@ -2,6 +2,7 @@ package views;
 
 import java.util.ArrayList;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,13 +10,24 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import models.Name;
 import models.ServerHandler;
 import models.User;
 import models.ViewTransitionModelInterface;
 
+
 public class EditProfileController
 {
 	ViewTransitionModelInterface vtm;
+	
+	
+	public EditProfileController(ViewTransitionModelInterface vtm)
+	{
+		this.vtm = vtm;
+	}
+	
+	public EditProfileController()
+	{}
 	
 	public void setVTM(ViewTransitionModelInterface vtm)
 	{
@@ -76,26 +88,106 @@ public class EditProfileController
     	for (String editorUID : user.getEditorUIDs())
     	{
     		User editor = ServerHandler.INSTANCE.getUser(editorUID);
-    		editorList.getItems().add(editor.getDisplayName().getName());
-    		System.out.println(editor.getDisplayName().getName());
+    		String entry = editor.getDisplayName().getName() + " - " + editor.getUID();
+    		editorList.getItems().add(entry);
+    		//System.out.println(editor.getDisplayName().getName());
     	}
     }
     
     @FXML
     void acceptChanges(ActionEvent event) 
     {
-    	vtm.showProfileView();
+    	User user = vtm.getUser();
+    	user.setWorksAt(currentCompanyField.getText());
+    	user.setCurrentRole(currentJobTitleField.getText());
+    	user.setDescription(profileDescriptionArea.getText());
+    	user.setDisplayName(new Name(displayNameField.getText()));
+    	user.setIsPublic(!publicityRadioButton.isSelected());
+    	
+    	ObservableList<String> editors = editorList.getItems();
+    	ArrayList<String> editorUIDs = new ArrayList<String>();
+    	
+    	for (String editor : editors)
+    	{
+    		editorUIDs.add(editor.split(" - ", 0)[1]);
+    		
+    	}
+    	user.setEditorUID(editorUIDs);
+    	ServerHandler.INSTANCE.putUser(user);
+    	this.vtm.showProfileView();
     }
 
     @FXML
-    void submitEditorChange(ActionEvent event) {
+    void submitEditorAdd(ActionEvent event) {
+    	
+    	if (addEditorField.getText() != null || !addEditorField.getText().equals(""))
+    	{
+    		User newEditor = ServerHandler.INSTANCE.getUser(addEditorField.getText());
+        	editorList.getItems().add(newEditor.getDisplayName().getName() + " - " + newEditor.getUID());
+    	}
+    	
+    	
+    	
+    	/*
+    	  for (String editorUID : user.getEditorUIDs())
+    	{
+    		User editor = ServerHandler.INSTANCE.getUser(editorUID);
+    		String entry = editor.getDisplayName().getName() + " - " + editor.getUID();
+    		editorList.getItems().add(entry);
+    		//System.out.println(editor.getDisplayName().getName());
+    	}
+    	
+    	
+    	    		try
+    		{
+    			editors.add(addEditorField.getText());
+    			user.setEditorUID(editors);
+    			
+    		} catch (Exception e)
+    		{
+    			e.printStackTrace();
+    		}
+    		
+    		
+    		    		try
+    		{
+    			editors.remove(addEditorField.getText());
+    			user.setEditorUID(editors);
+    			
+    		} catch (Exception e)
+    		{
+    			e.printStackTrace();
+    		}
+    		\		User user = vtm.getUser();
+		ArrayList<String> editors = user.getEditorUIDs();
+    	
+    	 */
+    	
+    	
+    	
+    	
 
+		
+    	
+    	
+    	
     }
+    
+    @FXML
+    void submitEditorDelete(ActionEvent event) {
+    	if (removeEditorField.getText() != null || !removeEditorField.getText().equals(""))
+    	{
+    		User e = ServerHandler.INSTANCE.getUser(removeEditorField.getText());
+        	editorList.getItems().remove(e.getDisplayName().getName() + " - " + e.getUID());
+    	}
+    }
+    
     
     @FXML
     void cancelProfileEdit(ActionEvent event)
     {
-    	vtm.showProfileView();
+    	System.out.println(this.vtm);
+    	this.vtm.showProfileView();
     }
 
 }

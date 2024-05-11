@@ -59,6 +59,19 @@ public class ProfileTest
 				+ "that they...", true));
 		ServerHandler.INSTANCE.putUser(user);
 		
+		
+		//For convenience
+		
+		User user2 = new User("Individual");
+		user2.setUserName("downdog");
+		user2.setPassword("4321");
+		user2.setDisplayName(new Name("Inigo Montoya"));
+		user2.setDescription("Leveraging Shareholder Synergy To Revolutiona A New Paradigmatic Revolution.");
+		user2.setCurrentRole("Though Leader");
+		user2.setWorksAt("Unemployed");
+		user2.createUserPost("Most people don't appreciate the beauty of life", true);
+		ServerHandler.INSTANCE.putUser(user2);
+
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("../views/LoginView.fxml"));
 		
@@ -140,7 +153,7 @@ public class ProfileTest
 		robot.clickOn("#sidebarMakePostButton");
 		robot.clickOn("#postBody");
 		
-		robot.write("With new technology, AI generated content will take over most Social Media.");
+		robot.write("Technology!");
 		
 		robot.clickOn("#submitPostButton");
 		robot.clickOn("#sidebarProfileButton");
@@ -149,7 +162,7 @@ public class ProfileTest
 		assertEquals(robot.lookup("#PostLikeCount" + i).queryAs(Text.class).getText(), 
 				String.valueOf(0));
 		assertEquals(robot.lookup("#postContent" + i).queryAs(Text.class).getText(), 
-				"With new technology, AI generated content will take over most Social Media.");
+				"Technology!");
 		assertEquals(robot.lookup("#postCommentCount" + i).queryAs(Text.class).getText(), 
 				String.valueOf(0));
 		robot.sleep(1000);

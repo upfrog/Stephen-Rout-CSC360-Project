@@ -81,7 +81,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <RadioButton id="publicityRadioButton" fx:id="publicityRadioButton" mnemonicParsing="false" text="Make my profile private">
+            <RadioButton id="publicityRadioButton" fx:id="publicityRadioButton" mnemonicParsing="false" text="Make my profile public">
                <font>
                   <Font size="18.0" />
                </font>
@@ -111,7 +111,7 @@
                         <Font size="18.0" />
                      </font>
                      <VBox.margin>
-                        <Insets />
+                        <Insets top="10.0" />
                      </VBox.margin>
                   </Label>
                </children>
@@ -123,22 +123,34 @@
                         <Insets top="26.0" />
                      </VBox.margin>
                   </TextField>
-                  <TextField id="removeEditorField" fx:id="removeEditorField" />
-                  <Button id="submitEditorChangeButton" fx:id="submitEditorChangeButton" mnemonicParsing="false" onAction="#submitEditorChange" styleClass="generic-button" stylesheets="@../../resources/css/styles.css" text="Change Editor">
+                  <TextField id="removeEditorField" fx:id="removeEditorField">
                      <VBox.margin>
-                        <Insets left="80.0" top="15.0" />
+                        <Insets top="10.0" />
+                     </VBox.margin></TextField>
+               </children>
+            </VBox>
+            <VBox prefHeight="266.0" prefWidth="147.0">
+               <children>
+                  <Button id="addEditorButton" fx:id="addEditorButton" mnemonicParsing="false" onAction="#submitEditorAdd" prefHeight="25.0" prefWidth="101.0" stylesheets="@../../resources/css/styles.css" text="Add Editor">
+                     <VBox.margin>
+                        <Insets left="5.0" top="27.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button id="removeEditorButton" fx:id="removeEditorButton" mnemonicParsing="false" onAction="#submitEditorDelete" prefHeight="26.0" prefWidth="102.0" text="Remove Editor">
+                     <VBox.margin>
+                        <Insets left="5.0" top="9.0" />
                      </VBox.margin>
                   </Button>
                </children>
             </VBox>
-            <VBox prefHeight="266.0" prefWidth="297.0">
+            <VBox prefHeight="266.0" prefWidth="546.0">
                <children>
                   <Label text="Current Editors">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ListView id="editorList" fx:id="editorList" prefHeight="200.0" prefWidth="143.0" />
+                  <ListView id="editorList" fx:id="editorList" prefHeight="200.0" prefWidth="277.0" />
                </children>
                <HBox.margin>
                   <Insets left="15.0" />

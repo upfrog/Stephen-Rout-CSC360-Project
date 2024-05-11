@@ -91,6 +91,12 @@ public class LinkContainer
 		}
 	}
 	
+	public void setList(String listType, ArrayList<String> newUIDs)
+	{
+		linkMap.get(listType).clear();
+		linkMap.get(listType).addAll(newUIDs);
+	}
+	
 	/*
 	 * @param	listType: 	The key associated with the desired list
 	 * @return 				the number of elements in the desired list, or 
