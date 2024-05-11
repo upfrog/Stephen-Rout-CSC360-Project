@@ -100,6 +100,7 @@ public class SidebarController
     @FXML
     void showFriendPosts(ActionEvent event) {
     	System.out.println("Friends");
+    	vtm.showListOfFriendsView();
 
     }
 

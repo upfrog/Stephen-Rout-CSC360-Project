@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import views.EditProfileController;
 import views.FriendFeedController;
 import views.JobFeedController;
+import views.ListOfFriendsFeedController;
 import views.LoginController;
 import views.MakePostController;
 import views.ProfileController;
@@ -263,6 +264,30 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			//controller.populate();
 			//ViewTransitionModel vtm = new ViewTransitionModel(view);
 			
+			
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void showListOfFriendsView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/ListOfFriendsFeed.fxml"));
+		try
+		{
+			BorderPane view = loader.load();
+			this.view.setCenter(view);
+			//EditProfileController controller = new EditProfileController(this);
+			ListOfFriendsFeedController controller = loader.getController();
+			
+			controller.setVTM(this);
+			controller.populatePosts();
+
 			
 			
 		} catch (IOException e)
