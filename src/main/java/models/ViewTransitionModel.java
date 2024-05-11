@@ -3,6 +3,7 @@ package models;
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,7 +22,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	Stage stage;
 	User user;
 	BorderPane view;
-	
+	ViewTransitionModel parentVTM;
 	
 	public User getUser()
 	{
@@ -43,6 +44,9 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	{
 		this.view = view;
 	}
+	
+	public ViewTransitionModel()
+	{}
 
 	
 	@Override
@@ -101,6 +105,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		{
 			BorderPane view = loader.load();
 			LoginController controller = new LoginController();
+			this.view.setCenter(null);
 			this.view.setCenter(view);
 			ViewTransitionModel vtm = new ViewTransitionModel(view);
 			controller.setVTM(vtm);
@@ -161,6 +166,10 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			//EditProfileController controller = new EditProfileController(this);
 			EditProfileController controller = loader.getController();
 			controller.setVTM(this);
+			if (this.parentVTM != null)
+			{
+				controller.returnVTM = this.parentVTM;
+			}
 			this.view.setCenter(view);
 			controller.populateExistingData();
 			//ViewTransitionModel vtm = new ViewTransitionModel(view);
@@ -194,6 +203,41 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			
 			
 			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void showForeignProfile(User user)
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/ProfileViewGrid.fxml"));
+		
+		
+		
+		try
+		{
+
+			BorderPane view = loader.load();
+			this.view.setCenter(view);
+			ProfileController cont = loader.getController();
+			ViewTransitionModel foreignVTM = new ViewTransitionModel(this.view);
+			foreignVTM.setUser(user);
+			foreignVTM.parentVTM = this;
+			cont.setVTM(foreignVTM);
+			cont.populatePage();
+			cont.populatePosts();
+			
+			if (!user.getEditorUIDs().contains(this.user.getUID()))
+			{
+				cont.disallowEdit();
+			}
+			
+	
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block

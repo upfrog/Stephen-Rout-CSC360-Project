@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import models.ServerHandler;
 import models.User;
+import models.ViewTransitionModel;
 import models.ViewTransitionModelInterface;
 
 public class LoginController
@@ -30,6 +33,34 @@ public class LoginController
 	{
 		warningMessage.setText("");
 
+		/*
+		//this.vtm = new ViewTransitionModel();
+		if (this.vtm == null)
+		{
+			try
+			{
+				FXMLLoader loader = new FXMLLoader();
+				
+				//Set the file to be loaded
+				//loader.setLocation((getClass().getResource("../views/LoginView.fxml")));
+				
+				//Grab the entire view from the loader
+				//BorderPane view = loader.load();
+				//LoginController controller = loader.getController();
+				
+				//Put our view and model into a ViewTransitionalModel.
+				this.vtm = new ViewTransitionModel(new BorderPane()); 
+				
+				
+				//Why do we need to set VTM as the model here, but in the VTM class we 
+				//set the model itself as the model?
+				//controller.setVTM(vtm);
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		*/
 
 		try
 		{

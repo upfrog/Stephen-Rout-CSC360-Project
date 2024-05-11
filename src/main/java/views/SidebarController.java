@@ -41,7 +41,13 @@ public class SidebarController
     
     @FXML 
     private Button sidebarMakePostButton;
-
+    /*
+    @FXML
+    private Button sidebarLogOutButton;
+    
+    @FXML
+    private ImageView logOutImage;
+    */
     @FXML
     private ImageView homeImage;
     
@@ -63,6 +69,9 @@ public class SidebarController
     @FXML
     private ImageView makePostImage;
     
+    
+    
+    
     public void populateImages()
     {
     	homeImage.setImage(new Image("img/home.png", true));
@@ -72,6 +81,8 @@ public class SidebarController
     	profileImage.setImage(new Image("img/account_circle.png", true));
     	globalListsImage.setImage(new Image("img/search.png", true));
     	makePostImage.setImage(new Image("img/add.png"));
+    	//logOutImage.setImage(new Image("img/logout.png"));
+
     }
     
     
@@ -116,5 +127,12 @@ public class SidebarController
     	//System.out.println("making post!");
 
     }
-
+    
+    /*
+    @FXML
+    void logOut(ActionEvent event) {
+    	
+    	vtm.showLoginView();
+    }
+	*/
 }

@@ -51,6 +51,7 @@ public class FriendFeedController
 			{
 				Node postBox = loader.load();
 				UserPostController userPostController = loader.getController();
+				userPostController.setVTM(this.vtm);
 				postIDs.add(userPostController.setData(posts.get(i), i));
 				
 				

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
+import models.ServerHandler;
 import models.User;
 import models.UserPost;
 import models.ViewTransitionModelInterface;
@@ -12,6 +13,8 @@ import models.ViewTransitionModelInterface;
 public class UserPostController
 {
 	ViewTransitionModelInterface vtm;
+	UserPost post;
+	String postCreatorUID;
 	
 	public void setVTM(ViewTransitionModelInterface vtm)
 	{
@@ -37,7 +40,8 @@ public class UserPostController
 		
 		PostSeeCommentsButton.setId(PostSeeCommentsButton.getId() + i);
 		
-		User user = vtm.getUser();
+		User user = ServerHandler.INSTANCE.getUser(post.getCreatorUID()); 
+		this.postCreatorUID = post.getCreatorUID();
 		
 		postViewJob.setText(user.getCurrentRole() + "@" + user.getWorksAt());
 		postViewJob.setId(postViewJob.getId() + i);
@@ -45,6 +49,7 @@ public class UserPostController
 		postViewName.setText(user.getDisplayName().getName());
 		postViewName.setId(postViewName.getId() + i);
 
+		
 		
 
 		String[] ids = {"ff"};
@@ -84,7 +89,7 @@ public class UserPostController
 
     @FXML
     void likePost(ActionEvent event) {
-
+    	
     }
 
     @FXML
@@ -94,6 +99,7 @@ public class UserPostController
     
     @FXML
     void seeUserProfile(ActionEvent event) {
-
+    	User user = ServerHandler.INSTANCE.getUser(postCreatorUID);
+    	vtm.showForeignProfile(user);
     }
 }

@@ -357,11 +357,6 @@ public enum ServerHandler
 		String location = base + "/Users/" + UID;
 		try
 		{
-			System.out.println(client.get()
-					.uri(location)
-					.retrieve()
-					.body(String.class)
-					);
 			return client.get()
 					.uri(location)
 					.retrieve()

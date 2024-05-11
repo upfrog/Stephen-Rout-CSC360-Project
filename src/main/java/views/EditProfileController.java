@@ -19,6 +19,7 @@ import models.ViewTransitionModelInterface;
 public class EditProfileController
 {
 	ViewTransitionModelInterface vtm;
+	public ViewTransitionModelInterface returnVTM;
 	
 	
 	public EditProfileController(ViewTransitionModelInterface vtm)
@@ -114,7 +115,14 @@ public class EditProfileController
     	}
     	user.setEditorUID(editorUIDs);
     	ServerHandler.INSTANCE.putUser(user);
-    	this.vtm.showProfileView();
+    	if (this.returnVTM != null)
+    	{
+    		this.returnVTM.showProfileView();
+    	}
+    	else
+    	{
+    		this.vtm.showProfileView();
+    	}
     }
 
     @FXML
@@ -187,7 +195,14 @@ public class EditProfileController
     void cancelProfileEdit(ActionEvent event)
     {
     	System.out.println(this.vtm);
-    	this.vtm.showProfileView();
+    	if (this.returnVTM != null)
+    	{
+    		this.returnVTM.showProfileView();
+    	}
+    	else
+    	{
+    		this.vtm.showProfileView();
+    	}
     }
 
 }

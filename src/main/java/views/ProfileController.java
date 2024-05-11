@@ -211,6 +211,11 @@ public class ProfileController
 		return userPosts;
 	}
 	
+	public void disallowEdit()
+	{
+		profileEditUserButton.setVisible(false);
+	}
+	
 }
 
 
