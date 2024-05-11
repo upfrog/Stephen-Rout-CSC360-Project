@@ -469,6 +469,7 @@ public class User extends Entity
 	 * There isn't very much benefit to this approach now, but it is a more
 	 * scaleable solution for the future.
 	 */
+	@JsonIgnore
 	public List<String> getLinkTypes()
 	{
 		List<String> result = new ArrayList<String>();

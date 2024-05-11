@@ -3,10 +3,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public abstract class Entity extends Structure implements Followable, Follower
 {
 	
 	String entityDescription;
+	@JsonIgnore
 	List<String> linkTypes = new ArrayList<String>(Arrays.asList(
 			"Followers", "Following"));
 	
@@ -171,6 +174,10 @@ public abstract class Entity extends Structure implements Followable, Follower
 	public void addFollowingUID(String UID)
 	{
 		//this.followingUIDs.add(UID);
+		while (getLC().getList("Following").contains(UID))
+		{
+			getLC().removeLink("Following", UID);
+		}
 		getLC().addLink("Following", UID);
 		ServerHandler.INSTANCE.putUser(this);
 	}
@@ -183,6 +190,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 	
 	
 	//Follow*er* methods
+	@JsonIgnore
 	public List<String> getFollowerUIDs()
 	{
 		return this.getLC().getList("Followers");
@@ -246,6 +254,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 		this.blockedUIDs.remove(UID);
 	}
 	
+	@JsonIgnore
 	public List<String> getLinkTypes()
 	{
 		return linkTypes;

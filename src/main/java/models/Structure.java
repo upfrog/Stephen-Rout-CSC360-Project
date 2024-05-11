@@ -111,6 +111,6 @@ public abstract class Structure
 		
 		return result;
 	}
-	
+	@JsonIgnore
 	abstract public List<String> getLinkTypes();	
 }

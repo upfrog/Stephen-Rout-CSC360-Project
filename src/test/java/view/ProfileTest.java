@@ -15,15 +15,12 @@ import org.testfx.framework.junit5.Start;
 
 import com.sun.javafx.css.StyleManager;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.Name;
@@ -71,16 +68,18 @@ public class ProfileTest
 		ServerHandler.INSTANCE.putUser(user2);
 		ServerHandler.INSTANCE.putUser(user);
 		
-		
+		System.out.println(user2.getLC().getList("Following").size());
 		user2.createUserPost("Most people don't appreciate the beauty of life", true);
 		user.createJobPost("Software Developers!", "Please please please please apply>");
-		
+		System.out.println(user2.getLC().getList("Following").size());
+
 		
 		testPosts.add(user.createUserPost("Nexus is really the future of employment!", true));
 		testPosts.add(user.createUserPost("The power of social media remains underappreciated.", true));
 		user.likeUnlikePost(testPosts.get(1));
 		testPosts.add(user.createUserPost("What people need to understand about tech jobs is "
 				+ "that they...", true));
+		System.out.println(user2.getLC().getList("Following").size());
 
 		
 		
@@ -108,6 +107,8 @@ public class ProfileTest
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(user2.getLC().getList("Following").size());
+
 
 	}
 	
@@ -116,15 +117,21 @@ public class ProfileTest
 	@FXML
 	private GridPane feedGrid;
 	
+	
 	@Test
 	@Order(1)
 	public void setup(FxRobot robot)
 	{
 		robot.clickOn("#usernameField");
+		//System.out.println(user2.getLC().getList("Following").size());
+
+		
+	}/*
 		robot.write("upfrog");
 		robot.clickOn("#passwordField");
 		robot.write("1234");
 		robot.clickOn("#loginButton");
+	
 		
 		
 		int i = 0;
@@ -185,7 +192,7 @@ public class ProfileTest
 		robot.sleep(1000);
 	
 	}
-	
+	*/
 	/*
 	@Test
 	public void testProfile(FxRobot robot)
