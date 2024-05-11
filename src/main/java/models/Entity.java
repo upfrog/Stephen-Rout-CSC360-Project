@@ -52,17 +52,20 @@ public abstract class Entity extends Structure implements Followable, Follower
 	 */
 	public void followingToggle(Entity user)
 	{	
-		if (getFollowingUIDs().contains(user.getUID()))
+		if (!user.hasBlocked(this))
 		{
-			removeFollowingUID(user.getUID());
-			user.followerToggle(this);
+			if (getFollowingUIDs().contains(user.getUID()))
+			{
+				removeFollowingUID(user.getUID());
+				user.followerToggle(this);
+			}
+			else
+			{
+				addFollowingUID(user.getUID());
+				user.followerToggle(this);
+			}
+			ServerHandler.INSTANCE.putUser(this);
 		}
-		else
-		{
-			addFollowingUID(user.getUID());
-			user.followerToggle(this);
-		}
-		ServerHandler.INSTANCE.putUser(this);
 
 	}
 	
@@ -232,12 +235,12 @@ public abstract class Entity extends Structure implements Followable, Follower
 	 */
 	ArrayList<String> blockedUIDs = new ArrayList<String>();
 	
-	public boolean hasBlocked(User user)
+	public boolean hasBlocked(Entity user)
 	{
 		return getBlockedUIDs().contains(user.getUID());
 	}
 	
-	public void blockedToggle(User user)
+	public void blockedToggle(Entity user)
 	{
 		if (getBlockedUIDs().contains(user.getUID()))
 		{

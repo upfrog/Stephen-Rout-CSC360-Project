@@ -200,6 +200,23 @@ public class TestFeeds
 					String.valueOf(testJobPosts.get(i).getLC().getListLength("Comments")));
 			
 
+			//Test 
+			robot.clickOn("#showSearch");
+			robot.clickOn("#showUserPostsButton");
+			robot.clickOn("#showJobPostsButton");
+			robot.clickOn("#showUsersButton");
+			
+			robot.clickOn("#showFriendsSidebarButton");
+			assertEquals(robot.lookup("#friendName1").queryAs(Label.class).getText(), 
+					user.getDisplayName().getName());
+			robot.clickOn("#unfollowFriendButton1");
+			robot.clickOn("#showSearch");
+			robot.clickOn("#showFriendsSidebarButton");
+			
+			assertThrows(Exception.class, () ->
+			robot.lookup("#friendName1").queryAs(Label.class).getText(), 
+					user.getDisplayName().getName());
+
 			
 			
 		}

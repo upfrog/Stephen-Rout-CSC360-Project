@@ -25,6 +25,7 @@ public class FriendBoxController
 		this.UID = user.getUID();
 		friendName.setText(user.getDisplayName().getName());
 		friendName.setId(friendName.getId() + i);
+		unfollowFriendButton.setId(unfollowFriendButton.getId() + i);
 		
 		return new String[1];
 

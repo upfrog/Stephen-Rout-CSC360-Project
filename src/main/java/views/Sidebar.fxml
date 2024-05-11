@@ -34,7 +34,7 @@
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="sidebarSearchButton" mnemonicParsing="false" onAction="#showSearch" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
+                  <Button id="showSearch" fx:id="sidebarSearchButton" mnemonicParsing="false" onAction="#showSearch" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
                      <HBox.margin>
                         <Insets left="8.0" />
                      </HBox.margin>
@@ -74,7 +74,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="sidebarFriendPostsButton" mnemonicParsing="false" onAction="#showFriendPosts" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
+                  <Button id="showFriendsSidebarButton" fx:id="showFriendsSidebarButton" mnemonicParsing="false" onAction="#showFriendPosts" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
                      <HBox.margin>
                         <Insets left="8.0" />
                      </HBox.margin>
