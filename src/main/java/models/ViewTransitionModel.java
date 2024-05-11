@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import views.EditProfileController;
+import views.FriendFeedController;
 import views.LoginController;
 import views.MakePostController;
 import views.ProfileController;
@@ -162,6 +163,30 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			controller.setVTM(this);
 			this.view.setCenter(view);
 			controller.populateExistingData();
+			//ViewTransitionModel vtm = new ViewTransitionModel(view);
+			
+			
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void showFeed()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/FriendFeedView.fxml"));
+		try
+		{
+			BorderPane view = loader.load();
+			//EditProfileController controller = new EditProfileController(this);
+			FriendFeedController controller = loader.getController();
+			controller.setVTM(this);
+			this.view.setCenter(view);
+			//controller.populate();
 			//ViewTransitionModel vtm = new ViewTransitionModel(view);
 			
 			

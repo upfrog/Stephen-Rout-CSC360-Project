@@ -37,7 +37,7 @@ public class User extends Entity
 	private String userName = "Default";
 	@JsonIgnore
 	private static List<String> linkTypes = new ArrayList<String>(Arrays.asList("UserPosts", "JobPosts", 
-			"Comments", "Blocked", "LikedPosts", "JobsAppliedFor", "Skills", "ReccomendedJobs"));
+			"Comments", "Blocked", "LikedPosts", "JobsAppliedFor", "Skills", "ReccomendedJobs", "PostFeed"));
 	private String userType = "";
 	private String worksAt = "";
 	private String currentRole = "";
@@ -152,6 +152,7 @@ public class User extends Entity
 		getLC().addLink("UserPosts", post.getUID());
 		ServerHandler.INSTANCE.postUserPost(post);
 		ServerHandler.INSTANCE.putUser(this);
+		
 		return post;
 	}
 	
@@ -424,18 +425,9 @@ public class User extends Entity
 
 	//THESE METHODS ARE UNNECESARRY FOR SPRINT 1
 	
-	@Override
-	public void push(Post post)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
-		
-	}
+
+	
+
 
 	
 	

@@ -4,5 +4,5 @@ package models;
  */
 public interface Follower
 {
-	public void update();
+	public void recievePost(Post post);
 }

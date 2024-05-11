@@ -5,5 +5,5 @@ package models;
 public interface Followable
 {
 	public void followerToggle(Entity user);
-	public void push(Post post);
+	public void pushPost(Post post);
 }

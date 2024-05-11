@@ -83,6 +83,7 @@ public class SidebarController
     @FXML
     void showFeed(ActionEvent event) {
     	System.out.println("Feed");
+    	vtm.showFeed();
     }
 
     @FXML

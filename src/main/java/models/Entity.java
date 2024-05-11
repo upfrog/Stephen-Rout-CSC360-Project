@@ -104,6 +104,26 @@ public abstract class Entity extends Structure implements Followable, Follower
 		this.editorUIDs = editorList;
 	}
 	
+	
+	@Override
+	public void pushPost(Post post)
+	{
+		ArrayList<String> followerUIDs = new ArrayList<String>(getLC().getList("Followers"));
+		
+		for (String followerUID : followerUIDs)
+		{
+			User user = ServerHandler.INSTANCE.getUser(followerUID);
+			user.recievePost(post);
+		}
+	}
+	
+	@Override
+	public void recievePost(Post post)
+	{
+		this.getLC().addLink("PostFeed", post.getUID());
+	}
+	
+	
 	/*
 	 * To be honest, I'm not entirely sure why I made editor methods
 	 * that take the editor UID, and ones that take the editor object.
