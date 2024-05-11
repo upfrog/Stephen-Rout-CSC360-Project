@@ -76,6 +76,7 @@ public class ProfileController
 
     @FXML
     void editUser(ActionEvent event) {
+    	vtm.showEditProfileView();
 
     }
 

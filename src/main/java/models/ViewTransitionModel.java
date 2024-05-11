@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import views.EditProfileController;
 import views.LoginController;
 import views.MakePostController;
 import views.ProfileController;
@@ -149,7 +150,26 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		}
 	}
 
-
+	public void showEditProfileView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/EditProfileView.fxml"));
+		try
+		{
+			VBox view = loader.load();
+			EditProfileController controller = new EditProfileController();
+			this.view.setCenter(view);
+			//ViewTransitionModel vtm = new ViewTransitionModel(view);
+			controller.setVTM(this);
+			
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	/*
 	My work
