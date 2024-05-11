@@ -14,7 +14,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import models.MiniPost;
 import models.ServerHandler;
 import models.User;
 import models.UserPost;
