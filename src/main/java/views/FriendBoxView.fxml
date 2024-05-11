@@ -21,7 +21,7 @@
             </Label>
          </children>
       </VBox>
-      <Button id="unfollowFriendButton" fx:id="unfollowFriendButton" mnemonicParsing="false" onAction="#unfollowFriend" text="Button">
+      <Button id="unfollowFriendButton" fx:id="unfollowFriendButton" mnemonicParsing="false" onAction="#unfollowFriend" text="Unfollow">
          <HBox.margin>
             <Insets left="450.0" top="10.0" />
          </HBox.margin>

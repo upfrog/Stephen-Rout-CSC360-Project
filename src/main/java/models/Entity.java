@@ -71,6 +71,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 	 * user (parameter) from their followerlist, and by extension,
 	 * unsubscribe user from receiving posts.
 	 */
+	@Override
 	public void followerToggle(Entity user)
 	{
 		if (getFollowerUIDs().contains(user.getUID()))
@@ -84,6 +85,20 @@ public abstract class Entity extends Structure implements Followable, Follower
 		ServerHandler.INSTANCE.putUser(this);
 	}
 	
+	/*
+	public void followerToggle(User user)
+	{
+		if (getFollowerUIDs().contains(user.getUID()))
+		{
+			removeFollowerUID(user.getUID());
+		}
+		else
+		{
+			addFollowerUID(user.getUID());
+		}
+		ServerHandler.INSTANCE.putUser(this);
+	}
+	*/
 	
 	/*
 	ArrayList<String> followerUIDs = new ArrayList<String>();
