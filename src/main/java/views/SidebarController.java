@@ -21,8 +21,7 @@ public class SidebarController
 		this.vtm = vtm;
 	}
 	
- 	@FXML
-    private Button SidebarCompaniesButton;
+
 
     @FXML
     private Button sidebarFriendPostsButton;
@@ -51,8 +50,6 @@ public class SidebarController
     @FXML
     private ImageView homeImage;
     
-    @FXML
-    private ImageView companiesImage;
 
     @FXML
     private ImageView friendsImage;
@@ -75,7 +72,7 @@ public class SidebarController
     public void populateImages()
     {
     	homeImage.setImage(new Image("img/home.png", true));
-    	companiesImage.setImage(new Image("img/companies.png", true));
+    	//companiesImage.setImage(new Image("img/companies.png", true));
     	friendsImage.setImage(new Image("img/group.png", true));
     	jobRecsImage.setImage(new Image("img/jobs.png", true));
     	profileImage.setImage(new Image("img/account_circle.png", true));
@@ -86,10 +83,7 @@ public class SidebarController
     }
     
     
-    @FXML
-    void showCompanies(ActionEvent event) {
-
-    }
+ 
 
     @FXML
     void showFeed(ActionEvent event) {
@@ -120,6 +114,7 @@ public class SidebarController
     @FXML
     void showSearch(ActionEvent event) {
     	System.out.println("Search");
+    	vtm.showGlobalLists();
 
     }
     

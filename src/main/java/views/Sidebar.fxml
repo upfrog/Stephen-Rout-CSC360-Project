@@ -54,7 +54,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="sidebarJobPostsButton" mnemonicParsing="false" onAction="#showJobFeed" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
+                  <Button id="showJobFeed" fx:id="sidebarJobPostsButton" mnemonicParsing="false" onAction="#showJobFeed" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
                      <HBox.margin>
                         <Insets left="8.0" />
                      </HBox.margin>
@@ -83,26 +83,6 @@
                      </graphic>
                   </Button>
                   <Label alignment="CENTER" styleClass="sidebar-button-label" stylesheets="@../../resources/css/styles.css" text="Friends">
-                     <HBox.margin>
-                        <Insets left="5.0" top="7.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <HBox prefWidth="240.0">
-               <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </VBox.margin>
-               <children>
-                  <Button fx:id="SidebarCompaniesButton" mnemonicParsing="false" onAction="#showCompanies" styleClass="sidebar-button" stylesheets="@../../resources/css/styles.css">
-                     <HBox.margin>
-                        <Insets left="8.0" />
-                     </HBox.margin>
-                     <graphic>
-                        <ImageView id="companiesImage" fx:id="companiesImage" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
-                     </graphic>
-                  </Button>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="129.0" styleClass="sidebar-button-label" stylesheets="@../../resources/css/styles.css" text="Companies">
                      <HBox.margin>
                         <Insets left="5.0" top="7.0" />
                      </HBox.margin>

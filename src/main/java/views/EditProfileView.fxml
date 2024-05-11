@@ -23,7 +23,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <HBox prefHeight="57.0" prefWidth="1116.0">
+      <HBox prefHeight="39.0" prefWidth="1116.0">
          <children>
             <Label text="Display Name">
                <padding>
@@ -57,7 +57,15 @@
             <Insets top="15.0" />
          </VBox.margin>
       </HBox>
-      <HBox prefHeight="57.0" prefWidth="1116.0" />
+      <HBox prefHeight="57.0" prefWidth="1116.0">
+         <children>
+            <Label text="Skills">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextArea id="skillArea" fx:id="skillArea" prefHeight="57.0" prefWidth="1043.0" />
+         </children></HBox>
       <HBox prefHeight="168.0" prefWidth="1116.0">
          <children>
             <Label text="Profile Description">

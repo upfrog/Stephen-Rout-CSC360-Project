@@ -64,12 +64,14 @@ public class ProfileTest
 		user2.setWorksAt("Unemployed");
 		
 		user2.followingToggle(user);
+		user.followingToggle(user2);
 		//ServerHandler.INSTANCE.putUser(user);
 		ServerHandler.INSTANCE.putUser(user2);
 		ServerHandler.INSTANCE.putUser(user);
 		
 		System.out.println(user2.getLC().getList("Following").size());
 		user2.createUserPost("Most people don't appreciate the beauty of life", true);
+		user2.createJobPost("Secretary", "I need someone to implement my genius ideas! That could be you!");
 		user.createJobPost("Software Developers!", "Please please please please apply>");
 		System.out.println(user2.getLC().getList("Following").size());
 
@@ -126,7 +128,7 @@ public class ProfileTest
 		//System.out.println(user2.getLC().getList("Following").size());
 
 		
-	}/*
+	
 		robot.write("upfrog");
 		robot.clickOn("#passwordField");
 		robot.write("1234");
@@ -189,10 +191,47 @@ public class ProfileTest
 				"Technology!");
 		assertEquals(robot.lookup("#postCommentCount" + i).queryAs(Text.class).getText(), 
 				String.valueOf(0));
+		
+		
+		//Test editing the user
+		robot.clickOn("#profileEditUserButton");
+		robot.clickOn("#displayNameField");
+		robot.write("Billy");
+		
+		robot.clickOn("#currentJobTitleField");
+		robot.write("Monk");
+		
+		robot.clickOn("#currentCompanyField");
+		robot.write("One of the churhces");
+		
+		robot.clickOn("#skillArea");
+		robot.write("python java management math");
+		
+		robot.clickOn("#profileDescriptionArea");
+		robot.write("I got tired of computers.");
+		
+		robot.clickOn("#acceptProfileEditChangesButton");
 		robot.sleep(1000);
-	
+		user = user.updatedUser();
+		assertEquals(robot.lookup("#profileDescription").queryAs(Text.class).getText(),
+				user.getDescription());
+		assertEquals(robot.lookup("#profileName").queryAs(Label.class).getText(),
+				user.getDisplayName().getName());
+		assertEquals(robot.lookup("#profileTitleAndCompany").queryAs(Label.class).getText(),
+				user.getCurrentRole() + "@" + user.getWorksAt());
+		assertEquals(user.getLC().getList("Skills").size(), 4);
+		assertEquals(user.getLC().getList("Skills").contains("python"), true);
+		assertEquals(user.getLC().getList("Skills").contains("java"), true);
+		assertEquals(user.getLC().getList("Skills").contains("management"), true);
+		assertEquals(user.getLC().getList("Skills").contains("math"), true);
+
+		
+		//Check post feed
+
+
+		
 	}
-	*/
+	
 	/*
 	@Test
 	public void testProfile(FxRobot robot)

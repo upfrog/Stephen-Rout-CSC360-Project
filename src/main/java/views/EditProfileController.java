@@ -1,6 +1,7 @@
 package views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,6 +61,9 @@ public class EditProfileController
 
     @FXML
     private TextArea profileDescriptionArea;
+    
+    @FXML
+    private TextArea skillArea;
 
     @FXML
     private RadioButton publicityRadioButton;
@@ -81,7 +85,7 @@ public class EditProfileController
     	profileDescriptionArea.setText(user.getDescription());
     	displayNameField.setText(user.getDisplayName().getName());
     	publicityRadioButton.setSelected(user.getIsPublic());
-    	
+    	skillArea.setText(getSkillString(user));
     	ArrayList<User> editors = new ArrayList<User>();
     			
     	
@@ -105,6 +109,7 @@ public class EditProfileController
     	user.setDisplayName(new Name(displayNameField.getText()));
     	user.setIsPublic(!publicityRadioButton.isSelected());
     	
+    	
     	ObservableList<String> editors = editorList.getItems();
     	ArrayList<String> editorUIDs = new ArrayList<String>();
     	
@@ -114,6 +119,12 @@ public class EditProfileController
     		
     	}
     	user.setEditorUID(editorUIDs);
+    	
+
+    	ArrayList<String> skills =  
+    			new ArrayList<String>(Arrays.asList(skillArea.getText().split(" ", 0)));
+    	
+    	user.getLC().setList("Skills", skills);
     	ServerHandler.INSTANCE.putUser(user);
     	if (this.returnVTM != null)
     	{
@@ -135,6 +146,7 @@ public class EditProfileController
     	}
     	
     	
+
     	
     	/*
     	  for (String editorUID : user.getEditorUIDs())
@@ -179,6 +191,19 @@ public class EditProfileController
     	
     	
     	
+    }
+    
+    private String getSkillString(User user)
+    {
+    	ArrayList<String> skillList = new ArrayList<String>(user.getLC().getList("Skills"));
+    	String result = "";
+    	
+    	for (int i = 0; i < skillList.size(); i++)
+    	{
+    		result = result + skillList.get(i) + " ";
+    	}
+    	
+    	return result;
     }
     
     @FXML

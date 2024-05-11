@@ -12,5 +12,6 @@ public interface ViewTransitionModelInterface
 	public void showForeignProfile(User user);
 	public void showJobFeedView();
 	public void showListOfFriendsView();
+	public void showGlobalLists();
 	//void showProfileView(User user);
 }

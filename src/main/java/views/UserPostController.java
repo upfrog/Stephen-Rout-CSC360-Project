@@ -40,6 +40,8 @@ public class UserPostController
 		
 		PostSeeCommentsButton.setId(PostSeeCommentsButton.getId() + i);
 		
+		seeUserProfileButton.setId(seeUserProfileButton.getId() + i);
+		
 		User user = ServerHandler.INSTANCE.getUser(post.getCreatorUID()); 
 		this.postCreatorUID = post.getCreatorUID();
 		

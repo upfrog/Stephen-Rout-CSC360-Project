@@ -107,6 +107,6 @@ public class JobPostController
     @FXML
     void applyToJob(ActionEvent event)
     {
-    	
+    	post.addApplicant(vtm.getUser());
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import views.EditProfileController;
 import views.FriendFeedController;
+import views.GlobalListViewController;
 import views.JobFeedController;
 import views.ListOfFriendsFeedController;
 import views.LoginController;
@@ -284,6 +285,30 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			this.view.setCenter(view);
 			//EditProfileController controller = new EditProfileController(this);
 			ListOfFriendsFeedController controller = loader.getController();
+			
+			controller.setVTM(this);
+			controller.populatePosts();
+
+			
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void showGlobalLists()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/GlobalListView.fxml"));
+		try
+		{
+			BorderPane view = loader.load();
+			this.view.setCenter(view);
+			//EditProfileController controller = new EditProfileController(this);
+			GlobalListViewController controller = loader.getController();
 			
 			controller.setVTM(this);
 			controller.populatePosts();

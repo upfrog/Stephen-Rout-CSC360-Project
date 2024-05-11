@@ -37,7 +37,7 @@
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin></Button>
-                  <Button fx:id="profileEditUserButton" maxHeight="30.0" maxWidth="150.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#editUser" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Edit Page" HBox.hgrow="NEVER">
+                  <Button id="profileEditUserButton" fx:id="profileEditUserButton" maxHeight="30.0" maxWidth="150.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#editUser" styleClass="profile-button" stylesheets="@../../resources/css/styles.css" text="Edit Page" HBox.hgrow="NEVER">
                      <HBox.margin>
                         <Insets left="15.0" right="15.0" />
                      </HBox.margin></Button>
