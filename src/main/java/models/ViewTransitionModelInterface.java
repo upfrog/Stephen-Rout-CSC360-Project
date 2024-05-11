@@ -13,5 +13,6 @@ public interface ViewTransitionModelInterface
 	public void showJobFeedView();
 	public void showListOfFriendsView();
 	public void showGlobalLists();
+	public void showFullPostView(UserPost post);
 	//void showProfileView(User user);
 }

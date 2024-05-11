@@ -11,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import models.ServerHandler;
 import models.User;
-import models.UserPost;
 import models.ViewTransitionModelInterface;
 
 public class ListOfFriendsFeedController

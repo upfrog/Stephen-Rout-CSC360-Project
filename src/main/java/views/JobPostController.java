@@ -8,7 +8,6 @@ import javafx.scene.text.Text;
 import models.JobPost;
 import models.ServerHandler;
 import models.User;
-import models.UserPost;
 import models.ViewTransitionModelInterface;
 
 public class JobPostController
@@ -50,7 +49,7 @@ public class JobPostController
 		JobPostTitle.setText(post.getPostTitle());
 		JobPostTitle.setId(JobPostTitle.getId() + i);
 
-		
+		this.post = post;
 		
 
 		String[] ids = {"ff"};
@@ -83,6 +82,9 @@ public class JobPostController
     private Button JobPostSeeUserProfileButton;
     
     @FXML
+    private Button rejectJobPost;
+    
+    @FXML
     private Label JobPostCompanyName;
 
     @FXML
@@ -107,6 +109,15 @@ public class JobPostController
     @FXML
     void applyToJob(ActionEvent event)
     {
-    	post.addApplicant(vtm.getUser());
+    	User user = this.vtm.getUser();
+    	post.addApplicant(user);
+    }
+    
+    @FXML
+    void rejectJobPost(ActionEvent event)
+    {
+    	User user = this.vtm.getUser();
+    	post.removeApplicant(user);
+    	user.getLC().removeLink("ReccomendedJobs", post.getUID());
     }
 }

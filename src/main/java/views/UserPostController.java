@@ -55,10 +55,12 @@ public class UserPostController
 		
 
 		String[] ids = {"ff"};
+		/*
 		System.out.println(PostLikeCount.getId());
 		System.out.println(postContent.getId());
 		System.out.println(postCreationDate.getId());
 		System.out.println(postCommentCount.getId());
+		*/
 
 		return ids;
 	}
@@ -96,7 +98,7 @@ public class UserPostController
 
     @FXML
     void onClickSeeComments(ActionEvent event) {
-
+    	vtm.showFullPostView(this.post);
     }
     
     @FXML

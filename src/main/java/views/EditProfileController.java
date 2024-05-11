@@ -86,7 +86,7 @@ public class EditProfileController
     	displayNameField.setText(user.getDisplayName().getName());
     	publicityRadioButton.setSelected(user.getIsPublic());
     	skillArea.setText(getSkillString(user));
-    	ArrayList<User> editors = new ArrayList<User>();
+    	//ArrayList<User> editors = new ArrayList<User>();
     			
     	
     	

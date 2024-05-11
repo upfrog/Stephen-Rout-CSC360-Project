@@ -3,11 +3,13 @@ package models;
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import views.EditProfileController;
 import views.FriendFeedController;
+import views.FullPostViewController;
 import views.GlobalListViewController;
 import views.JobFeedController;
 import views.ListOfFriendsFeedController;
@@ -320,6 +322,33 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public void showFullPostView(UserPost post)
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/FullPostView.fxml"));
+		try
+		{
+			ScrollPane view = loader.load();
+			this.view.setCenter(view);
+			//EditProfileController controller = new EditProfileController(this);
+			FullPostViewController controller = loader.getController();
+			controller.setPost(post);
+			
+			controller.setVTM(this);
+			controller.populateComments();
+
+			
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 	}
 	
 	/*

@@ -82,15 +82,6 @@ public class UserPost extends Post
 		isPublic = !isPublic;
 	}
 	
-	public void pushUserPost(ArrayList<String> UIDs)
-	{
-		for (String UID : UIDs)
-		{
-			User follower = ServerHandler.INSTANCE.getUser(UID);
-			//follower.add
-		}
-	}
-	
 	
 	public boolean getIsPublic()
 	{

@@ -51,7 +51,9 @@ public class JobFeedController
 			{
 				Node postBox = loader.load();
 				JobPostController jobPostController = loader.getController();
+				
 				jobPostController.setVTM(this.vtm);
+				System.out.println(jobPostController.vtm.getUser());
 				postIDs.add(jobPostController.setData(posts.get(i), i));
 				
 				

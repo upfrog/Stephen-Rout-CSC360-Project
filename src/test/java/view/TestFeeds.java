@@ -198,6 +198,11 @@ public class TestFeeds
 					testJobPosts.get(i).getCreationDateTime());
 			assertEquals(robot.lookup("#JobPostCommentCount" + i).queryAs(Text.class).getText(), 
 					String.valueOf(testJobPosts.get(i).getLC().getListLength("Comments")));
+			robot.clickOn("#rejectJobPost");
+			robot.clickOn("#showJobFeed");
+			assertThrows(Exception.class, () -> robot.clickOn("#rejectJobPost"));
+
+
 			
 
 			//Test 

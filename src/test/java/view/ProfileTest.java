@@ -74,9 +74,10 @@ public class ProfileTest
 		user2.createJobPost("Secretary", "I need someone to implement my genius ideas! That could be you!");
 		user.createJobPost("Software Developers!", "Please please please please apply>");
 		System.out.println(user2.getLC().getList("Following").size());
-
+		
 		
 		testPosts.add(user.createUserPost("Nexus is really the future of employment!", true));
+		user2.createComment("Loooool", testPosts.get(0));
 		testPosts.add(user.createUserPost("The power of social media remains underappreciated.", true));
 		user.likeUnlikePost(testPosts.get(1));
 		testPosts.add(user.createUserPost("What people need to understand about tech jobs is "

@@ -47,11 +47,19 @@
                               <Insets left="30.0" top="20.0" />
                            </HBox.margin>
                         </Button>
-                        <Button id="JobPostApplyButton" fx:id="JobPostApplyButton" mnemonicParsing="false" onAction="#applyToJob" text="Apply">
+                        <VBox prefHeight="79.0" prefWidth="49.0">
                            <HBox.margin>
-                              <Insets left="40.0" top="20.0" />
+                              <Insets left="40.0" top="10.0" />
                            </HBox.margin>
-                        </Button>
+                           <children>
+                              <Button id="JobPostApplyButton" fx:id="JobPostApplyButton" mnemonicParsing="false" onAction="#applyToJob" prefWidth="47.0" text="Apply">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Button id="rejectJobPost" fx:id="rejectJobPost" mnemonicParsing="false" onAction="#rejectJobPost" text="Reject" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
