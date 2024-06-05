@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.CreateNewUserController">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Username" />
+                  <TextField id="usernameField" fx:id="usernameField" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Password" />
+                  <TextField fx:id="passwordField" styleClass="passwordField" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Display Name" />
+                  <TextField id="displaynameField" fx:id="displaynameField" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Description" />
+                  <TextArea fx:id="descriptionField" prefHeight="100.0" prefWidth="267.0" styleClass="descriptionField" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Account Publicity" />
+                  <CheckBox id="publicityToggle" fx:id="publicityToggle" mnemonicParsing="false" text="Make my account public" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="What is your current job title?" />
+                  <TextField id="titleField" fx:id="titleField" />
+                  <Label text="Where do you work?" />
+                  <TextField id="companyField" fx:id="companyField" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Button id="cancelCreateAccountButton" fx:id="cancelCreateAccountButton" mnemonicParsing="false" onAction="#onClickCancelCreateAccountButton" text="Cancel" />
+                  <Button id="createAccountButton" fx:id="createAccountButton" mnemonicParsing="false" onAction="#onClickCreateAccountButton" text="Create Account" />
+                  <Label id="errorMessage" fx:id="errorMessage" text="ERROR" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

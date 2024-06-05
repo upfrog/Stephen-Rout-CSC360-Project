@@ -110,6 +110,6 @@ public class LoginController
     @FXML
     void onMakeNewAccount(ActionEvent event) {
 		warningMessage.setText("");
-
+		vtm.showCreateNewUserView();
     }
 }

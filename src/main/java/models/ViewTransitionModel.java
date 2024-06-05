@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import views.CreateNewUserController;
 import views.EditProfileController;
 import views.FriendFeedController;
 import views.FullPostViewController;
@@ -349,6 +350,27 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			e.printStackTrace();
 		}
 	
+	}
+	
+	public void showCreateNewUserView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass()
+				.getResource("../views/CreateNewUser.fxml"));
+		try
+		{
+			BorderPane view = loader.load();
+			this.view.setCenter(view);
+			CreateNewUserController controller = loader.getController();
+		
+			controller.setVTM(this);
+	
+			
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/*

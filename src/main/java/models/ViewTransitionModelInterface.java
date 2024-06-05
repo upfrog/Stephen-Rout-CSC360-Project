@@ -14,5 +14,7 @@ public interface ViewTransitionModelInterface
 	public void showListOfFriendsView();
 	public void showGlobalLists();
 	public void showFullPostView(UserPost post);
+	public void showCreateNewUserView();
+
 	//void showProfileView(User user);
 }
