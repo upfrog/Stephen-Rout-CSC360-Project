@@ -16,7 +16,7 @@ Just a few of the things that need improving include:
 - Method and attribute privacy levles are not always thoughtfully chosen.
 - Due to an early misunderstanding, the code which interacts with the REST server is a singleton.
 - The password system is so horrible that it doesn't even deserve the title of "password system".
-- There is no way to make a new account within the app - talk about a bad onboarding experience!
+- The functionality to make a new account within the app is broken.
 
 
 ## Setup:
