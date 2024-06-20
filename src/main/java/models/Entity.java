@@ -56,6 +56,11 @@ public abstract class Entity extends Structure implements Followable, Follower
 		{
 			if (getFollowingUIDs().contains(user.getUID()))
 			{
+							
+				while (getFollowingUIDs().contains(user.getUID()))
+				{
+					removeFollowingUID(user.getUID());
+				}
 				removeFollowingUID(user.getUID());
 				user.followerToggle(this);
 			}
@@ -64,6 +69,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 				addFollowingUID(user.getUID());
 				user.followerToggle(this);
 			}
+			
 			ServerHandler.INSTANCE.putUser(this);
 		}
 
@@ -189,7 +195,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 		return this.getLC().getList("Following");
 	}
 	
-	public void addFollowingUID(String UID)
+	private void addFollowingUID(String UID)
 	{
 		//this.followingUIDs.add(UID);
 		while (getLC().getList("Following").contains(UID))
@@ -197,13 +203,13 @@ public abstract class Entity extends Structure implements Followable, Follower
 			getLC().removeLink("Following", UID);
 		}
 		getLC().addLink("Following", UID);
-		ServerHandler.INSTANCE.putUser(this);
+		//ServerHandler.INSTANCE.putUser(this);
 	}
 
-	public void removeFollowingUID(String UID)
+	private void removeFollowingUID(String UID)
 	{
 		getLC().removeLink("Following", UID);
-		ServerHandler.INSTANCE.putUser(this);
+		//ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	
@@ -218,13 +224,13 @@ public abstract class Entity extends Structure implements Followable, Follower
 	public void addFollowerUID(String UID)
 	{
 		getLC().addLink("Followers", UID);
-		ServerHandler.INSTANCE.putUser(this);
+		//ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	public void removeFollowerUID(String UID)
 	{
 		getLC().removeLink("Followers", UID);
-		ServerHandler.INSTANCE.putUser(this);
+		//ServerHandler.INSTANCE.putUser(this);
 
 	}
 	
@@ -250,6 +256,7 @@ public abstract class Entity extends Structure implements Followable, Follower
 		{
 			addBlockedUID(user.getUID());
 		}
+		ServerHandler.INSTANCE.putUser(this);
 	}
 	
 	public ArrayList<String> getBlockedUIDs()

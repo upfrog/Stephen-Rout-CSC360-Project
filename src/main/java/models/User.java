@@ -50,7 +50,7 @@ public class User extends Entity
 	
 	public User(String userType) 
 	{		
-		validateUserType(userType);
+		//validateUserType(userType);
 		
 		populateLinkContainer();
 		isPublic = true;
